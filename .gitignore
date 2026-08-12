@@ -2,11 +2,17 @@
 # ------------------------------------------------------------
 *.qmd
 _quarto.yml
+README.html
+README.html.md
+/README_files/
 .quarto/
 _extensions/
 /Syllabus/
 /css/
 /*.py
+/*.qmd
+/docs/index_files/
+/docs/index.html/
 
 # Allow only these specific production items
 !docs/
