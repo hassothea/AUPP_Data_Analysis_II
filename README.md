@@ -52,8 +52,11 @@ By the end of this course, you will have a deep mastery of advanced predictive a
 
 ## **Programming:**
 
-> You are free you use your favorite programming language
-> `Python` or
-> .
+
+## **Programming:**
+
+> You are free you use your favorite programming language `Python` or `R`.
+
+<div class="panel-tabset">
 
 <div class="panel-tabset">
