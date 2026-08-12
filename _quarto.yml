@@ -1,0 +1,41 @@
+project:
+  # type: website
+  output-dir: docs
+
+format:
+  revealjs:
+    # Do NOT use embed-resources: true if you want separate support folders
+    html-math-method: mathjax
+    touch: true
+    controls: true
+    slide-number: c/t
+    logo: img/AUPP_Logo.png     # Changed from /img to img/
+    theme: [default, css/custom.scss] # Ensure this path is correct relative to the .qmd
+    include-after-body: css/custom-header.html # Ensure path is correct
+    toc: true
+    toc-depth: 1
+    toc-title: "{{< fa map-location-dot >}} Content"
+    css: css/styles.css        # Ensure path is correct
+    center: false
+    width: 1050
+    height: 700
+    margin: 0.05
+    number-sections: true
+    number-depth: 2
+    
+    menu:
+      side: left
+      width: normal
+      numbers: true
+    include-in-header:
+            - text: |
+                <style>
+                #title-slide .title {
+                    font-size: 3em;
+                }
+                </style>
+
+crossref:
+  fig-title: "Fig"      
+  fig-prefix: "Fig"
+jupyter: python3
