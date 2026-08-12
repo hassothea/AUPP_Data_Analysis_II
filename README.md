@@ -50,6 +50,7 @@ By the end of this course, you will have a deep mastery of advanced predictive a
 
 ---
 
+
 ## **Programming: `Python` or `R`**
 
 ---
@@ -121,13 +122,13 @@ Here, you will find additional resources, including books, research papers, and 
 
 📚 You will find these books/links helpful...
 
-- [A General Introduction to Data Analytics, Moreira et al. 2019](https://content.e-bookshelf.de/media/reading/L-11307411-11b3dd5f67.pdf){target="_blank"}
-- [Data Sience for Business, Foster Provost &amp; Tom Fawcett](https://www.advisory21.com.mt/wp-content/uploads/2023/05/Data-Science-for-Business.pdf){target="_blank"}
-- [Exploratory-Data-Analysis-with-Python-Cookbook](https://github.com/PacktPublishing/Exploratory-Data-Analysis-with-Python-Cookbook?tab=readme-ov-file){target="_blank"}
-- [Handbook of Data Visualization, Chen et al.](https://haralick.org/DV/Handbook_of_Data_Visualization.pdf){target="_blank"}
-- [Python for Data Analysis, Wes M.](https://wesmckinney.com/book/){target="_blank"}
-- [Exploratory Data Analysis with R, Roger D. Peng](https://bookdown.org/rdpeng/exdata/){target="_blank"}
-- [R for Data Science, Hadley W. and Garrett G.](<https://batrachos.com/sites/default/files/pictures/Books/Wickham_Grolemund_2017_R%20for%20Data%20Science.pdf>){target="_blank"}
+- [A General Introduction to Data Analytics, Moreira et al. 2019](https://content.e-bookshelf.de/media/reading/L-11307411-11b3dd5f67.pdf)
+- [Data Sience for Business, Foster Provost &amp; Tom Fawcett](https://www.advisory21.com.mt/wp-content/uploads/2023/05/Data-Science-for-Business.pdf)
+- [Exploratory-Data-Analysis-with-Python-Cookbook](https://github.com/PacktPublishing/Exploratory-Data-Analysis-with-Python-Cookbook?tab=readme-ov-file)
+- [Handbook of Data Visualization, Chen et al.](https://haralick.org/DV/Handbook_of_Data_Visualization.pdf)
+- [Python for Data Analysis, Wes M.](https://wesmckinney.com/book/)
+- [Exploratory Data Analysis with R, Roger D. Peng](https://bookdown.org/rdpeng/exdata/)
+- [R for Data Science, Hadley W. and Garrett G.](<https://batrachos.com/sites/default/files/pictures/Books/Wickham_Grolemund_2017_R%20for%20Data%20Science.pdf>)
 
 ---
 
