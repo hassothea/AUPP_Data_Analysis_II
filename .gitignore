@@ -1,22 +1,22 @@
 # Ignore all Quarto source files, configs, and working folders
 # ------------------------------------------------------------
 *.qmd
+/*.html.md
 _quarto.yml
 README.html
-README.html.md
+/.quarto
 /README_files/
-.quarto/
-_extensions/
+/_extensions/
 /Syllabus/
 /css/
+docs/index_files/
+docs/index.html/
 /*.py
-/*.qmd
-/docs/index_files/
-/docs/index.html/
 
 # Allow only these specific production items
 !docs/
 !index.html
+!index_files
 !README.md
 !img/
 /.quarto/
