@@ -50,13 +50,86 @@ By the end of this course, you will have a deep mastery of advanced predictive a
 
 ---
 
-## **Programming:**
+## **Programming: `Python` or `R`**
+
+---
 
 
-## **Programming:**
 
-> You are free you use your favorite programming language `Python` or `R`.
+# **Course progress**
 
-<div class="panel-tabset">
+>  Visit the webpage at [INS - 605 : Data Analysis II](https://hassothea.github.io/AUPP_Data_Analysis_II)
+
+<!--
+
+| Advanced Data Visualization | Lab2 | Solution2 | ...Loading |
+| Probability Distributions Revisited & Simulation | Lab3 | Solution3 | ...Loading |
+| Bayesian Inference | Lab4 | Solution4 | ...Loading |
+| Multiple Regression Diagnostics | Lab5 | Solution5 | ...Loading |
+| Generalized Linear Models (GLM) | Lab6 | Solution6 | ...Loading |
+| Midterm Exam & Project Proposal | - | - | ...Loading |
+| Time Series Forecasting (ARIMA) | Lab7 | Solution7 | ...Loading |
+| Machine Learning: Classification (k-NN, SVM) | Lab8 | Solution8 | ...Loading |
+| Dimensionality Reduction (PCA, t-SNE) | Lab9 | Solution9 | ...Loading |
+| Bootstrapping & Resampling Methods | Lab10 | Solution10 | ...Loading |
+| Introduction to SQL for Data Analysis | Lab11 | Solution11 | ...Loading |
+| Big Data Tools (Spark / Dask) | Lab12 | Solution12 | ...Loading |
+| Ethics in Advanced Analytics & GDPR Case Study | Lab13 | Solution13 | ...Loading |
+| Capstone Project Presentations | - | - | ...Loading |
+
+-->
+
+# **Midterms, Exams and Projects**
+
+In this section, you will find all the information related to the midterms, exams and projects including instructions, starting dates and the deadlines.
+
+## **Midterm & Exam**
+
+- **Midterm Exam**: Check Canvas for schedule.
+- **Final Exam**: Check Canvas for schedule.
+
+## **Project & Capstone:**
+
+- Deadline for the report: Check Canvas.
+- Where to submit: `Canvas`
+- Your report should be in **PDF** format (prepared using Overleaf or Quarto/RMarkdown) and include the following criteria:
+  - **Members' names & contributions**:
+    - Clearly state each member's contribution to the project and report.
+  - **Introduction & Purpose**:
+    - Clearly state the objectives and analytical scope for multi-source datasets.
+  - **Advanced Wrangling & Preprocessing**:
+    - Detail steps to clean, transform, and handle complex datasets, missing values, and outliers.
+  - **Exploratory Data Analysis & Visualization**:
+    - Include advanced visualizations (ggplot2/Seaborn) and statistical diagnostics.
+  - **Model Development & Resampling**:
+    - Explain choice of advanced models (GLM, ARIMA, Classification, PCA).
+    - Provide details on validation, bootstrapping, and model optimization steps.
+  - **Results, Evaluation & Ethics**:
+    - Present model performance metrics.
+    - Evaluate ethical implications, privacy frameworks (GDPR), or potential algorithmic bias.
+  - **Conclusion & References**:
+    - Summarize key insights and future work.
+    - Cite all sources and tools in APA format.
+- **Presentation**:
+  - Capstone presentations will take place during Sessions 29 and 30.
+
+---
+
+# **Resources and Further Reading**
+
+Here, you will find additional resources, including books, research papers, and online courses, to further your understanding of **Data Analysis**.
+
+📚 You will find these books/links helpful...
+
+- [A General Introduction to Data Analytics, Moreira et al. 2019](https://content.e-bookshelf.de/media/reading/L-11307411-11b3dd5f67.pdf){target="_blank"}
+- [Data Sience for Business, Foster Provost &amp; Tom Fawcett](https://www.advisory21.com.mt/wp-content/uploads/2023/05/Data-Science-for-Business.pdf){target="_blank"}
+- [Exploratory-Data-Analysis-with-Python-Cookbook](https://github.com/PacktPublishing/Exploratory-Data-Analysis-with-Python-Cookbook?tab=readme-ov-file){target="_blank"}
+- [Handbook of Data Visualization, Chen et al.](https://haralick.org/DV/Handbook_of_Data_Visualization.pdf){target="_blank"}
+- [Python for Data Analysis, Wes M.](https://wesmckinney.com/book/){target="_blank"}
+- [Exploratory Data Analysis with R, Roger D. Peng](https://bookdown.org/rdpeng/exdata/){target="_blank"}
+- [R for Data Science, Hadley W. and Garrett G.](<https://batrachos.com/sites/default/files/pictures/Books/Wickham_Grolemund_2017_R%20for%20Data%20Science.pdf>){target="_blank"}
+
+---
+
 
 <div class="panel-tabset">
