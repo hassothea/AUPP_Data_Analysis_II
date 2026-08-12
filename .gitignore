@@ -19,3 +19,5 @@
 # 5. Exclude index.html and index_files specifically inside docs
 /docs/index.html
 /docs/index_files/
+/.quarto/
+**/*.quarto_ipynb
