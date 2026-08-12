@@ -1,23 +1,21 @@
-# Ignore all Quarto source files, configs, and working folders
-# ------------------------------------------------------------
-*.qmd
-/*.html.md
-_quarto.yml
-README.html
-/.quarto
-/README_files/
-/_extensions/
-/Syllabus/
-/css/
-docs/index_files/
-docs/index.html/
-/*.py
+# 1. Ignore everything by default
+*
 
-# Allow only these specific production items
-!docs/
-!index.html
-!index_files
-!README.md
-!img/
-/.quarto/
-**/*.quarto_ipynb
+# 2. Whitelist the .gitignore file itself
+!/.gitignore
+
+# 3. Whitelist allowed root files and folders
+!/README.md
+!/index.html
+!/index_files/
+!/index_files/**
+!/img/
+!/img/**
+
+# 4. Whitelist docs folder and its contents
+!/docs/
+!/docs/**
+
+# 5. Exclude index.html and index_files specifically inside docs
+/docs/index.html
+/docs/index_files/
