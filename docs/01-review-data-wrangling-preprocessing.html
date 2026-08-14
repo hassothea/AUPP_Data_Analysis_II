@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Lecturer: Dr.&nbsp;Sothea HAS">
-  <title>Model Refinement  (Beyond Linearity)</title>
+  <title> Review Preprocessing &amp; Data Wrangling</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -135,8 +135,8 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Model Refinement<br> (Beyond Linearity)</h1>
-  <p class="subtitle"><br> <span class="blue">INF-604: Data Analysis</span> <br> <a href="https://www.aupp.edu.kh/" target="_blank"><img data-src="./img/AUPP_Logo.png" width="150"></a> <br></p>
+  <h1 class="title"><i class="fa-solid fa-database" aria-label="database"></i> Review Preprocessing &amp; Data Wrangling</h1>
+  <p class="subtitle"><br> <span class="blue">INS-605: Data Analysis</span> <br> <a href="https://www.aupp.edu.kh/" target="_blank"><img data-src="./img/AUPP_Logo.png" width="150"></a> <br></p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -147,44 +147,35 @@
 </div>
 
 </section>
-<section id="about-the-course" class="slide level2" data-number="1">
-<h2><span class="header-section-number">1</span> About the course</h2>
-<div style="font-size: 70%">
-<h3 id="objective">🎯 <strong>Objective:</strong></h3>
+<section class="slide level2">
+
+<h3 id="about-the-course">About the course</h3>
+<div style="font-size: 67%">
+<h4 id="objective">🎯 <strong>Objective:</strong></h4>
 <p>Equip you with</p>
 <ul>
-<li>Essential <code>EDA</code> skills to handle, preprocess and uncover insights from data.</li>
-<li>Key <code>Unsupervised Learning</code> and <code>Multivariate Analysis</code> techniques to apply them to solve real-world problems with proper interpretation.</li>
+<li>More advanced skills to handle, preprocess and uncover insights from data.</li>
+<li>Key: <code>Unsupervised Learning</code> and <code>Multivariate Analysis</code> techniques to apply them to solve real-world problems with proper interpretation.</li>
 </ul>
 <hr>
-<h3 id="grading-criteria">📝 <strong>Grading Criteria</strong></h3>
+<h4 id="grading-criteria">📝 <strong>Grading Criteria</strong></h4>
 <table class="caption-top">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 15%">
-<col style="width: 16%">
-<col style="width: 17%">
-<col style="width: 15%">
-<col style="width: 16%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;"><strong><code>Criteria</code></strong></th>
-<th style="text-align: center;">Attendance</th>
-<th style="text-align: center;">Quiz</th>
+<th style="text-align: center;">In-class &amp; quiz</th>
+<th style="text-align: center;">Lab</th>
 <th style="text-align: center;">Midterm</th>
-<th style="text-align: center;">Final</th>
-<th style="text-align: center;">Project</th>
+<th style="text-align: center;">Final Project</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong><code>Percentage</code></strong></td>
-<td style="text-align: center;">10%</td>
-<td style="text-align: center;">20%</td>
-<td style="text-align: center;">20%</td>
+<td style="text-align: center;">15%</td>
 <td style="text-align: center;">25%</td>
-<td style="text-align: center;">25%</td>
+<td style="text-align: center;">30%</td>
+<td style="text-align: center;">30%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -192,32 +183,29 @@
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
 </tr>
 </tbody>
 </table>
-<h3 id="programming-python">💻 <strong>Programming: <img data-src="img/python.png" style="position: relative; bottom: -15px" width="30"> <code>Python</code></strong></h3>
+<h4 id="programming-python">💻 <strong>Programming: <img data-src="img/python.png" style="position: relative; bottom: -15px" width="30"> <code>Python</code></strong></h4>
 <p><a href="https://docs.jupyter.org/en/latest/" target="_blank"><img data-src="img/jupyter.png" style="position: relative; bottom: -15px" width="30"> Jupyter Notebook</a>, <a href="https://colab.research.google.com/" target="_blank"><img data-src="img/colab.png" style="position: relative; bottom: -12px" width="35"> Google colab</a>, <a href="https://matplotlib.org/" target="_blank"><img data-src="img/plt_logo.png" style="position: relative; bottom: -18px" width="35"> Matplotlib</a>, <a href="https://seaborn.pydata.org/" target="_blank"><img data-src="img/sns_logo.svg" style="position: relative; bottom: -15px" width="30"> Seaborn</a></p>
 </div>
 <!-- [Note: This is a simple note for the slide.]{.slide-note} -->
 </section>
-<section id="course-materials" class="slide level2" data-number="2">
-<h2><span class="header-section-number">2</span> Course materials</h2>
-<div class="r-fit-text">
+<section class="slide level2">
+
+<h3 id="course-materials">Course materials</h3>
 <ul>
-<li><span class="blue"><strong>Canvas</strong></span>: <span class="blue" style="font-size: 80%"><strong>INS 605 Data Analysis II</strong></span>.</li>
+<li><span class="blue"><strong>Canvas</strong></span>: <span class="light-blue" style="font-size: 90%"><strong>INS 605 Data Analysis II</strong></span>.</li>
 </ul>
-</div>
-<iframe width="100%" height="70%" src="https://hassothea.github.io/Data_Analysis_II_UPP/" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" msallowfullscreen="">
+<iframe width="100%" height="70%" src="https://hassothea.github.io/AUPP_Data_Analysis_II/" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" msallowfullscreen="">
 </iframe>
-<p>:::</p>
 </section>
-<section id="section" class="slide level2 unlisted unnumbered no-header" data-background-image="img/end_page.jpg" data-background-opacity="0.3">
+<section id="section" class="slide level2 unlisted unnumbered no-header" data-background-image="img/bg1.png" data-background-opacity="0.6" data-background-size="35%" data-background-position="center">
 <h2></h2>
 <div class="center">
-<p>🥳 <span class="blue"><strong>Yeahhhh….</strong></span></p>
-<p><br> <br> <br> <br> <br> <br> <br> <br></p>
-<p><span class="blue"><strong>Party time…</strong></span> 🥂</p>
+<p>🥳 <span class="blue"><strong>Yeahhhh 🥂!!!</strong></span></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<p><span class="blue"><strong>Any question? Else, we take a break!</strong></span></p>
 </div>
 
 </section>
