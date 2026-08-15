@@ -381,7 +381,7 @@
 <h2><span class="header-section-number">1.2</span> Motivation</h2>
 <h3 id="case-study-amazon-beauty-product">Case study: <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon beauty product</a></h3>
 <div style="font-size: 40%">
-<div id="ddd367b3" class="cell" data-execution_count="2">
+<div id="9a3625db" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>data.loc[[<span class="dv">1</span>], <span class="st">'Rating'</span>] <span class="op">=</span> np.nan</span>
@@ -469,22 +469,12 @@
 </div>
 </div>
 </div>
-<div class="columns">
-<div class="column" style="width:85%;">
-<div style="font-size: 75%">
+<div style="font-size: 80%">
 <ul>
 <li class="fragment"><span class="blue"><strong>Goal:</strong></span> “Use this data to boost our platform performance.”</li>
 <li class="fragment"><span class="nowrap">Before anything else, the data should be ready for analysis!</span></li>
 <li class="fragment"><span class="red"><strong>Q1:</strong></span> What information would be helpful for this goal?</li>
 </ul>
-</div>
-</div><div class="vspace" style="--space: 10px">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><a href="https://app.sli.do/event/jPWgwxRr3wVy4YfuGCt9N2" target="_blank"><img data-src="./img/QR_Poll.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></a></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
 <section class="slide level2">
@@ -524,7 +514,7 @@
 <li><span class="blue"><strong>Python</strong></span>:</li>
 </ul>
 <div style="font-size: 80%">
-<div id="f57a226f" class="cell" data-execution_count="3">
+<div id="7be1776c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Check dimension</span></span>
 <span id="cb3-2"><a href=""></a>data.shape</span>
 <span id="cb3-3"><a href=""></a></span>
@@ -561,7 +551,7 @@
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="86317e4c" class="cell" data-execution_count="4">
+<div id="e9c5027e" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>data.dtypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -583,7 +573,7 @@ dtype: object</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="3546d134" class="cell" data-execution_count="5">
+<div id="64535e7f" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="cf">for</span> va <span class="kw">in</span> data.columns:</span>
@@ -606,7 +596,7 @@ URL :  23838</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="17433005" class="cell" data-execution_count="6">
+<div id="6f7837d8" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -628,7 +618,7 @@ dtype: int64</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -15px">
-<div id="d981a3fa" class="cell" data-execution_count="7">
+<div id="f8f966d2" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>df_temp <span class="op">=</span> data[<span class="st">'Rating'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>).to_frame().reset_index(names<span class="op">=</span>[<span class="st">'Rating'</span>])</span>
@@ -642,9 +632,9 @@ dtype: int64</code></pre>
 </details>
 <div class="cell-output cell-output-display">
 <div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="e211d50a-9615-4708-99aa-ad2d9f645de2" class="plotly-graph-div" style="height:120px; width:400px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("e211d50a-9615-4708-99aa-ad2d9f645de2")) {                    Plotly.newPlot(                        "e211d50a-9615-4708-99aa-ad2d9f645de2",                        [{"hovertemplate":"Rating=%{x}\u003cbr\u003eproportion=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","orientation":"v","showlegend":false,"textposition":"auto","x":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAAAQQAAAAAAAAPA\u002fAAAAAAAACEAAAAAAAAAAQA=="},"xaxis":"x","y":{"dtype":"f8","bdata":"cy8u6LmJ4z9EVE0P91vEPwV7s3Sz17Y\u002fKq+siYvNtT9lYydDB6qsPw=="},"yaxis":"y","type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Rating"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"proportion"}},"legend":{"tracegroupgap":0},"barmode":"relative","width":400,"height":120,"title":{"text":"Rating distribution"}},                        {"responsive": true}                    ).then(function(){
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="29f89a71-6be6-40b2-a79f-47f050c044ec" class="plotly-graph-div" style="height:120px; width:400px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("29f89a71-6be6-40b2-a79f-47f050c044ec")) {                    Plotly.newPlot(                        "29f89a71-6be6-40b2-a79f-47f050c044ec",                        [{"hovertemplate":"Rating=%{x}\u003cbr\u003eproportion=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","orientation":"v","showlegend":false,"textposition":"auto","x":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAAAQQAAAAAAAAPA\u002fAAAAAAAACEAAAAAAAAAAQA=="},"xaxis":"x","y":{"dtype":"f8","bdata":"cy8u6LmJ4z9EVE0P91vEPwV7s3Sz17Y\u002fKq+siYvNtT9lYydDB6qsPw=="},"yaxis":"y","type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Rating"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"proportion"}},"legend":{"tracegroupgap":0},"barmode":"relative","width":400,"height":120,"title":{"text":"Rating distribution"}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('e211d50a-9615-4708-99aa-ad2d9f645de2');
+var gd = document.getElementById('29f89a71-6be6-40b2-a79f-47f050c044ec');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -698,7 +688,7 @@ if (outputEl) {{
 <li><span class="nowrap">What problems did you detect within this data?</span></li>
 </ul>
 <div style="font-size: 47%">
-<div id="45737530" class="cell" data-execution_count="8">
+<div id="b11988fa" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 <style scoped="">
@@ -803,7 +793,7 @@ if (outputEl) {{
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li class="fragment">Recall about missing values</li>
+<li class="fragment"><span class="nowrap">Recall about missing values</span></li>
 </ul>
 <div class="fragment">
 <pre><code>             Missing?
@@ -830,7 +820,7 @@ Impute    Keep NaN</code></pre>
 <li class="fragment"><span class="nowrap">Missing data imputation <span class="green">int</span></span>.</li>
 </ul>
 <div class="vspace fragment" style="--space: -15px">
-<div id="d741e0be" class="cell" data-execution_count="9">
+<div id="a6f59986" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>val <span class="op">=</span> <span class="bu">float</span>(data[<span class="st">'Rating'</span>]<span class="op">\</span></span>
 <span id="cb12-2"><a href=""></a>        .mode(dropna<span class="op">=</span><span class="va">True</span>))</span>
 <span id="cb12-3"><a href=""></a>data[<span class="st">'Rating'</span>] <span class="op">=</span> data[<span class="st">'Rating'</span>]<span class="op">\</span></span>
@@ -861,12 +851,12 @@ Impute    Keep NaN</code></pre>
 </ul>
 <div style="font-size: 83%">
 <div class="vspace" style="--space: -15px">
-<div id="23f7f771" class="cell" data-execution_count="10">
+<div id="3088eccd" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> datetime</span>
 <span id="cb14-2"><a href=""></a>data[<span class="st">'Timestamp'</span>] <span class="op">=</span> pd.to_datetime(</span>
 <span id="cb14-3"><a href=""></a>  data[<span class="st">'Timestamp'</span>], </span>
 <span id="cb14-4"><a href=""></a>  unit<span class="op">=</span><span class="st">'s'</span>)</span>
-<span id="cb14-5"><a href=""></a>data[[<span class="st">'Timestamp'</span>]].sample(<span class="dv">7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-5"><a href=""></a>data[[<span class="st">'Timestamp'</span>]].sample(<span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 <style scoped="">
@@ -892,32 +882,36 @@ Impute    Keep NaN</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">97977</th>
-<td>2013-06-07</td>
+<th data-quarto-table-cell-role="th">1021776</th>
+<td>2008-08-22</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">699499</th>
-<td>2012-12-29</td>
+<th data-quarto-table-cell-role="th">160048</th>
+<td>2014-05-08</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">665226</th>
-<td>2014-05-11</td>
+<th data-quarto-table-cell-role="th">732870</th>
+<td>2013-09-14</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">418666</th>
-<td>2014-01-26</td>
+<th data-quarto-table-cell-role="th">632500</th>
+<td>2014-07-20</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">311344</th>
-<td>2014-04-15</td>
+<th data-quarto-table-cell-role="th">162168</th>
+<td>2014-05-02</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">460585</th>
-<td>2011-04-30</td>
+<th data-quarto-table-cell-role="th">437472</th>
+<td>2014-01-31</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">864972</th>
-<td>2013-05-08</td>
+<th data-quarto-table-cell-role="th">250253</th>
+<td>2014-05-27</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">421217</th>
+<td>2012-08-04</td>
 </tr>
 </tbody>
 </table>
@@ -932,7 +926,7 @@ Impute    Keep NaN</code></pre>
 <li><span class="nowrap">Convert <code>Rating</code> type to <span class="green">int</span></span>.</li>
 </ul>
 <div class="vspace" style="--space: -15px">
-<div id="aff15dc7" class="cell" data-execution_count="11">
+<div id="afea5287" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>data[<span class="st">'Rating'</span>] <span class="op">=</span> data[<span class="st">'Rating'</span>]<span class="op">\</span></span>
 <span id="cb15-2"><a href=""></a>  .astype(<span class="bu">int</span>)</span>
 <span id="cb15-3"><a href=""></a><span class="bu">print</span>(</span>
@@ -952,7 +946,7 @@ Impute    Keep NaN</code></pre>
 </ul>
 <div class="fragment" style="font-size: 87%">
 <div class="vspace" style="--space: -15px">
-<div id="bca82ee8" class="cell" data-execution_count="12">
+<div id="ae72c4d3" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>a <span class="op">=</span> <span class="bu">len</span>(data[[<span class="st">'ProductId'</span>, <span class="st">'URL'</span>]]<span class="op">\</span></span>
 <span id="cb17-2"><a href=""></a>  .drop_duplicates()) <span class="co"># duplicates in both</span></span>
 <span id="cb17-3"><a href=""></a>b <span class="op">=</span> data[<span class="st">'URL'</span>].nunique() <span class="co"># count individual</span></span>
@@ -965,7 +959,7 @@ Impute    Keep NaN</code></pre>
 </div>
 </div>
 <ul>
-<li class="fragment"><span class="vspace" style="--space: -7px"><span class="light-red"><strong>Challenge:</strong></span> Propose an alternative!</span></li>
+<li class="fragment"><span class="vspace nowrap" style="--space: -7px"><span class="light-red"><strong>Challenge:</strong></span> Propose an alternative!</span></li>
 </ul>
 </div></div>
 </div>
