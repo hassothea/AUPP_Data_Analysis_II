@@ -310,6 +310,7 @@
 <ul>
 <li><span class="blue"><strong>Data Wrangling:</strong></span> <span style="font-size: 80%">Process - Messy data <span class="math inline">\(\to\)</span> Analysis-ready data.</span></li>
 </ul>
+<div style="font-size: 95%">
 <pre><code>            ONE MESSY DATASET
                     │
                     ▼
@@ -329,6 +330,7 @@
                     ▼
             ANALYSIS-READY DATA
 </code></pre>
+</div>
 </div>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 80%">
@@ -373,7 +375,7 @@
 <h2><span class="header-section-number">1.2</span> Motivation</h2>
 <h3 id="case-study-amazon-beauty-product">Case study: <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon beauty product</a></h3>
 <div style="font-size: 40%">
-<div id="12650170" class="cell" data-execution_count="2">
+<div id="68f21ebd" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>data.loc[[<span class="dv">1</span>], <span class="st">'Rating'</span>] <span class="op">=</span> pd.NA </span>
@@ -517,7 +519,7 @@
 <li><span class="blue"><strong>Python</strong></span>:</li>
 </ul>
 <div style="font-size: 80%">
-<div id="47a30dde" class="cell" data-execution_count="3">
+<div id="56595775" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Check dimension</span></span>
 <span id="cb3-2"><a href=""></a>data.shape</span>
 <span id="cb3-3"><a href=""></a></span>
@@ -554,7 +556,7 @@
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="f18a63a1" class="cell" data-execution_count="4">
+<div id="a059b604" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>data.dtypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -576,7 +578,7 @@ dtype: object</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="c06d196b" class="cell" data-execution_count="5">
+<div id="2fdc1eee" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="cf">for</span> va <span class="kw">in</span> data.columns:</span>
@@ -597,7 +599,7 @@ URL :  23838</code></pre>
 <ul>
 <li><span class="ight-red">Missing values:</span></li>
 </ul>
-<div id="d9f0da3b" class="cell" data-execution_count="6">
+<div id="2d46c51e" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
