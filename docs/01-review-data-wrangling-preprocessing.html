@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="01-review-data-wrangling-preprocessing_files/libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="01-review-data-wrangling-preprocessing_files/libs/clipboard/clipboard.min.js"></script>
 <script src="01-review-data-wrangling-preprocessing_files/libs/quarto-html/tabby.min.js"></script>
 <script src="01-review-data-wrangling-preprocessing_files/libs/quarto-html/popper.min.js"></script>
 <script src="01-review-data-wrangling-preprocessing_files/libs/quarto-html/tippy.umd.min.js"></script>
@@ -30,6 +30,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="01-review-data-wrangling-preprocessing_files/libs/revealjs/dist/theme/quarto-4c618565f7e98129508799467c1fe691.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -124,6 +190,9 @@
       margin-right: 0; 
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
   <style>
   #title-slide .title {
       font-size: 3em;
@@ -151,6 +220,13 @@
 <h2 id="toc-title"><i class="fa-solid fa-map-location-dot" aria-label="map-location-dot"></i> Content</h2>
 <ul>
 <li><a href="#/intro-motivation" id="/toc-intro-motivation"><span class="header-section-number">1</span> Intro &amp; Motivation</a></li>
+<li><a href="#/data-inspection" id="/toc-data-inspection"><span class="header-section-number">2</span> Data inspection</a></li>
+<li><a href="#/data-cleaning" id="/toc-data-cleaning"><span class="header-section-number">3</span> Data Cleaning</a></li>
+<li><a href="#/trasformation-grouping-aggregation" id="/toc-trasformation-grouping-aggregation"><span class="header-section-number">4</span> Trasformation, Grouping &amp; Aggregation</a></li>
+<li><a href="#/combing-data" id="/toc-combing-data"><span class="header-section-number">5</span> Combing data</a></li>
+<li><a href="#/reshaping-data" id="/toc-reshaping-data"><span class="header-section-number">6</span> Reshaping data</a></li>
+<li><a href="#/validation" id="/toc-validation"><span class="header-section-number">7</span> Validation</a></li>
+<li><a href="#/conclusion" id="/toc-conclusion"><span class="header-section-number">8</span> Conclusion</a></li>
 </ul>
 </nav>
 </section>
@@ -196,7 +272,10 @@
 <h4 id="programming-python">💻 <strong>Programming: <img data-src="img/python.png" style="position: relative; bottom: -15px" width="30"> <code>Python</code></strong></h4>
 <p><a href="https://docs.jupyter.org/en/latest/" target="_blank"><img data-src="img/jupyter.png" style="position: relative; bottom: -15px" width="30"> Jupyter Notebook</a>, <a href="https://colab.research.google.com/" target="_blank"><img data-src="img/colab.png" style="position: relative; bottom: -12px" width="35"> Google colab</a>, <a href="https://matplotlib.org/" target="_blank"><img data-src="img/plt_logo.png" style="position: relative; bottom: -18px" width="35"> Matplotlib</a>, <a href="https://seaborn.pydata.org/" target="_blank"><img data-src="img/sns_logo.svg" style="position: relative; bottom: -15px" width="30"> Seaborn</a></p>
 </div>
-<!-- [Note: This is a simple note for the slide.]{.slide-note} -->
+<!-- Resource:
+* Python for DA: https://www.kaggle.com/code/ahmedashrafahmed/hands-on-practice-lab-data-wrangling
+* Big Data Analysis with Python: https://www.asau.ru/files/pdf/2102158.pdf
+-->
 </section>
 <section class="slide level2">
 
@@ -210,13 +289,11 @@
 <section class="slide level2">
 
 <h3 id="course-roadmap">Course roadmap</h3>
-<div style="font-size:100%">
 <div class="vspace" style="--space: 40px">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="./img/roadmap.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
-</div>
 </div>
 </div>
 </section>
@@ -254,14 +331,329 @@
 </code></pre>
 </div>
 </div><div class="column" style="width:50%;">
-
+<div style="font-size: 80%">
+<ul>
+<li class="fragment"><span class="blue"><strong>Data Analyst’s Role:</strong></span> Convert <span class="light-red"><strong>raw data</strong></span> <span class="math inline">\(\to\)</span> <span class="green"><strong>insights</strong></span>.</li>
+<li class="fragment"><span class="light-red"><strong>Problems we aim to solve:</strong></span>
+<ul>
+<li class="fragment"><span class="blue">Data quality</span>: <del><span class="light-red">Timeliness</span></del>, uniqueness, validity, consistency, <del><span class="light-red">accuracy</span></del>, completeness.</li>
+<li class="fragment"><span class="blue">Structure:</span> Untidy layouts.</li>
+<li class="fragment"><span class="blue">Integration:</span> Granularity mismatches.</li>
+<li class="fragment">Outliers &amp; noise…</li>
+</ul></li>
+</ul>
+</div>
 </div></div>
+</section>
+<section class="slide level2">
+
+<h3 id="data-wrangling">Data Wrangling</h3>
+<ul>
+<li class="fragment"><span class="light-red"><strong>Bad data</strong></span> often refers to data that are poor in <em>quality</em> or <em>format</em>.</li>
+<li class="fragment"><span class="red"><strong>Messy data</strong></span> are poor in quality (but not inaccurate nor outdated) or in format.</li>
+<li class="fragment"><span class="light-red"><strong>Important Question:</strong></span> For <span class="red">Messy data</span>, can we reliably transform it into a structure suitable for analysis?</li>
+<li class="fragment"><span class="blue"><strong>Data wrangling</strong></span> is the process of making <span class="red">messy data</span> <em>structurally</em> and <em>semantically</em> usable.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<h4 id="useful-resource">Useful resource</h4>
+<div style="font-size: 75%">
+<ul>
+<li><a href="https://www.lkhibra.ma/books/Python-for-Data-Analysis.pdf" target="_blank">Ch. 6-8, Python for Data Analysis by <span class="blue">Wes McKinney</span></a>.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/Python_for_DA.png" class="quarto-figure quarto-figure-center" height="450"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="motivation" class="slide level2" data-number="1.2">
+<h2><span class="header-section-number">1.2</span> Motivation</h2>
+<h3 id="case-study-amazon-beauty-product">Case study: <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon beauty product</a></h3>
+<div style="font-size: 40%">
+<div id="12650170" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>data.loc[[<span class="dv">1</span>], <span class="st">'Rating'</span>] <span class="op">=</span> pd.NA </span>
+<span id="cb2-2"><a href=""></a>data.loc[data.sample(<span class="dv">127</span>, random_state<span class="op">=</span><span class="dv">21</span>).index, <span class="st">'Rating'</span>] <span class="op">=</span> pd.NA</span>
+<span id="cb2-3"><a href=""></a>data.head(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">UserId</th>
+<th data-quarto-table-cell-role="th">ProductId</th>
+<th data-quarto-table-cell-role="th">ProductType</th>
+<th data-quarto-table-cell-role="th">Rating</th>
+<th data-quarto-table-cell-role="th">Timestamp</th>
+<th data-quarto-table-cell-role="th">URL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>A3NHUQ33CFH3VM</td>
+<td>B00LLPT4HI</td>
+<td>Eyeliner &amp; Kajal</td>
+<td>5.0</td>
+<td>1405814400</td>
+<td>https://www.amazon.in/Maybelline-Colossal-Kaja...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>A1TIRNQ7O4REOH</td>
+<td>B00LLPT4HI</td>
+<td>Eyeliner &amp; Kajal</td>
+<td>NaN</td>
+<td>1405987200</td>
+<td>https://www.amazon.in/Maybelline-Colossal-Kaja...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>A2Y36BR4YSY9F7</td>
+<td>B00LLPT4HI</td>
+<td>Eyeliner &amp; Kajal</td>
+<td>5.0</td>
+<td>1405728000</td>
+<td>https://www.amazon.in/Maybelline-Colossal-Kaja...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>A23H6FAOLEMAKC</td>
+<td>B00LLPT4HI</td>
+<td>Eyeliner &amp; Kajal</td>
+<td>5.0</td>
+<td>1405814400</td>
+<td>https://www.amazon.in/Maybelline-Colossal-Kaja...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>A3CHYZGF3OO6WD</td>
+<td>B00LLPT4HI</td>
+<td>Eyeliner &amp; Kajal</td>
+<td>5.0</td>
+<td>1405641600</td>
+<td>https://www.amazon.in/Maybelline-Colossal-Kaja...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:85%;">
+<div style="font-size: 75%">
+<ul>
+<li class="fragment"><span class="blue"><strong>Goal:</strong></span> “Use this data to boost our platform performance.”</li>
+<li class="fragment">Before anything else, the data should be ready for analysis!</li>
+<li class="fragment"><span class="red"><strong>Q1:</strong></span> What information would be helpful for this goal?</li>
+</ul>
+</div>
+</div><div class="column fragment" style="width:15%;">
+<div class="vspace" style="--space: 10px">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="https://app.sli.do/event/jPWgwxRr3wVy4YfuGCt9N2" target="_blank"><img data-src="./img/QR_Poll.png" class="quarto-figure quarto-figure-center" style="width:80.0%"></a></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section class="slide level2">
+
+<h3 id="lets-see">Let’s see 🤔</h3>
+<div class="vspace" style="--space: 20px">
+<iframe src="https://wall.sli.do/event/jPWgwxRr3wVy4YfuGCt9N2" height="70%" width="100%" frameborder="0" style="min-height: 560px;" allow="clipboard-write" title="Slido">
+</iframe>
+</div>
+</section></section>
+<section>
+<section id="data-inspection" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="2">
+<h1><span class="header-section-number">2</span> Data inspection</h1>
+
+</section>
+<section id="whats-wrong-with-the-data" class="slide level2" data-number="2.1">
+<h2><span class="header-section-number">2.1</span> What’s wrong with the data?</h2>
+<div style="font-size: 80%">
+<blockquote>
+<p><span class="blue"><strong>Principle:</strong></span> Never start cleaning before understanding the data!</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li class="fragment">If needed, you may encode column names, translate,…, then check:
+<ul>
+<li class="fragment">Dimensions</li>
+<li class="fragment">Data types</li>
+<li class="fragment">Missingness</li>
+<li class="fragment">Unique values</li>
+<li class="fragment">Suspicious categories</li>
+<li class="fragment">Unexpected values</li>
+</ul></li>
+</ul>
+</div><div class="column fragment" style="width:30%;">
+<ul>
+<li><span class="blue"><strong>Python</strong></span>:</li>
+</ul>
+<div style="font-size: 80%">
+<div id="47a30dde" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Check dimension</span></span>
+<span id="cb3-2"><a href=""></a>data.shape</span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a><span class="co"># Data type</span></span>
+<span id="cb3-5"><a href=""></a>data.info()</span>
+<span id="cb3-6"><a href=""></a>data.dtypes</span>
+<span id="cb3-7"><a href=""></a></span>
+<span id="cb3-8"><a href=""></a><span class="co"># Check NA if already </span></span>
+<span id="cb3-9"><a href=""></a><span class="co"># encoded properly</span></span>
+<span id="cb3-10"><a href=""></a>data.isna().<span class="bu">sum</span>()</span>
+<span id="cb3-11"><a href=""></a></span>
+<span id="cb3-12"><a href=""></a><span class="co"># Check number of </span></span>
+<span id="cb3-13"><a href=""></a><span class="co"># dupplications</span></span>
+<span id="cb3-14"><a href=""></a>data.duplicated().<span class="bu">sum</span>()</span>
+<span id="cb3-15"><a href=""></a></span>
+<span id="cb3-16"><a href=""></a><span class="co"># Check suspicious </span></span>
+<span id="cb3-17"><a href=""></a><span class="co"># categories of</span></span>
+<span id="cb3-18"><a href=""></a><span class="co"># variable 'name'</span></span>
+<span id="cb3-19"><a href=""></a>data[<span class="st">"name"</span>].unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="amazon-data-inspection">Amazon data inspection</h3>
+<div style="font-size:80%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Dimension: (1348246, 6).</li>
+<li><span class="light-red">Data types:</span></li>
+</ul>
+<div style="font-size: 80%">
+<div class="vspace" style="--space: -10px">
+<div id="f18a63a1" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>data.dtypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>UserId          object
+ProductId       object
+ProductType     object
+Rating         float64
+Timestamp        int64
+URL             object
+dtype: object</code></pre>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><span class="light-red">Number of category</span>:</li>
+</ul>
+<div style="font-size: 80%">
+<div class="vspace" style="--space: -10px">
+<div id="c06d196b" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="cf">for</span> va <span class="kw">in</span> data.columns:</span>
+<span id="cb6-2"><a href=""></a>  <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>va<span class="sc">}</span><span class="ss"> : "</span>, <span class="bu">int</span>(data[va].nunique()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>UserId :  883753
+ProductId :  23838
+ProductType :  22
+Rating :  5
+Timestamp :  3978
+URL :  23838</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><span class="ight-red">Missing values:</span></li>
+</ul>
+<div id="d9f0da3b" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>UserId           0
+ProductId        0
+ProductType      0
+Rating         128
+Timestamp        0
+URL              0
+dtype: int64</code></pre>
+</div>
+</div>
+<ul>
+<li>Check unexpected values:</li>
+<li>Number of duplications: 0.</li>
+</ul>
+</div></div>
+</div>
+</section></section>
+<section id="data-cleaning" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="3">
+<h1><span class="header-section-number">3</span> Data Cleaning</h1>
+
+</section>
+
+<section id="trasformation-grouping-aggregation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="4">
+<h1><span class="header-section-number">4</span> Trasformation, Grouping &amp; Aggregation</h1>
+
+</section>
+
+<section id="combing-data" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="5">
+<h1><span class="header-section-number">5</span> Combing data</h1>
+
+</section>
+
+<section id="reshaping-data" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="6">
+<h1><span class="header-section-number">6</span> Reshaping data</h1>
+
+</section>
+
+<section id="validation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="7">
+<h1><span class="header-section-number">7</span> Validation</h1>
+
+</section>
+
+<section>
+<section id="conclusion" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="8">
+<h1><span class="header-section-number">8</span> Conclusion</h1>
+
 </section>
 <section id="section" class="slide level2 unlisted unnumbered no-header" data-background-image="img/bg1.png" data-background-opacity="0.6" data-background-size="35%" data-background-position="center">
 <h2></h2>
 <div class="center">
 <p>🥳 <span class="blue"><strong>Yeahhhh 🥂!!!</strong></span></p>
-<p><br> <br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
 <p><span class="blue"><strong>Any question? Else, we take a break!</strong></span></p>
 </div>
 
