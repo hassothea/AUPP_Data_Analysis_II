@@ -375,7 +375,7 @@
 <h2><span class="header-section-number">1.2</span> Motivation</h2>
 <h3 id="case-study-amazon-beauty-product">Case study: <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon beauty product</a></h3>
 <div style="font-size: 40%">
-<div id="68f21ebd" class="cell" data-execution_count="2">
+<div id="c4439e13" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>data.loc[[<span class="dv">1</span>], <span class="st">'Rating'</span>] <span class="op">=</span> pd.NA </span>
@@ -468,7 +468,7 @@
 <div style="font-size: 75%">
 <ul>
 <li class="fragment"><span class="blue"><strong>Goal:</strong></span> “Use this data to boost our platform performance.”</li>
-<li class="fragment">Before anything else, the data should be ready for analysis!</li>
+<li class="fragment"><span class="nowrap">Before anything else, the data should be ready for analysis!</span></li>
 <li class="fragment"><span class="red"><strong>Q1:</strong></span> What information would be helpful for this goal?</li>
 </ul>
 </div>
@@ -519,7 +519,7 @@
 <li><span class="blue"><strong>Python</strong></span>:</li>
 </ul>
 <div style="font-size: 80%">
-<div id="56595775" class="cell" data-execution_count="3">
+<div id="30d27f46" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Check dimension</span></span>
 <span id="cb3-2"><a href=""></a>data.shape</span>
 <span id="cb3-3"><a href=""></a></span>
@@ -551,12 +551,12 @@
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Dimension: (1348246, 6).</li>
+<li><span class="nowrap">Dimension: (1348246, 6).</span></li>
 <li><span class="light-red">Data types:</span></li>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="a059b604" class="cell" data-execution_count="4">
+<div id="a043428b" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>data.dtypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -574,11 +574,11 @@ dtype: object</code></pre>
 </div>
 </div>
 <ul>
-<li><span class="light-red">Number of category</span>:</li>
+<li><span class="light-red nowrap">Number of category</span>:</li>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="2fdc1eee" class="cell" data-execution_count="5">
+<div id="c00db2b6" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="cf">for</span> va <span class="kw">in</span> data.columns:</span>
@@ -597,9 +597,9 @@ URL :  23838</code></pre>
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><span class="ight-red">Missing values:</span></li>
+<li><span class="ight-red nowrap">Missing values:</span></li>
 </ul>
-<div id="2d46c51e" class="cell" data-execution_count="6">
+<div id="6ae6f808" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -616,7 +616,7 @@ dtype: int64</code></pre>
 </div>
 <ul>
 <li>Check unexpected values:</li>
-<li>Number of duplications: 0.</li>
+<li><span class="nowrap">Number of duplications: 0.</span></li>
 </ul>
 </div></div>
 </div>
