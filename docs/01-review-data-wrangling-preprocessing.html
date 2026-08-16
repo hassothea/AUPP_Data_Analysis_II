@@ -395,7 +395,7 @@
 <h2><span class="header-section-number">1.2</span> Motivation</h2>
 <h3 id="case-study-amazon-beauty-product">Case study: <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon beauty product</a></h3>
 <div style="font-size: 40%">
-<div id="795d5e82" class="cell" data-execution_count="2">
+<div id="c5bb4027" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>data.loc[[<span class="dv">1</span>], <span class="st">'Rating'</span>] <span class="op">=</span> np.nan</span>
@@ -528,7 +528,7 @@
 <li><span class="blue"><strong>Python</strong></span>:</li>
 </ul>
 <div style="font-size: 80%">
-<div id="a6f364ab" class="cell" data-execution_count="3">
+<div id="47c89c12" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Check dimension</span></span>
 <span id="cb3-2"><a href=""></a>data.shape</span>
 <span id="cb3-3"><a href=""></a></span>
@@ -565,7 +565,7 @@
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="d9f02be7" class="cell" data-execution_count="4">
+<div id="a424affd" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>data.dtypes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -587,7 +587,7 @@ dtype: object</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="cfb8633d" class="cell" data-execution_count="5">
+<div id="7de4584c" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="cf">for</span> va <span class="kw">in</span> data.columns:</span>
@@ -610,7 +610,7 @@ URL :  23838</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -10px">
-<div id="b8acd085" class="cell" data-execution_count="6">
+<div id="0ae41d02" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -632,7 +632,7 @@ dtype: int64</code></pre>
 </ul>
 <div style="font-size: 80%">
 <div class="vspace" style="--space: -15px">
-<div id="c384a993" class="cell" data-execution_count="7">
+<div id="64d8bcff" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>df_temp <span class="op">=</span> data[<span class="st">'Rating'</span>].value_counts(normalize<span class="op">=</span><span class="va">True</span>).to_frame().reset_index(names<span class="op">=</span>[<span class="st">'Rating'</span>])</span>
@@ -646,9 +646,9 @@ dtype: int64</code></pre>
 </details>
 <div class="cell-output cell-output-display">
 <div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="131ad406-870f-4ea9-aa65-c79485fb68e8" class="plotly-graph-div" style="height:120px; width:400px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("131ad406-870f-4ea9-aa65-c79485fb68e8")) {                    Plotly.newPlot(                        "131ad406-870f-4ea9-aa65-c79485fb68e8",                        [{"hovertemplate":"Rating=%{x}\u003cbr\u003eproportion=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","orientation":"v","showlegend":false,"textposition":"auto","x":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAAAQQAAAAAAAAPA\u002fAAAAAAAACEAAAAAAAAAAQA=="},"xaxis":"x","y":{"dtype":"f8","bdata":"cy8u6LmJ4z9EVE0P91vEPwV7s3Sz17Y\u002fKq+siYvNtT9lYydDB6qsPw=="},"yaxis":"y","type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Rating"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"proportion"}},"legend":{"tracegroupgap":0},"barmode":"relative","width":400,"height":120,"title":{"text":"Rating distribution"}},                        {"responsive": true}                    ).then(function(){
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="c217c601-38bf-4ad6-a789-33818f57c7b4" class="plotly-graph-div" style="height:120px; width:400px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("c217c601-38bf-4ad6-a789-33818f57c7b4")) {                    Plotly.newPlot(                        "c217c601-38bf-4ad6-a789-33818f57c7b4",                        [{"hovertemplate":"Rating=%{x}\u003cbr\u003eproportion=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","pattern":{"shape":""}},"name":"","orientation":"v","showlegend":false,"textposition":"auto","x":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAAAQQAAAAAAAAPA\u002fAAAAAAAACEAAAAAAAAAAQA=="},"xaxis":"x","y":{"dtype":"f8","bdata":"cy8u6LmJ4z9EVE0P91vEPwV7s3Sz17Y\u002fKq+siYvNtT9lYydDB6qsPw=="},"yaxis":"y","type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Rating"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"proportion"}},"legend":{"tracegroupgap":0},"barmode":"relative","width":400,"height":120,"title":{"text":"Rating distribution"}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('131ad406-870f-4ea9-aa65-c79485fb68e8');
+var gd = document.getElementById('c217c601-38bf-4ad6-a789-33818f57c7b4');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -702,7 +702,7 @@ if (outputEl) {{
 <li><span class="nowrap">What problems did you detect within this data?</span></li>
 </ul>
 <div style="font-size: 47%">
-<div id="b5d9c691" class="cell" data-execution_count="8">
+<div id="c5c1980f" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 <style scoped="">
@@ -834,7 +834,7 @@ Impute    Keep NaN</code></pre>
 <li class="fragment"><span class="nowrap">Missing data imputation <span class="green">int</span></span>.</li>
 </ul>
 <div class="vspace fragment" style="--space: -15px">
-<div id="02903716" class="cell" data-execution_count="9">
+<div id="48e93f09" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>val <span class="op">=</span> <span class="bu">float</span>(data[<span class="st">'Rating'</span>]<span class="op">\</span></span>
 <span id="cb12-2"><a href=""></a>        .mode(dropna<span class="op">=</span><span class="va">True</span>))</span>
 <span id="cb12-3"><a href=""></a>data[<span class="st">'Rating'</span>] <span class="op">=</span> data[<span class="st">'Rating'</span>]<span class="op">\</span></span>
@@ -865,7 +865,7 @@ Impute    Keep NaN</code></pre>
 </ul>
 <div style="font-size: 83%">
 <div class="vspace" style="--space: -15px">
-<div id="72961e4b" class="cell" data-execution_count="10">
+<div id="3fe4fe2a" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> datetime</span>
 <span id="cb14-2"><a href=""></a>data[<span class="st">'Timestamp'</span>] <span class="op">=</span> pd.to_datetime(</span>
 <span id="cb14-3"><a href=""></a>  data[<span class="st">'Timestamp'</span>], </span>
@@ -896,36 +896,36 @@ Impute    Keep NaN</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">1107847</th>
-<td>2012-11-16</td>
+<th data-quarto-table-cell-role="th">1116585</th>
+<td>2014-04-09</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">57744</th>
-<td>2013-08-25</td>
+<th data-quarto-table-cell-role="th">522778</th>
+<td>2014-02-15</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">737014</th>
-<td>2014-02-27</td>
+<th data-quarto-table-cell-role="th">683527</th>
+<td>2013-04-03</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">709438</th>
-<td>2011-11-17</td>
+<th data-quarto-table-cell-role="th">834180</th>
+<td>2013-06-24</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">392637</th>
-<td>2013-05-15</td>
+<th data-quarto-table-cell-role="th">423576</th>
+<td>2013-06-20</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">94991</th>
-<td>2013-06-19</td>
+<th data-quarto-table-cell-role="th">1251413</th>
+<td>2010-05-17</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">197318</th>
-<td>2012-12-19</td>
+<th data-quarto-table-cell-role="th">1132056</th>
+<td>2009-09-23</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">327294</th>
-<td>2014-06-18</td>
+<th data-quarto-table-cell-role="th">1248392</th>
+<td>2013-07-08</td>
 </tr>
 </tbody>
 </table>
@@ -940,7 +940,7 @@ Impute    Keep NaN</code></pre>
 <li><span class="nowrap">Convert <code>Rating</code> type to <span class="green">int</span></span>.</li>
 </ul>
 <div class="vspace" style="--space: -15px">
-<div id="e1386dd2" class="cell" data-execution_count="11">
+<div id="89d785f5" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>data[<span class="st">'Rating'</span>] <span class="op">=</span> data[<span class="st">'Rating'</span>]<span class="op">\</span></span>
 <span id="cb15-2"><a href=""></a>  .astype(<span class="bu">int</span>)</span>
 <span id="cb15-3"><a href=""></a><span class="bu">print</span>(</span>
@@ -960,7 +960,7 @@ Impute    Keep NaN</code></pre>
 </ul>
 <div class="fragment" style="font-size: 87%">
 <div class="vspace" style="--space: -15px">
-<div id="b7f7c58c" class="cell" data-execution_count="12">
+<div id="f91ce244" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>a <span class="op">=</span> <span class="bu">len</span>(data[[<span class="st">'ProductId'</span>, <span class="st">'URL'</span>]]<span class="op">\</span></span>
 <span id="cb17-2"><a href=""></a>  .drop_duplicates()) <span class="co"># duplicates in both</span></span>
 <span id="cb17-3"><a href=""></a>b <span class="op">=</span> data[<span class="st">'URL'</span>].nunique() <span class="co"># count individual</span></span>
@@ -992,7 +992,7 @@ Impute    Keep NaN</code></pre>
 </ul>
 <div style="font-size: 47%">
 <div class="vspace" style="--space: -15px">
-<div id="0ad044ea" class="cell" data-execution_count="13">
+<div id="39cd9194" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 <style scoped="">
@@ -1071,7 +1071,7 @@ Impute    Keep NaN</code></pre>
 </ul>
 </div><div class="column" style="width:35%;">
 <div class="fragment" style="font-size: 80%">
-<div id="55c889b9" class="cell" data-execution_count="14">
+<div id="39ec0a31" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>data[<span class="st">'Status'</span>] <span class="op">=</span> data[<span class="st">'Rating'</span>].<span class="bu">apply</span>(</span>
@@ -1109,27 +1109,27 @@ Impute    Keep NaN</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">64771</th>
+<th data-quarto-table-cell-role="th">563129</th>
+<td>High</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">94627</th>
+<td>High</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">988958</th>
 <td>High</td>
 <td>5</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">525098</th>
+<th data-quarto-table-cell-role="th">871426</th>
 <td>High</td>
-<td>4</td>
+<td>5</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">407782</th>
-<td>High</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">536205</th>
-<td>High</td>
-<td>4</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">239600</th>
+<th data-quarto-table-cell-role="th">25654</th>
 <td>High</td>
 <td>5</td>
 </tr>
@@ -1221,7 +1221,7 @@ Impute    Keep NaN</code></pre>
 <h3 id="more-transformations">More transformations</h3>
 <div style="font-size: 80%">
 <ul>
-<li><span class="nowrap">The keys are will you operate on and what will you return?</span></li>
+<li><span class="nowrap"><span class="blue"><strong>Keys:</strong></span> will you operate on and what will you return?</span></li>
 </ul>
 <div class="vspace" style="--space: -15px">
 <pre><code>                    What are you operating on?
@@ -1261,7 +1261,7 @@ Impute    Keep NaN</code></pre>
 </ul>
 <div class="fragment" style="font-size: 73%">
 <div class="vspace" style="--space: 1-px">
-<div id="46f6b725" class="cell" data-execution_count="15">
+<div id="fbd78856" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>data.groupby(<span class="st">'ProductId'</span>)<span class="op">\</span></span>
 <span id="cb21-2"><a href=""></a>  .size()<span class="op">\</span></span>
 <span id="cb21-3"><a href=""></a>  .sort_values(ascending<span class="op">=</span><span class="va">False</span>)<span class="op">\</span></span>
@@ -1326,15 +1326,146 @@ Impute    Keep NaN</code></pre>
 <h2><span class="header-section-number">5.2</span> Merge function</h2>
 <div style="font-size: 80%">
 <ul>
-<li></li>
+<li><span class="nowrap">To merge two dataframes, <code>pd.merge()</code> is a common choice.</span></li>
+</ul>
+<div class="vspace" style="--space: -10px">
+<div class="{.columns&quot;}">
+<div class="column" style="width:47%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/merge1_pd.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div><div class="column" style="width:53%;">
+<div class="vspace" style="--space: -10px">
+<ul>
+<li class="fragment"><span class="nowrap">Consider another <a href="https://www.kaggle.com/datasets/arhamrumi/amazon-product-reviews" target="_blank">Amazon data</a>.</span></li>
+<li class="fragment"><span class="nowrap">Shape: (568454, 10).</span></li>
+</ul>
+<div class="vspace" style="--space: -10px">
+<div class="fragment" style="font-size: 40%">
+<div id="dde0d1a1" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>data2.iloc[:<span class="dv">3</span>,[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">8</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ProductId</th>
+<th data-quarto-table-cell-role="th">UserId</th>
+<th data-quarto-table-cell-role="th">ProfileName</th>
+<th data-quarto-table-cell-role="th">Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>B001E4KFG0</td>
+<td>A3SGXH7AUHU8GW</td>
+<td>delmartian</td>
+<td>Good Quality Dog Food</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>B00813GRG4</td>
+<td>A1D87F6ZCVE5NK</td>
+<td>dll pa</td>
+<td>Not as Advertised</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>B000LQOCH0</td>
+<td>ABXLMWJIXXAIN</td>
+<td>Natalia Corres "Natalia Corres"</td>
+<td>"Delight" says it all</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment"><span class="nowrap">Let’s merge it to the previous one:</span></li>
+</ul>
+<div class="fragment" style="font-size: 90%">
+<div id="b696eb5f" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>df <span class="op">=</span> pd.merge(data, data2,</span>
+<span id="cb23-2"><a href=""></a>        how<span class="op">=</span><span class="st">'inner'</span>,</span>
+<span id="cb23-3"><a href=""></a>        on<span class="op">=</span><span class="st">'ProductId'</span>)</span>
+<span id="cb23-4"><a href=""></a><span class="bu">print</span>(<span class="ss">f'Merged data shape : </span><span class="sc">{</span>df<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Merged data shape : (448737, 16).</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<p><span class="slide-note"><code>data.join()</code> is another <code>SQL</code>-like function and combines data using indexes.</span></p>
+</section>
+<section id="concatenate-function" class="slide level2" data-number="5.3">
+<h2><span class="header-section-number">5.3</span> Concatenate function</h2>
+<div style="font-size: 80%">
+<div class="nowrap">
+<ul>
+<li><code>pd.concat()</code> is used to glue together two datasets:
+<ul>
+<li>vertically (<code>axis = 0</code>) if their <strong>columns are identical</strong></li>
+<li>horizontally (<code>axis = 1</code>) if thier <strong>rows are identical</strong>.</li>
+</ul></li>
 </ul>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/concat_pd.png" class="vspace quarto-figure quarto-figure-center" style="--space: -15px" width="750"></p>
+</figure>
+</div>
+</div>
 </section></section>
+<section>
 <section id="reshaping-data" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="6">
 <h1><span class="header-section-number">6</span> Reshaping data</h1>
 
 </section>
-
+<section id="melting-pivoting" class="slide level2" data-number="6.1">
+<h2><span class="header-section-number">6.1</span> Melting &amp; Pivoting</h2>
+<div style="font-size: 80%">
+<ul>
+<li><code>pd.melt()</code>: <strong>wide</strong> <span class="math inline">\(\to\)</span> <strong>long</strong>, stack values of all columns vertically to a column <code>value</code> and variable names to another column <code>variable</code>.</li>
+<li><span class="nowrap"><code>pd.pivot()</code>: <strong>long</strong> <span class="math inline">\(\to\)</span> <strong>wide</strong>, reverse of <code>pd.melt()</code>.</span></li>
+</ul>
+<div class="vspace" style="--space: -20px">
+<p><img data-src="./img/melt_pivot.png" class="vspace" style="--space: -10px" target="_blank"></p>
+</div>
+<div class="vspace" style="--space: -20px">
+<ul>
+<li><span class="blue"><strong>Tip:</strong></span> <code>pd.melt()</code> is for graphing &amp; analysis while <code>pd.pivot()</code> for veiwing/reporting.</li>
+</ul>
+</div>
+</div>
+</section></section>
 <section id="validation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="7">
 <h1><span class="header-section-number">7</span> Validation</h1>
 
