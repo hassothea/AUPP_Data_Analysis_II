@@ -168,22 +168,44 @@
 <h2><span class="header-section-number">1.1</span> Story telling &amp; dashboard</h2>
 <div style="font-size: 80%">
 <ul>
-<li>In Data Visualization of <a href="https://hassothea.github.io/Data_Analysis_AUPP/" target="_blank"><strong>Data Analysis I</strong></a>, we learned:
+<li class="fragment">In Data Visualization of <a href="https://hassothea.github.io/Data_Analysis_AUPP/" target="_blank"><strong>Data Analysis I</strong></a>, we learned:
 <ul>
-<li>How to inspect single variable individually</li>
-<li>Uncover relationship between multiple variables</li>
-<li>Detect trend/evolution of variables…</li>
+<li class="fragment">How to inspect single variable individually</li>
+<li class="fragment">Uncover relationship between multiple variables</li>
+<li class="fragment">Detect trend/evolution of variables…</li>
 </ul></li>
-<li>All these are to gain knowledge from the data only.</li>
-<li>Now, learn additional tools to build a presentable <span class="light-blue"><strong>Dashboard</strong></span>.</li>
+<li class="fragment">All these are to extract knowledge from the data only.</li>
+<li class="fragment">We now learn <span class="light-red">additional tools</span> to build a presentable <span class="light-blue"><strong>Dashboard</strong></span>.</li>
 </ul>
-<div class="vspace" style="--space: -10px">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="./img/visual_flow.png" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="./img/visual_flow.png" class="vspace fragment quarto-figure quarto-figure-center" style="--space: -15px"></p>
 </figure>
 </div>
+<div class="vspace" style="--space: -20px">
+<ul>
+<li class="fragment">We will use <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon Product Rating</a> as a case study.</li>
+</ul>
 </div>
+</div>
+</section>
+<section id="plan-your-story" class="slide level2" data-number="1.2">
+<h2><span class="header-section-number">1.2</span> Plan your story</h2>
+<div style="font-size: 80%">
+<pre><code>
+             ┌─────────────┐
+             │   Dataset   │
+             └──────┬──────┘
+                    │
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+    Customer     Product       Time
+      view         view        view
+        │           │           │
+        └───────────┼───────────┘
+                    ▼
+               Dashboard
+</code></pre>
 </div>
 </section></section>
 <section id="overall-view" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="2">
