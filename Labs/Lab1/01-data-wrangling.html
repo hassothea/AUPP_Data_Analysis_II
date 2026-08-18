@@ -198,9 +198,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="combining-and-reshaping-data" class="level2">
 <h2 class="anchored" data-anchor-id="combining-and-reshaping-data"><strong>5. Combining and Reshaping Data</strong></h2>
-<p><strong>O. Combining Datasets (<code>pd.merge</code>):</strong> Create a small lookup DataFrame named <code>product_catalog</code> containing: - <code>ProductId</code>: The top 5 product IDs from Question <strong>L</strong> - <code>Category</code>: Assigned categories (e.g., <code>'Beverages'</code>, <code>'Snacks'</code>, <code>'Gourmet'</code>, <code>'Pet Supplies'</code>, <code>'Organic'</code>)</p>
+<p><strong>O. Combining Datasets (<code>pd.merge</code>):</strong> Create a small lookup DataFrame named <code>product_catalog</code> containing:</p>
+<ul>
+<li><code>ProductId</code>: The top 5 product IDs from Question <strong>L</strong></li>
+<li><code>Category</code>: Assigned categories (e.g., <code>'Beverages'</code>, <code>'Snacks'</code>, <code>'Gourmet'</code>, <code>'Pet Supplies'</code>, <code>'Organic'</code>)</li>
+</ul>
 <p>Perform an <strong>inner join</strong> (<code>pd.merge</code>) between your aggregated product metrics from Question <strong>N</strong> and <code>product_catalog</code>.</p>
-<p><strong>P. Reshaping Data (<code>pd.pivot_table</code>):</strong> Create a pivot table using <code>pd.pivot_table()</code> to summarize review volume: - <strong>Index (Rows):</strong> <code>Year</code> - <strong>Columns:</strong> <code>Status</code> (<code>High</code>, <code>Medium</code>, <code>Low</code>) - <strong>Values:</strong> Count of reviews (<code>Score</code>) - <strong>Mean:</strong> average score per category of <code>Status</code>. - Fill missing cells with 0.</p>
+<p><strong>P. Reshaping Data (<code>pd.pivot_table</code>):</strong> Create a pivot table using <code>pd.pivot_table()</code> to summarize review volume:</p>
+<ul>
+<li><strong>Index (Rows):</strong> <code>Year</code></li>
+<li><strong>Columns:</strong> <code>Status</code> (<code>High</code>, <code>Medium</code>, <code>Low</code>)</li>
+<li><strong>Values:</strong> Count of reviews (<code>Score</code>)</li>
+<li><strong>Mean:</strong> average score per category of <code>Status</code>.</li>
+<li>Fill missing cells with 0.</li>
+</ul>
 <p><strong>Q.</strong> How does the platform perform over the years?</p>
 <div id="cell-14" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
