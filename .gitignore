@@ -15,9 +15,12 @@
 # 4. Whitelist docs folder and its contents
 !/docs/
 !/docs/**
+!/Labs/
+!/Labs/**
 
 # 5. Exclude index.html and index_files specifically inside docs
 /docs/index.html
 /docs/index_files/
 /.quarto/
+/Labs/Lab*/*-solution.ipynb
 **/*.quarto_ipynb

@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Lecturer: Dr.&nbsp;Sothea HAS">
-  <title>Advanced Data Visualization</title>
+  <title> Advanced Data Visualization </title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -135,7 +135,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Advanced Data Visualization</h1>
+  <h1 class="title"><i class="fa-solid fa-database" aria-label="database"></i> Advanced Data Visualization <i class="fa-solid fa-pie-chart" aria-label="pie-chart"></i></h1>
   <p class="subtitle"><br> <span class="blue">INS-605: Data Analysis</span> <br> <a href="https://www.aupp.edu.kh/" target="_blank"><img data-src="./img/AUPP_Logo.png" width="150"></a> <br></p>
 
 <div class="quarto-title-authors">
@@ -150,7 +150,7 @@
 <nav role="doc-toc"> 
 <h2 id="toc-title"><i class="fa-solid fa-map-location-dot" aria-label="map-location-dot"></i> Content</h2>
 <ul>
-<li><a href="#/motivation" id="/toc-motivation"><span class="header-section-number">1</span> Motivation</a></li>
+<li><a href="#/intro-motivation" id="/toc-intro-motivation"><span class="header-section-number">1</span> Intro &amp; Motivation</a></li>
 <li><a href="#/overall-view" id="/toc-overall-view"><span class="header-section-number">2</span> Overall view</a></li>
 <li><a href="#/customer-veiw" id="/toc-customer-veiw"><span class="header-section-number">3</span> Customer veiw</a></li>
 <li><a href="#/product-view" id="/toc-product-view"><span class="header-section-number">4</span> Product view</a></li>
@@ -160,17 +160,17 @@
 </nav>
 </section>
 <section>
-<section id="motivation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="1">
-<h1><span class="header-section-number">1</span> Motivation</h1>
+<section id="intro-motivation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="1">
+<h1><span class="header-section-number">1</span> Intro &amp; Motivation</h1>
 
 </section>
-<section id="story-telling-dashboard" class="slide level2" data-number="1.1">
-<h2><span class="header-section-number">1.1</span> Story telling &amp; dashboard</h2>
+<section id="introduction" class="slide level2" data-number="1.1">
+<h2><span class="header-section-number">1.1</span> Introduction</h2>
 <div style="font-size: 80%">
 <ul>
-<li class="fragment">In Data Visualization of <a href="https://hassothea.github.io/Data_Analysis_AUPP/" target="_blank"><strong>Data Analysis I</strong></a>, we learned:
+<li class="fragment">In <em>Data Visualization</em> of <a href="https://hassothea.github.io/Data_Analysis_AUPP/" target="_blank"><strong>Data Analysis I</strong></a>, we learned:
 <ul>
-<li class="fragment">How to inspect single variable individually</li>
+<li class="fragment">How to inspect a single variable individually</li>
 <li class="fragment">Uncover relationship between multiple variables</li>
 <li class="fragment">Detect trend/evolution of variables…</li>
 </ul></li>
@@ -189,24 +189,113 @@
 </div>
 </div>
 </section>
-<section id="plan-your-story" class="slide level2" data-number="1.2">
-<h2><span class="header-section-number">1.2</span> Plan your story</h2>
+<section id="dashboarding-process" class="slide level2" data-number="1.2">
+<h2><span class="header-section-number">1.2</span> Dashboarding process</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div style="font-size: 80%">
-<pre><code>
-             ┌─────────────┐
-             │   Dataset   │
-             └──────┬──────┘
-                    │
-        ┌───────────┼───────────┐
-        ▼           ▼           ▼
-    Customer     Product       Time
-      view         view        view
-        │           │           │
-        └───────────┼───────────┘
-                    ▼
-               Dashboard
-</code></pre>
+<ul>
+<li>General view of dashboarding:</li>
+</ul>
+<div style="font-size: 90%">
+<div class="vspace" style="--space: -10px">
+<pre><code>          ┌──────────────────────┐
+          │  Business objective  │
+          └──────────┬───────────┘
+                     ▼
+                 ┌───────┐
+                 │  KPIs │
+                 └───┬───┘
+                     ▼
+   ┌────────────────────────────────────┐
+   │ Understanding and prepare the data │
+   └─────────────────┬──────────────────┘
+                     ▼
+┌──────────────────────────────────────────┐
+│ Explore the data according to key points │
+└────────────────────┬─────────────────────┘
+                     ▼
+      ┌─────────────────────────────┐
+      │ Validate → test → iterate ↩ │
+      └─────────────────────────────┘</code></pre>
+<ul>
+<li><span class="blue"><strong>Key:</strong></span> Business objective drives everything a dashboard will cover.</li>
+</ul>
 </div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 70%">
+<ul>
+<li class="fragment"><span class="blue"><strong>Business objective:</strong></span> Why does this dashboard exist? Audiences?</li>
+<li class="fragment"><span class="blue"><strong>Key Point Indicators:</strong></span> Measurable points supporting the objective. Ex:
+<ul>
+<li class="fragment">Number of Ratings &amp; Trend</li>
+<li class="fragment">Average Rating</li>
+<li class="fragment">% of high Ratings</li>
+<li class="fragment">Top Products…</li>
+</ul></li>
+<li class="fragment"><span class="light-red"><strong>Data wrangling:</strong></span> Prepare the data.</li>
+<li class="fragment"><span class="blue"><strong>Explore the data:</strong></span> Analyze toward the KPIs &amp; select visual designs.</li>
+<li class="fragment"><span class="blue" style="font-size: 90%"><strong>Validate <span class="math inline">\(\to\)</span> test/feedback <span class="math inline">\(\to\)</span> revise <span class="math inline">\(\hookleftarrow\)</span></strong></span>.</li>
+</ul>
+</div>
+</div></div>
+<p><span class="slide-note fragment"><span class="light-red"><strong>Data wrangling</strong></span> is very important as in business, <strong>beautiful dashboard</strong> built on <span class="light-red"><strong>wrong info</strong></span> is worst than <span class="blue"><strong>no dashboard at all</strong></span>.</span></p>
+</section>
+
+<section id="dashboarding-process-cont.-1" class="slide level2 unlisted unnumbered">
+<h2>1.2 Dashboarding process (cont.)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 80%">
+<ul>
+<li>Ex: <a href="https://www.kaggle.com/datasets/satrapankti/amazon-beauty-product-recommendation" target="_blank">Amazon Product Rating</a>.</li>
+</ul>
+<div style="font-size: 90%">
+<div class="vspace" style="--space: -10px">
+<pre><code>       ┌────────────────────────────┐
+       │ Boost platform performance │
+       └─────────────┬──────────────┘
+                     ▼
+     ┌───────────────────────────────┐
+     │ Customer/Product/Rating Trend │
+     └───────────────┬───────────────┘
+                     ▼
+             ┌────────────────┐
+             │ Data Wrangling │
+             └───────┬────────┘
+                     ▼
+ ┌─────────────────────────────────────────┐
+ │ Explore the data &amp; select graph designs │
+ └───────────────────┬─────────────────────┘
+                     ▼
+      ┌─────────────────────────────┐
+      │ Validate → test → iterate ↩ │
+      └─────────────────────────────┘</code></pre>
+<ul>
+<li><span class="blue"><strong>Target audience:</strong></span> Marketing, sales and product managers.</li>
+</ul>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 70%">
+<ul>
+<li class="fragment"><span class="blue"><strong>Business objective:</strong></span> Why does this dashboard exist? Audiences?</li>
+<li class="fragment"><span class="blue"><strong>Key Point Indicators:</strong></span> Measurable points supporting the objective. Ex:
+<ul>
+<li class="fragment">Number of Ratings</li>
+<li class="fragment">Average Rating</li>
+<li class="fragment">% of high Ratings</li>
+<li class="fragment">Top Products…</li>
+</ul></li>
+<li class="fragment"><span class="light-red"><strong>Data wrangling:</strong></span> Prepare the data.</li>
+<li class="fragment"><span class="blue"><strong>Explore the data:</strong></span> Analyze toward the KPIs &amp; select visual designs.</li>
+<li class="fragment"><span class="blue" style="font-size: 90%"><strong>Validate <span class="math inline">\(\to\)</span> test/feedback <span class="math inline">\(\to\)</span> revise <span class="math inline">\(\hookleftarrow\)</span></strong></span>.</li>
+</ul>
+</div>
+</div></div>
 </section></section>
 <section id="overall-view" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="2">
 <h1><span class="header-section-number">2</span> Overall view</h1>
@@ -228,10 +317,20 @@
 
 </section>
 
+<section>
 <section id="final-dashboard" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="6">
 <h1><span class="header-section-number">6</span> Final Dashboard</h1>
 
 </section>
+<section id="section" class="slide level2 unlisted unnumbered no-header" data-background-image="img/bg1.png" data-background-opacity="0.6" data-background-size="35%" data-background-position="center">
+<h2></h2>
+<div class="center">
+<p>🥳 <span class="blue"><strong>Yeahhhh 🥂!!!</strong></span></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<p><span class="blue"><strong>Any question? Else, we take a break!</strong></span></p>
+</div>
+
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="img/AUPP_Logo.png" class="slide-logo"></p>
