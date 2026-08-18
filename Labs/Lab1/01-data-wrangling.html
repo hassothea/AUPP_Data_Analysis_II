@@ -173,7 +173,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="feature-transformation" class="level2">
 <h2 class="anchored" data-anchor-id="feature-transformation"><strong>3. Feature Transformation</strong></h2>
 <p>Feature engineering helps turn raw fields into more useful analytical features.</p>
-<p><strong>I. Rating Classification (<code>Status</code>):</strong> Create a new column named <code>Status</code> based on the review rating (<code>Score</code>): - <code>'High'</code> if <code>Score &gt;= 4</code> - <code>'Medium'</code> if <code>Score == 3</code> - <code>'Low'</code> if <code>Score &lt;= 2</code></p>
+<p><strong>I. Rating Classification (<code>Status</code>):</strong> Create a new column named <code>Status</code> based on the review rating (<code>Score</code>):</p>
+<ul>
+<li><code>'High'</code> if <code>Score &gt;= 4</code></li>
+<li><code>'Medium'</code> if <code>Score == 3</code></li>
+<li><code>'Low'</code> if <code>Score &lt;= 2</code></li>
+</ul>
 <p><strong>J. Temporal Extraction (<code>Year</code>):</strong> Extract the year from your converted <code>Time</code> column and store it in a new column called <code>Year</code>.</p>
 <p><strong>K. Metric Calculation (<code>HelpfulnessRatio</code>):</strong> Create a column <code>HelpfulnessRatio</code> by dividing <code>HelpfulnessNumerator</code> by <code>HelpfulnessDenominator</code>. Handle division-by-zero cases (e.g., set to 0 when <code>HelpfulnessDenominator == 0</code>).</p>
 <div id="cell-10" class="cell">
