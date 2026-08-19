@@ -163,7 +163,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-cleaning"><strong>2. Data Cleaning</strong></h2>
 <p>Now that you have identified the issues in raw data, let’s clean them step-by-step.</p>
 <p><strong>F. Datetime Conversion:</strong> Convert the <code>Time</code> column (Unix timestamp in seconds) into a proper pandas <code>datetime</code> format using <code>pd.to_datetime(..., unit='s')</code>.</p>
-<p><strong>G. Handling Missing Text Values (Smart Imputation):</strong> - <strong>G1. Recovering Profile Names:</strong> Since users might have multiple reviews, a missing <code>ProfileName</code> might have a known <code>ProfileName</code> under the same <code>UserId</code> in another row. Check if there are such cases, therefore use this information to impute the missing values. - <strong>G2. Fallback Imputation:</strong> Fill any <em>remaining</em> missing values in <code>ProfileName</code> with <code>'Unknown'</code>, and fill missing values in <code>Summary</code> with <code>'No Summary'</code>.</p>
+<p><strong>G. Handling Missing Text Values (Smart Imputation):</strong></p>
+<ul>
+<li><strong>G1. Recovering Profile Names:</strong> Since users might have multiple reviews, a missing <code>ProfileName</code> might have a known <code>ProfileName</code> under the same <code>UserId</code> in another row. Check if there are such cases, therefore use this information to impute the missing values.</li>
+<li><strong>G2. Fallback Imputation:</strong> Fill any <em>remaining</em> missing values in <code>ProfileName</code> with <code>'Unknown'</code>, and fill missing values in <code>Summary</code> with <code>'No Summary'</code>.</li>
+</ul>
 <p><strong>H. Duplicates:</strong> If any duplicated rows exist, drop them using <code>.drop_duplicates()</code> and verify the shape of your DataFrame afterward.</p>
 <div id="cell-8" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
