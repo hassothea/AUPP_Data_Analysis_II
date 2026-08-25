@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 2: Advanced Visualization with Plotly</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="02-advanced-visualization_files/libs/clipboard/clipboard.min.js"></script>
+<script src="02-advanced-visualization_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="02-advanced-visualization_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="02-advanced-visualization_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="02-advanced-visualization_files/libs/quarto-html/popper.min.js"></script>
+<script src="02-advanced-visualization_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="02-advanced-visualization_files/libs/quarto-html/anchor.min.js"></script>
+<link href="02-advanced-visualization_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="02-advanced-visualization_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="02-advanced-visualization_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="02-advanced-visualization_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="02-advanced-visualization_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>Lab 2: Advanced Visualization with Plotly</strong></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Course</strong>: <strong>INS-605: Data Analysis II</strong> <br> <strong>Lecturer</strong>: <strong>Sothea HAS, PhD</strong></p>
+<hr>
+<p><strong>Objective:</strong> In this lab, we will use the cleaned <strong>Amazon Product Reviews</strong> dataset from Lab 1 to practice interactive visualization with <strong>Plotly</strong>. You will build individual figures first, then combine selected figures into a small dashboard-style view.</p>
+<p>The lab focuses on:</p>
+<ul>
+<li>choosing an appropriate chart for a question;</li>
+<li>creating interactive Plotly Express figures;</li>
+<li>controlling titles, labels, hover information, and axes;</li>
+<li>comparing product and customer activity;</li>
+<li>visualizing rating distributions and trends over time;</li>
+<li>assembling multiple figures with <code>make_subplots()</code>.</li>
+</ul>
+<blockquote class="blockquote">
+<p>The notebook of the lab can be downloaded from <a href="https://hassothea.github.io/AUPP_Data_Analysis_II/Labs/Lab2/02-advanced-visualization.ipynb" target="_blank">Lab2: Advanced Data Visualization</a>.</p>
+<hr>
+</blockquote>
+<ul>
+<li>Student name: …</li>
+<li>ID: …</li>
+</ul>
+<hr>
+<section id="setup-and-prepare-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="setup-and-prepare-the-data"><strong>0. Setup and Prepare the Data</strong></h2>
+<p>We use the <strong>same <a href="https://www.kaggle.com/datasets/arhamrumi/amazon-product-reviews" target="_blank"><code>Kaggle Amazon Product Reviews dataset</code></a> as Lab 1</strong> a. If you already have the cleaned <code>data</code> DataFrame from Lab 1, you may reuse it or revise it as we go through the questions below.</p>
+<p>For this lab, the important columns are:</p>
+<p><code>UserId</code>, <code>ProductId</code>, <code>Score</code>, <code>Time</code>, <code>ProfileName</code>, <code>Summary</code>, and the engineered fields such as <code>date</code>, <code>year</code>, and <code>month</code>.</p>
+<div id="cell-4" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If data is already available from Lab 1, keep this cell simple.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Otherwise, run the following code.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># %pip install kagglehub</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> kagglehub</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> kagglehub.dataset_download(<span class="st">"arhamrumi/amazon-product-reviews"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>file_name <span class="op">=</span> [f <span class="cf">for</span> f <span class="kw">in</span> os.listdir(path) <span class="cf">if</span> f.endswith(<span class="st">".csv"</span>)][<span class="dv">0</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="ss">f"</span><span class="sc">{</span>path<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="quick-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="quick-preparation"><strong>0.1. Quick preparation</strong></h3>
+<p>Use the cleaning work from Lab 1. At minimum, make sure <code>Time</code> is converted to a datetime column named <code>date</code>.</p>
+<p><strong>Question A.1.</strong> How many observations and variables are available for visualization?</p>
+<div id="cell-6" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.2.</strong> This data contains more detailed information that you can inspect.</p>
+<ul>
+<li>Drop duplications before and after removing column <code>ProductId</code>. What do you observe?</li>
+<li>Group the data by <code>ProductId</code> and <code>UserId</code>, then compute the count the size of each group and sort them in descending order.</li>
+<li>Inspect the <code>summary</code>, <code>text</code>, <code>score</code> and <code>time</code> of those reviews. What do you think?</li>
+<li>Drop duplicated reviews for each product and keep only those with largest number of <code>HelpfulnessDenominator</code>.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="first-interactive-plot-rating-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="first-interactive-plot-rating-distribution"><strong>1. First Interactive Plot: Rating Distribution</strong></h2>
+<p>A dashboard often starts with a simple overview of the target variable.</p>
+<p><strong>Question B.</strong> What is the distribution of review ratings (<code>Score</code>)?</p>
+<p>Create a chart showing the <strong>number of reviews for each rating</strong>.</p>
+<p>Requirements:</p>
+<ul>
+<li>x-axis: rating;</li>
+<li>y-axis: number of reviews;</li>
+<li>display the count on the bars;</li>
+<li>add a meaningful title;</li>
+<li>include a useful hover tooltip.</li>
+</ul>
+<p><strong>Hint:</strong> <code>px.bar()</code>, <code>.value_counts()</code>, <code>.reset_index()</code>, <code>text=</code>, <code>hover_data=</code>.</p>
+<div id="cell-9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="improve-the-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="improve-the-interaction"><strong>1.1. Improve the interaction</strong></h3>
+<p>A useful interactive chart should help the viewer understand the data without reading the code.</p>
+<p><strong>Question C.</strong> Modify your figure so that:</p>
+<ol type="1">
+<li>the x-axis is labeled <strong>Rating</strong>;</li>
+<li>the y-axis is labeled <strong>Number of Reviews</strong>;</li>
+<li>the bar labels show the review counts;</li>
+<li>the hover tooltip shows both rating and review count.</li>
+</ol>
+<p><strong>Hint:</strong> <code>fig.update_layout()</code>, <code>fig.update_traces()</code>, <code>texttemplate</code>, <code>hovertemplate</code>.</p>
+<div id="cell-11" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="product-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="product-comparison"><strong>2. Product Comparison</strong></h2>
+<p>Product managers may want to know which products receive the most reviews.</p>
+<p>First calculate the <strong>top 10 products by number of reviews</strong>.</p>
+<p><strong>Question D.</strong></p>
+<ul>
+<li>Which 10 products receive the most reviews?</li>
+<li>Create a horizontal bar chart.</li>
+<li>Sort the products from highest to lowest review count.</li>
+</ul>
+<p><strong>Hint:</strong> <code>groupby()</code>, <code>.size()</code>, <code>.sort_values()</code>, <code>.head()</code>, <code>px.bar(..., orientation="h")</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Visualization hint:</strong> Product IDs are categorical labels. A horizontal bar chart is usually easier to read than a vertical chart when labels are long and there is no size constaint. Otherwise, vertical bar chart can also be use with rotated ticks (<code>tickanlge = ...</code>).</p>
+</div>
+</div>
+<div id="cell-13" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="add-another-dimension" class="level3">
+<h3 class="anchored" data-anchor-id="add-another-dimension"><strong>2.1. Add another dimension</strong></h3>
+<p>The number of reviews alone does not tell us whether customers are satisfied.</p>
+<p>For the top 10 reviewed products, calculate: - number of reviews; - average rating.</p>
+<p><strong>Question E.</strong> Build a scatter plot where: - x = number of reviews; - y = average rating; - each point represents a product; - point size represents review volume; - hover information includes the product ID.</p>
+<p><strong>Hint:</strong> <code>groupby().agg()</code>, <code>px.scatter()</code>, <code>size=</code>, <code>hover_name=</code>.</p>
+<div id="cell-15" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="customer-view" class="level2">
+<h2 class="anchored" data-anchor-id="customer-view"><strong>3. Customer View</strong></h2>
+<p>A dashboard may also focus on customer activity.</p>
+<p><strong>Question F.</strong> Find the <strong>top 15 customers by number of reviews</strong> and create a horizontal bar chart.</p>
+<p>Then ask:</p>
+<blockquote class="blockquote">
+<p>Are the most active customers necessarily the most satisfied?</p>
+</blockquote>
+<p><strong>Hint:</strong> <code>groupby("UserId").agg(...)</code>, <code>sort_values()</code>, <code>px.bar()</code>.</p>
+<div id="cell-17" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="compare-activity-and-satisfaction" class="level3">
+<h3 class="anchored" data-anchor-id="compare-activity-and-satisfaction"><strong>3.1. Compare activity and satisfaction</strong></h3>
+<p>Create a customer-level summary containing: - number of reviews; - average rating.</p>
+<p><strong>Question G.</strong> Create a scatter plot with: - x = number of reviews; - y = average rating; - one point per customer.</p>
+<p>Use a logarithmic x-axis if the number of reviews is highly skewed.</p>
+<p><strong>Hint:</strong> <code>px.scatter()</code>, <code>fig.update_xaxes(type="log")</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not assume that a high number of reviews means a customer is highly satisfied. Let the visualization show the relationship.</p>
+</div>
+</div>
+<div id="cell-19" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="rating-trend-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="rating-trend-over-time"><strong>4. Rating Trend Over Time</strong></h2>
+<p>A dashboard should help identify changes in customer behavior.</p>
+<p>Convert <code>Time</code> to a monthly date and calculate: - number of reviews per month; - average rating per month.</p>
+<p><strong>Question H.</strong> Create a line chart of monthly review volume.</p>
+<p>Then create a second line showing the monthly average rating.</p>
+<p><strong>Hint:</strong> <code>pd.to_datetime()</code>, <code>.dt.to_period("M")</code>, <code>groupby()</code>, <code>px.line()</code>.</p>
+<div id="cell-21" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="make-the-trend-easier-to-interpret" class="level3">
+<h3 class="anchored" data-anchor-id="make-the-trend-easier-to-interpret"><strong>4.1. Make the trend easier to interpret</strong></h3>
+<p>Add: - markers to the line; - a clear title; - axis labels; - hover information.</p>
+<p><strong>Question I.</strong> Are there periods with unusually high or low review activity?</p>
+<p><strong>Hint:</strong> <code>markers=True</code>, <code>hover_data=</code>, <code>update_layout()</code>.</p>
+<div id="cell-23" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="rating-composition-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="rating-composition-over-time"><strong>5. Rating Composition Over Time</strong></h2>
+<p>A single average rating can hide important changes in the rating composition.</p>
+<p>Create a monthly table containing the number of <strong>1-, 2-, 3-, 4-, and 5-star reviews</strong>.</p>
+<p><strong>Question J.</strong> Create a <strong>100% stacked area chart</strong> showing how the rating composition changes over time.</p>
+<p>The five ratings at each month should sum to approximately <strong>100%</strong>.</p>
+<p><strong>Hint:</strong> - <code>pd.crosstab()</code>; - <code>div(..., axis=0)</code>; - <code>px.area()</code>; - <code>groupnorm="percent"</code> can be useful when using a long-form table.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not plot the raw counts and call them percentages. Convert the monthly counts to proportions or percentages first.</p>
+</div>
+</div>
+<div id="cell-25" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+<section id="assemble-a-small-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="assemble-a-small-dashboard"><strong>6. Assemble a Small Dashboard</strong></h2>
+<p>You have now built several individual views. A dashboard combines related views so that a user can answer several questions at once.</p>
+<p>Build a compact <strong>Overview Dashboard</strong> using <code>make_subplots()</code> with:</p>
+<ul>
+<li><strong>KPI 1:</strong> Total reviews</li>
+<li><strong>KPI 2:</strong> Unique customers</li>
+<li><strong>KPI 3:</strong> Unique products</li>
+<li><strong>KPI 4:</strong> Average rating</li>
+<li><strong>Chart 1:</strong> Rating distribution</li>
+<li><strong>Chart 2:</strong> Top 10 products</li>
+<li><strong>Chart 3:</strong> Monthly review activity</li>
+</ul>
+<p><strong>Question K.</strong> What information should a manager understand from the dashboard in less than 10 seconds?</p>
+<p><strong>Hint:</strong> <code>go.Indicator()</code>, <code>go.Bar()</code>, <code>go.Scatter()</code>, <code>make_subplots()</code>, <code>add_trace()</code>, <code>update_layout()</code>.</p>
+<div id="cell-27" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="final-dashboard-improvements" class="level3">
+<h3 class="anchored" data-anchor-id="final-dashboard-improvements"><strong>6.1. Final dashboard improvements</strong></h3>
+<p>Improve your dashboard with at least <strong>three</strong> of the following:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">meaningful chart titles;</label></li>
+<li><label><input type="checkbox">consistent font;</label></li>
+<li><label><input type="checkbox">consistent colors;</label></li>
+<li><label><input type="checkbox">readable axis labels;</label></li>
+<li><label><input type="checkbox">hover information;</label></li>
+<li><label><input type="checkbox">number formatting;</label></li>
+<li><label><input type="checkbox">appropriate margins and spacing;</label></li>
+<li><label><input type="checkbox">a single overall dashboard title;</label></li>
+<li><label><input type="checkbox">remove unnecessary legends or gridlines.</label></li>
+</ul>
+<p><strong>Question L.</strong> Which design change makes your dashboard easier to read, and why?</p>
+<div id="cell-29" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="reflection" class="level2">
+<h2 class="anchored" data-anchor-id="reflection"><strong>7. Reflection</strong></h2>
+<p>Answer briefly:</p>
+<ol type="1">
+<li>Which visualization was most useful for understanding the dataset?</li>
+<li>Which chart would you show to a <strong>product manager</strong>?</li>
+<li>Which chart would you show to a <strong>marketing manager</strong>?</li>
+<li>What is one limitation of your dashboard?</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The goal is not to make the dashboard as complicated as possible. A good dashboard communicates a small number of important ideas clearly.</p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
