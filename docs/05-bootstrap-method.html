@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="05-bootstrap-method_files/libs/clipboard/clipboard.min.js"></script>
+<script src="05-bootstrap-method_files/libs/quarto-html/tabby.min.js"></script>
+<script src="05-bootstrap-method_files/libs/quarto-html/popper.min.js"></script>
+<script src="05-bootstrap-method_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="05-bootstrap-method_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="05-bootstrap-method_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="05-bootstrap-method_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="05-bootstrap-method_files/libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="05-bootstrap-method_files/libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Lecturer: Dr.&nbsp;Sothea HAS">
+  <title> Bootstrap &amp; Resamping Methods </title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="05-bootstrap-method_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="05-bootstrap-method_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="05-bootstrap-method_files/libs/revealjs/dist/theme/quarto-ae43b858813db9b1761978c2fc6eca2a.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="05-bootstrap-method_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="05-bootstrap-method_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="05-bootstrap-method_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="05-bootstrap-method_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+  <script type="text/javascript">
+  window.PlotlyConfig = {MathJaxConfig: 'local'};
+  if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+  </script>
+  <script type="module">import "https://cdn.plot.ly/plotly-3.1.1.min"</script>
+
+  <style>
+  #title-slide .title {
+      font-size: 3em;
+  }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title"><i class="fa-solid fa-random" aria-label="random"></i> Bootstrap &amp; Resamping Methods <i class="fa-solid fa-chart-column" aria-label="chart-column"></i></h1>
+  <p class="subtitle"><br> <span class="blue">INS-605: Data Analysis II</span> <br> <a href="https://www.aupp.edu.kh/" target="_blank"><img data-src="./img/AUPP_Logo.png" width="150"></a> <br></p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<span class="blue">Lecturer: Dr.&nbsp;Sothea HAS</span> 
+</div>
+</div>
+</div>
+
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title"><i class="fa-solid fa-map-location-dot" aria-label="map-location-dot"></i> Content</h2>
+<ul>
+<li><a href="#/introduction-to-bootstrapping" id="/toc-introduction-to-bootstrapping"><span class="header-section-number">1</span> Introduction to Bootstrapping</a></li>
+<li><a href="#/bootstrapping-confidence-intervals" id="/toc-bootstrapping-confidence-intervals"><span class="header-section-number">2</span> Bootstrapping confidence intervals</a></li>
+<li><a href="#/bagging-method" id="/toc-bagging-method"><span class="header-section-number">3</span> Bagging Method</a></li>
+</ul>
+</nav>
+</section>
+<section class="slide level2">
+
+<h4 id="helpful-resources">helpful resources</h4>
+<div style="font-size: 85%">
+<p>🌐 <a href="https://mjfas.utm.my/index.php/mjfas/article/view/2660/1725" target="_blank">Confidence Intervals by Bootstrapping Approach: A Significance Review by Mokhtar et al.&nbsp;(2023)</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/CI_bootstrap.png" class="quarto-figure quarto-figure-center" width="900"></p>
+</figure>
+</div>
+</div>
+<!-- Start -->
+</section>
+<section class="slide level2">
+
+<h3 id="learning-outcomes">Learning Outcomes</h3>
+<div style="font-size: 90%">
+<p>By the end of this lecture, you should be able to:</p>
+<ul>
+<li class="fragment">Explain the process of <span class="blue"><strong>Bootstrapping</strong></span>.</li>
+<li class="fragment">What can we use it for in <strong>Data Analysis</strong> &amp; <strong>Data Science</strong>?</li>
+<li class="fragment">Apply <strong>Bootstrap</strong> to estimate <span class="blue"><strong>confidence intervals</strong></span>.</li>
+<li class="fragment">Apply <strong>Bootstrap</strong> to <span class="blue"><strong>Bagging</strong></span>.</li>
+<li class="fragment">Understand how correlated samples limit the power of <strong>Bootstrap</strong>.</li>
+</ul>
+<div class="vspace" style="--space: -30px">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bootstrap_concept.png" class="fragment quarto-figure quarto-figure-center" width="350"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section>
+<section id="introduction-to-bootstrapping" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="1">
+<h1><span class="header-section-number">1</span> Introduction to Bootstrapping</h1>
+
+</section>
+<section id="what-is-bootstrapping" class="slide level2" data-number="1.1">
+<h2><span class="header-section-number">1.1</span> What is Bootstrapping?</h2>
+<div style="font-size: 90%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li class="fragment">We have only <strong>one dataset</strong>: <span class="vspace" style="--space: -20px"><span class="math display">\[D = \{x_1,x_2,\ldots,x_n\}\]</span></span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="vspace" style="--space: -20px">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bootstrap_concept.png" class="fragment quarto-figure quarto-figure-center" width="350"></p>
+</figure>
+</div>
+</div>
+</div></div>
+<div class="vspace" style="--space: -100px">
+<ul>
+<li class="fragment">But we want to know:
+<ul>
+<li class="fragment">How <em>variable</em> is our estimator?</li>
+<li class="fragment">What would happen with <em>another sample</em>?</li>
+<li class="fragment">How <em>confident</em> are we in our <em>estimate</em>?</li>
+</ul></li>
+<li class="fragment"><span class="blue"><strong>Bootstrapping</strong></span> allows us to <strong>estimate the sampling distribution</strong> of an estimator.</li>
+<li class="fragment">It is a key tool for many <strong>ML</strong> models: <strong>Bagging, RF</strong>, etc.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="bootstrap-procedure" class="slide level2" data-number="1.2">
+<h2><span class="header-section-number">1.2</span> Bootstrap Procedure</h2>
+<div style="font-size: 80%">
+<ul>
+<li>Treat the observed data as an approximation of the population and repeatedly <span class="blue"><strong>resample with replacement</strong></span>.</li>
+</ul>
+<div class="vspace" style="--space: -20px">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bootstrap.png" class="quarto-figure quarto-figure-center" width="650"></p>
+</figure>
+</div>
+</div>
+<div class="vspace" style="--space: -25px">
+<ul>
+<li><span class="nowrap">Each bootstrap sample <span class="math inline">\(D_j^*\to\)</span> an estimator <span class="math inline">\(\widehat{\theta}_j\)</span>.</span></li>
+<li><span class="nowrap">The uncertainty of <span class="math inline">\(\widehat{\theta}\)</span> is quantified by <span class="math inline">\(\text{SE}(\widehat{\theta})\)</span>.</span></li>
+</ul>
+</div>
+</div>
+</section></section>
+<section>
+<section id="bootstrapping-confidence-intervals" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="2">
+<h1><span class="header-section-number">2</span> Bootstrapping confidence intervals</h1>
+
+</section>
+<section id="basic-method" class="slide level2" data-number="2.1">
+<h2><span class="header-section-number">2.1</span> Basic Method</h2>
+<div style="font-size: 80%">
+<div title="Bootstrap Method">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Bootstrap Method</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Intialization: <span class="math inline">\(B\)</span> (number of bootstrap samples) and the data <span class="math inline">\(D\)</span></li>
+<li><code>for</code> <span class="math inline">\({\color{red}{b}}=1,\dots,B\)</span>:
+<ul>
+<li>Draw a bootstrap sample <span class="math inline">\(D^*_b\)</span> from the data <span class="math inline">\(D\)</span> then compute <span class="math inline">\(\color{red}{\widehat{\theta}_b}\)</span> from <span class="math inline">\(D^*_b\)</span>.</li>
+<li>Store <span class="math inline">\(\color{red}{\widehat{\theta}_b}\)</span> to the list <span class="math inline">\(\color{red}{\widehat{\Theta}}\)</span>.</li>
+</ul></li>
+<li>Return <span class="math inline">\(\color{red}{\widehat{\Theta}}=[\color{red}{\widehat{\theta}_1}, \dots, \color{red}{\widehat{\theta}_B}]\)</span> and the average <span class="math inline">\({\color{blue}{\widehat{\theta}^*}}=\frac{1}{B}\sum_{{\color{red}{b}}=1}^B\color{red}{\widehat{\theta}_{\color{red}{b}}}.\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Let bias <span class="math inline">\({\color{red}{e_b}}={\color{red}{\widehat{\theta}_b}}-\color{blue}{\widehat{\theta}^*}\)</span>: the gap between estimator and the average.</li>
+<li>Sort <span class="math inline">\({\color{red}{e_b}}\)</span>’s values, then let <span class="math inline">\(\color{red}{e_{q}}\)</span> be its quantile of <span class="math inline">\({\color{red}{q}}\)</span>-percentile.</li>
+<li>Confidence interval: <span class="box"><span class="math inline">\(\text{CI1}_{\color{red}{1-\alpha}}({\color{blue}{\theta}})=\left[\color{blue}{\widehat{\theta}^*}-\color{red}{e_{\alpha/2}},\color{blue}{\widehat{\theta}^*}+\color{red}{e_{1-\alpha/2}}\right].\)</span></span></li>
+</ul>
+</div>
+<p><span class="slide-note fragment">See <a href="https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2656.12382" target="_blank">Puth et al., (2015)</a> for more details and examples.</span></p>
+<!-- 
+```python
+B = 1000                           # Initialize bootstrap sample size B
+theta_hats = []                    # Initialize list to store estimates
+for b in range(B):`                # Loop over bootstrap samples
+    B = bootstrap_sampling(D)      # Draw bootstrap sample
+    theta_hat_b = compute_theta(B) # Compute bootstrap estimator
+    theta_hats.append(theta_hat_b) # Store estimators
+```
+-->
+</section>
+<section id="percentile-method" class="slide level2" data-number="2.2">
+<h2><span class="header-section-number">2.2</span> Percentile Method</h2>
+<div style="font-size: 80%">
+<div title="Bootstrap Method">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Bootstrap Method</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Intialization: <span class="math inline">\(B\)</span> (number of bootstrap samples, <strong>shall be large</strong> <span class="math inline">\(\approx 1000\)</span>) and the data <span class="math inline">\(D\)</span></li>
+<li><code>for</code> <span class="math inline">\({\color{red}{b}}=1,\dots,B\)</span>:
+<ul>
+<li>Draw a bootstrap sample <span class="math inline">\(D^*_b\)</span> from the data <span class="math inline">\(D\)</span> then compute <span class="math inline">\(\color{red}{\widehat{\theta}_b}\)</span> from <span class="math inline">\(D^*_b\)</span>.</li>
+<li>Store <span class="math inline">\(\color{red}{\widehat{\theta}_b}\)</span> to the list <span class="math inline">\(\color{red}{\widehat{\Theta}}\)</span>.</li>
+</ul></li>
+<li>Return <span class="math inline">\(\color{red}{\widehat{\Theta}}=[\color{red}{\widehat{\theta}_1}, \dots, \color{red}{\widehat{\theta}_B}]\)</span> and the average <span class="math inline">\({\color{blue}{\widehat{\theta}^*}}=\frac{1}{B}\sum_{{\color{red}{b}}=1}^B\color{red}{\widehat{\theta}_{\color{red}{b}}}.\)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>Sort the estimators: <span class="math inline">\(\color{red}{\widehat{\Theta}}=[\color{red}{\widehat{\theta}_{(1)}}, \dots, {\color{red}{\widehat{\theta}_{(B)}}}]\)</span>.</li>
+<li>Confidence interval: <span class="box"><span class="math inline">\(\text{CI2}_{\color{red}{1-\alpha}}({\color{blue}{\theta}})=\left[\color{red}{\widehat{\theta}_{(\alpha/2)}},\color{red}{\widehat{\theta}_{(1-\alpha/2)}}\right].\)</span></span></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div id="9b1e88d3" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="fb6b4fc0-9d62-4492-86f2-50c49b1f6d44" class="plotly-graph-div" style="height:260px; width:380px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fb6b4fc0-9d62-4492-86f2-50c49b1f6d44")) {                    Plotly.newPlot(                        "fb6b4fc0-9d62-4492-86f2-50c49b1f6d44",                        [{"line":{"color":"black","width":2},"mode":"lines","name":"Standard Normal Distribution","showlegend":false,"x":{"dtype":"f8","bdata":"zczMzMzMEMBDTBCWMMQQwLnLU1+UuxDAMEuXKPiyEMCmytrxW6oQwBxKHru\u002foRDAkslhhCOZEMAJSaVNh5AQwH\u002fI6BbrhxDA9Ucs4E5\u002fEMBrx2+psnYQwOJGs3IWbhDAWMb2O3plEMDORToF3lwQwETFfc5BVBDAu0TBl6VLEMAxxARhCUMQwKdDSCptOhDAHcOL89AxEMCUQs+8NCkQwArCEoaYIBDAgEFWT\u002fwXEMD2wJkYYA8QwGxA3eHDBhDAxX9BVk\u002f8D8CyfsjoFusPwJ59T3ve2Q\u002fAi3zWDabID8B3e12gbbcPwGR65DI1pg\u002fAUHlrxfyUD8A9ePJXxIMPwCl3eeqLcg\u002fAFnYAfVNhD8ACdYcPG1APwO5zDqLiPg\u002fA23KVNKotD8DIcRzHcRwPwLRwo1k5Cw\u002fAoG8q7AD6DsCNbrF+yOgOwHltOBGQ1w7AZmy\u002fo1fGDsBSa0Y2H7UOwD9qzcjmow7AK2lUW66SDsAYaNvtdYEOwARnYoA9cA7A8WXpEgVfDsDdZHClzE0OwMpj9zeUPA7AtmJ+ylsrDsCjYQVdIxoOwI9gjO\u002fqCA7AfF8TgrL3DcBoXpoUeuYNwFRdIadB1Q3AQVyoOQnEDcAtWy\u002fM0LINwBpatl6YoQ3ABlk98V+QDcDzV8SDJ38NwN9WSxbvbQ3AzFXSqLZcDcC4VFk7fksNwKVT4M1FOg3AkVJnYA0pDcB+Ue7y1BcNwGpQdYWcBg3AVk\u002f8F2T1DMBDToOqK+QMwDBNCj3z0gzAHEyRz7rBDMAISxhigrAMwPVJn\u002fRJnwzA4kgmhxGODMDOR60Z2XwMwLpGNKygawzAp0W7PmhaDMCTRELRL0kMwIBDyWP3NwzAbEJQ9r4mDMBZQdeIhhUMwEVAXhtOBAzAMj\u002flrRXzC8AePmxA3eELwAs989Kk0AvA9zt6ZWy\u002fC8DkOgH4M64LwNA5iIr7nAvAvDgPHcOLC8CpN5avinoLwJY2HUJSaQvAgjWk1BlYC8BuNCtn4UYLwFszsvmoNQvASDI5jHAkC8A0McAeOBMLwCAwR7H\u002fAQvADS\u002fOQ8fwCsD5LVXWjt8KwOYs3GhWzgrA0itj+x29CsC\u002fKuqN5asKwKspcSCtmgrAmCj4snSJCsCEJ39FPHgKwHAmBtgDZwrAXSWNastVCsBKJBT9kkQKwDYjm49aMwrAIiIiIiIiCsAPIam06RAKwPwfMEex\u002fwnA6B632XjuCcDUHT5sQN0JwMEcxf4HzAnArRtMkc+6CcCaGtMjl6kJwIYZWrZemAnAchjhSCaHCcBfF2jb7XUJwEwW7221ZAnAOBV2AH1TCcAkFP2SREIJwBEThCUMMQnA\u002fhELuNMfCcDqEJJKmw4JwNYPGd1i\u002fQjAww6gbyrsCMCwDScC8toIwJwMrpS5yQjAiAs1J4G4CMB1Cry5SKcIwGIJQ0wQlgjATgjK3teECMA6B1Fxn3MIwCcG2ANnYgjAEwVfli5RCMAABOYo9j8IwOwCbbu9LgjA2AH0TYUdCMDFAHvgTAwIwLL\u002fAXMU+wfAnv6IBdzpB8CK\u002fQ+Yo9gHwHf8liprxwfAZPsdvTK2B8BQ+qRP+qQHwDz5K+LBkwfAKfiydImCB8AW9zkHUXEHwAL2wJkYYAfA7vRHLOBOB8Db886+pz0HwMjyVVFvLAfAtPHc4zYbB8Cg8GN2\u002fgkHwIzv6gjG+AbAee5xm43nBsBm7fgtVdYGwFLsf8AcxQbAPusGU+SzBsAr6o3lq6IGwBjpFHhzkQbABOibCjuABsDw5iKdAm8GwN3lqS\u002fKXQbAyuQwwpFMBsC247dUWTsGwKLiPucgKgbAj+HFeegYBsB84EwMsAcGwGjf05539gXAVN5aMT\u002flBcBA3eHDBtQFwC3caFbOwgXAGtvv6JWxBcAG2nZ7XaAFwPLY\u002fQ0ljwXA39eEoOx9BcDM1gsztGwFwLjVksV7WwXApNQZWENKBcCR06DqCjkFwH7SJ33SJwXAatGuD5oWBcBW0DWiYQUFwEPPvDQp9ATAMM5Dx\u002fDiBMAczcpZuNEEwAjMUex\u002fwATA9crYfkevBMDhyV8RD54EwM7I5qPWjATAusdtNp57BMCmxvTIZWoEwJPFe1stWQTAgMQC7vRHBMBsw4mAvDYEwFjCEBOEJQTARcGXpUsUBMAywB44EwMEwB6\u002fpcra8QPACr4sXaLgA8D3vLPvac8DwOS7OoIxvgPA0LrBFPmsA8C8uUinwJsDwKm4zzmIigPAlrdWzE95A8CCtt1eF2gDwG61ZPHeVgPAWrTrg6ZFA8BHs3IWbjQDwDSy+ag1IwPAILGAO\u002f0RA8AMsAfOxAADwPmujmCM7wLA5q0V81PeAsDSrJyFG80CwL6rIxjjuwLAq6qqqqqqAsCYqTE9cpkCwISouM85iALAcKc\u002fYgF3AsBdpsb0yGUCwEqlTYeQVALANqTUGVhDAsAio1usHzICwA6i4j7nIALA+6Bp0a4PAsDon\u002fBjdv4BwNSed\u002fY97QHAwJ3+iAXcAcCtnIUbzcoBwJqbDK6UuQHAhpqTQFyoAcBymRrTI5cBwF+YoWXrhQHAS5co+LJ0AcA4lq+KemMBwCSVNh1CUgHAEZS9rwlBAcD9kkRC0S8BwOqRy9SYHgHA1pBSZ2ANAcDDj9n5J\u002fwAwK+OYIzv6gDAnI3nHrfZAMCIjG6xfsgAwHWL9UNGtwDAYYp81g2mAMBOiQNp1ZQAwDqIivucgwDAJ4cRjmRyAMAThpggLGEAwP+EH7PzTwDA7IOmRbs+AMDYgi3Ygi0AwMWBtGpKHADAsYA7\u002fRELAMA8\u002f4Qfs\u002fP\u002fvxT9kkRC0f+\u002f7vqgadGu\u002f7\u002fG+K6OYIz\u002fv6D2vLPvaf+\u002fePTK2H5H\u002f79S8tj9DSX\u002fvyrw5iKdAv+\u002fBO70Ryzg\u002fr\u002fc6wJtu73+v7bpEJJKm\u002f6\u002fjucet9l4\u002fr9o5SzcaFb+v0DjOgH4M\u002f6\u002fGOFIJocR\u002fr\u002fy3lZLFu\u002f9v8rcZHClzP2\u002fpNpylTSq\u002fb982IC6w4f9v1bWjt9SZf2\u002fLtScBOJC\u002fb8I0qopcSD9v+DPuE4A\u002fvy\u002fus3Gc4\u002fb\u002fL+Sy9SYHrn8v2zJ4r2tlvy\u002fRMfw4jx0\u002fL8exf4HzFH8v\u002fbCDC1bL\u002fy\u002f0MAaUuoM\u002fL+ovih3eer7v4C8NpwIyPu\u002fWrpEwZel+78yuFLmJoP7vwy2YAu2YPu\u002f5LNuMEU++7++sXxV1Bv7v5avinpj+fq\u002fcK2Yn\u002fLW+r9Iq6bEgbT6vyKptOkQkvq\u002f+qbCDqBv+r\u002fUpNAzL036v6yi3li+Kvq\u002fhqDsfU0I+r9envqi3OX5vzicCMhrw\u002fm\u002fEJoW7fqg+b\u002fqlyQSin75v8KVMjcZXPm\u002fmpNAXKg5+b90kU6BNxf5v0yPXKbG9Pi\u002fJo1qy1XS+L\u002f+injw5K\u002f4v9iIhhV0jfi\u002fsIaUOgNr+L+KhKJfkkj4v2KCsIQhJvi\u002fPIC+qbAD+L8UfszOP+H3v+572vPOvve\u002fxnnoGF6c97+gd\u002fY97Xn3v3h1BGN8V\u002fe\u002fUnMSiAs1978qcSCtmhL3vwRvLtIp8Pa\u002f3Gw897jN9r+0akocSKv2v45oWEHXiPa\u002fZmZmZmZm9r9AZHSL9UP2vxhigrCEIfa\u002f8l+Q1RP\u002f9b\u002fKXZ76otz1v6RbrB8yuvW\u002ffFm6RMGX9b9WV8hpUHX1vy5V1o7fUvW\u002fCFPks24w9b\u002fgUPLY\u002fQ31v7pOAP6M6\u002fS\u002fkkwOIxzJ9L9sShxIq6b0v0RIKm06hPS\u002fHEY4kslh9L\u002f2Q0a3WD\u002f0v85BVNznHPS\u002fqD9iAXf687+APXAmBtjzv1o7fkuVtfO\u002fMjmMcCST878MN5qVs3Dzv+Q0qLpCTvO\u002fvjK239Er87+WMMQEYQnzv3Au0inw5vK\u002fSCzgTn\u002fE8r8iKu5zDqLyv\u002fon\u002fJidf\u002fK\u002f1CUKvixd8r+sIxjjuzryv4YhJghLGPK\u002fXh80Ldr18b82HUJSadPxvxAbUHf4sPG\u002f6BhenIeO8b\u002fCFmzBFmzxv5oUeualSfG\u002fdBKICzUn8b9MEJYwxATxvyYOpFVT4vC\u002f\u002fguyeuK\u002f8L\u002fYCcCfcZ3wv7AHzsQAe\u002fC\u002figXc6Y9Y8L9iA+oOHzbwvzwB+DOuE\u002fC\u002fKP4Lsnri77\u002fc+Sf8mJ3vv4z1Q0a3WO+\u002fQPFfkNUT77\u002fw7Hva887uv6DolyQSiu6\u002fVOSzbjBF7r8E4M+4TgDuv7jb6wJtu+2\u002faNcHTYt27b8c0yOXqTHtv8zOP+HH7Oy\u002fgMpbK+an7L8wxnd1BGPsv+TBk78iHuy\u002flL2vCUHZ679IuctTX5Trv\u002fi05519T+u\u002frLAD6JsK679crB8yusXqvxCoO3zYgOq\u002fwKNXxvY76r9wn3MQFffpvySbj1ozsum\u002f1JarpFFt6b+IksfubyjpvziO4ziO4+i\u002f7In\u002fgqye6L+chRvNylnov1CBNxfpFOi\u002fAH1TYQfQ57+0eG+rJYvnv2R0i\u002fVDRue\u002fGHCnP2IB57\u002fIa8OJgLzmv3xn39Oed+a\u002fLGP7Hb0y5r\u002fgXhdo2+3lv5BaM7L5qOW\u002fRFZP\u002fBdk5b\u002f0UWtGNh\u002flv6RNh5BU2uS\u002fWEmj2nKV5L8IRb8kkVDkv7xA226vC+S\u002fbDz3uM3G478gOBMD7IHjv9AzL00KPeO\u002fhC9Llyj44r80K2fhRrPiv+gmgytlbuK\u002fmCKfdYMp4r9MHru\u002foeThv\u002fwZ1wnAn+G\u002fsBXzU95a4b9gEQ+e\u002fBXhvxQNK+ga0eC\u002fxAhHMjmM4L90BGN8V0fgvygAf8Z1AuC\u002fsPc1ISh7378Y7221ZPHev3jmpUmhZ96\u002f4N3d3d3d3b9A1RVyGlTdv6jMTQZXyty\u002fCMSFmpNA3L9wu70u0Lbbv9Cy9cIMLdu\u002fOKotV0mj2r+YoWXrhRnavwCZnX\u002fCj9m\u002fYJDVE\u002f8F2b\u002fIhw2oO3zYvyh\u002fRTx48te\u002fkHZ90LRo17\u002fwbbVk8d7Wv1Bl7fgtVda\u002fuFwljWrL1b8YVF0hp0HVv4BLlbXjt9S\u002f4ELNSSAu1L9IOgXeXKTTv6gxPXKZGtO\u002fECl1BtaQ0r9wIK2aEgfSv9gX5S5PfdG\u002fOA8dw4vz0L+gBlVXyGnQvwD8GdcJwM+\u002f0OqJ\u002f4Kszr+Q2fkn\u002fJjNv2DIaVB1hcy\u002fILfZeO5xy7\u002fwpUmhZ17Kv6CUucngSsm\u002fgIMp8lk3yL9Acpka0yPHvwBhCUNMEMa\u002fwE95a8X8xL+gPumTPunDv2AtWby31cK\u002fIBzJ5DDCwb\u002fgCjkNqq7Av4DzUWtGNr+\u002fANExvDgPvb+ArhENK+i6vwCM8V0dwbi\u002fwGnRrg+atr9AR7H\u002fAXO0v8AkkVD0S7K\u002fQAJxoeYksL8AwKHksfurvwB7YYaWrae\u002fADYhKHtfo78A4sGTvyKevwBYQdeIhpW\u002fAJ6BNaTUib8AFAF5bThxvwAUAXltOHE\u002fAJ6BNaTUiT8AWEHXiIaVPwDiwZO\u002fIp4\u002fADYhKHtfoz8Ae2GGlq2nP4C\u002foeSx+6s\u002fQAJxoeYksD\u002fAJJFQ9EuyP0BHsf8Bc7Q\u002fgGnRrg+atj8AjPFdHcG4P4CuEQ0r6Lo\u002fANExvDgPvT+A81FrRja\u002fP+AKOQ2qrsA\u002fIBzJ5DDCwT9gLVm8t9XCP6A+6ZM+6cM\u002fwE95a8X8xD8AYQlDTBDGP0BymRrTI8c\u002fgIMp8lk3yD+glLnJ4ErJP+ClSaFnXso\u002fILfZeO5xyz9gyGlQdYXMP4DZ+Sf8mM0\u002fwOqJ\u002f4Kszj8A\u002fBnXCcDPP6AGVVfIadA\u002fQA8dw4vz0D\u002fQF+UuT33RP3AgrZoSB9I\u002fECl1BtaQ0j+wMT1ymRrTP0A6Bd5cpNM\u002f4ELNSSAu1D+AS5W147fUPyBUXSGnQdU\u002fsFwljWrL1T9QZe34LVXWP\u002fBttWTx3tY\u002fkHZ90LRo1z8gf0U8ePLXP8CHDag7fNg\u002fYJDVE\u002f8F2T8AmZ1\u002fwo\u002fZP5ChZeuFGdo\u002fMKotV0mj2j\u002fQsvXCDC3bP3C7vS7Qtts\u002fEMSFmpNA3D+gzE0GV8rcP0DVFXIaVN0\u002f4N3d3d3d3T+A5qVJoWfePxDvbbVk8d4\u002fsPc1ISh73z8oAH\u002fGdQLgP3gEY3xXR+A\u002fwAhHMjmM4D8QDSvoGtHgP2ARD578FeE\u002fsBXzU95a4T\u002f4GdcJwJ\u002fhP0geu7+h5OE\u002fmCKfdYMp4j\u002foJoMrZW7iPzgrZ+FGs+I\u002fgC9Llyj44j\u002fQMy9NCj3jPyA4EwPsgeM\u002fcDz3uM3G4z+4QNturwvkPwhFvySRUOQ\u002fWEmj2nKV5D+oTYeQVNrkP\u002fBRa0Y2H+U\u002fQFZP\u002fBdk5T+QWjOy+ajlP+BeF2jb7eU\u002fKGP7Hb0y5j94Z9\u002fTnnfmP8hrw4mAvOY\u002fGHCnP2IB5z9odIv1Q0bnP7B4b6sli+c\u002fAH1TYQfQ5z9QgTcX6RToP6CFG83KWeg\u002f6In\u002fgqye6D84juM4juPoP4iSx+5vKOk\u002f2JarpFFt6T8gm49aM7LpP3CfcxAV9+k\u002fwKNXxvY76j8QqDt82IDqP1isHzK6xeo\u002fqLAD6JsK6z\u002f4tOedfU\u002frP0i5y1NflOs\u002fkL2vCUHZ6z\u002fgwZO\u002fIh7sPzDGd3UEY+w\u002fgMpbK+an7D\u002fQzj\u002fhx+zsPxjTI5epMe0\u002faNcHTYt27T+42+sCbbvtPwjgz7hOAO4\u002fUOSzbjBF7j+g6JckEoruP\u002fDse9rzzu4\u002fQPFfkNUT7z+I9UNGt1jvP9j5J\u002fyYne8\u002fKP4Lsnri7z88AfgzrhPwP2AD6g4fNvA\u002fiAXc6Y9Y8D+wB87EAHvwP9gJwJ9xnfA\u002fAAyyeuK\u002f8D8kDqRVU+LwP0wQljDEBPE\u002fdBKICzUn8T+cFHrmpUnxP8AWbMEWbPE\u002f6BhenIeO8T8QG1B3+LDxPzgdQlJp0\u002fE\u002fXB80Ldr18T+EISYISxjyP6wjGOO7OvI\u002f1CUKvixd8j\u002f4J\u002fyYnX\u002fyPyAq7nMOovI\u002fSCzgTn\u002fE8j9wLtIp8ObyP5gwxARhCfM\u002fvDK239Er8z\u002fkNKi6Qk7zPww3mpWzcPM\u002fNDmMcCST8z9YO35LlbXzP4A9cCYG2PM\u002fqD9iAXf68z\u002fQQVTc5xz0P\u002fRDRrdYP\u002fQ\u002fHEY4kslh9D9ESCptOoT0P2xKHEirpvQ\u002fkEwOIxzJ9D+4TgD+jOv0P+BQ8tj9DfU\u002fCFPks24w9T8sVdaO31L1P1RXyGlQdfU\u002ffFm6RMGX9T+kW6wfMrr1P8xdnvqi3PU\u002f8F+Q1RP\u002f9T8YYoKwhCH2P0BkdIv1Q\u002fY\u002faGZmZmZm9j+MaFhB14j2P7RqShxIq\u002fY\u002f3Gw897jN9j8Eby7SKfD2PyhxIK2aEvc\u002fUHMSiAs19z94dQRjfFf3P6B39j3tefc\u002fxHnoGF6c9z\u002fse9rzzr73PxR+zM4\u002f4fc\u002fPIC+qbAD+D9kgrCEISb4P4iEol+SSPg\u002fsIaUOgNr+D\u002fYiIYVdI34PwCLePDkr\u002fg\u002fJI1qy1XS+D9Mj1ymxvT4P3SRToE3F\u002fk\u002fnJNAXKg5+T\u002fAlTI3GVz5P+iXJBKKfvk\u002fEJoW7fqg+T84nAjIa8P5P1ye+qLc5fk\u002fhKDsfU0I+j+sot5Yvir6P9Sk0DMvTfo\u002f\u002fKbCDqBv+j8gqbTpEJL6P0irpsSBtPo\u002fcK2Yn\u002fLW+j+Yr4p6Y\u002fn6P7yxfFXUG\u002fs\u002f5LNuMEU++z8MtmALtmD7PzS4UuYmg\u002fs\u002fWLpEwZel+z+AvDacCMj7P6i+KHd56vs\u002f0MAaUuoM\u002fD\u002f0wgwtWy\u002f8PxzF\u002fgfMUfw\u002fRMfw4jx0\u002fD9syeK9rZb8P5DL1Jgeufw\u002fuM3Gc4\u002fb\u002fD\u002fgz7hOAP78PwjSqilxIP0\u002fMNScBOJC\u002fT9U1o7fUmX9P3zYgLrDh\u002f0\u002fpNpylTSq\u002fT\u002fM3GRwpcz9P\u002fDeVksW7\u002f0\u002fGOFIJocR\u002fj9A4zoB+DP+P2jlLNxoVv4\u002fjOcet9l4\u002fj+06RCSSpv+P9zrAm27vf4\u002fBO70Ryzg\u002fj8o8OYinQL\u002fP1Dy2P0NJf8\u002fePTK2H5H\u002fz+g9ryz72n\u002fP8j4ro5gjP8\u002f7PqgadGu\u002fz8U\u002fZJEQtH\u002fPzz\u002fhB+z8\u002f8\u002fsoA7\u002fRELAEDEgbRqShwAQNiCLdiCLQBA7IOmRbs+AEAAhR+z808AQBKGmCAsYQBAJocRjmRyAEA6iIr7nIMAQE6JA2nVlABAYIp81g2mAEB0i\u002fVDRrcAQIiMbrF+yABAnI3nHrfZAECwjmCM7+oAQMKP2fkn\u002fABA1pBSZ2ANAUDqkcvUmB4BQP6SRELRLwFAEJS9rwlBAUAklTYdQlIBQDiWr4p6YwFATJco+LJ0AUBemKFl64UBQHKZGtMjlwFAhpqTQFyoAUCamwyulLkBQKychRvNygFAwJ3+iAXcAUDUnnf2Pe0BQOif8GN2\u002fgFA+qBp0a4PAkAOouI+5yACQCKjW6wfMgJANqTUGVhDAkBKpU2HkFQCQFymxvTIZQJAcKc\u002fYgF3AkCEqLjPOYgCQJipMT1ymQJAqqqqqqqqAkC+qyMY47sCQNKsnIUbzQJA5q0V81PeAkD4ro5gjO8CQAywB87EAANAILGAO\u002f0RA0A0svmoNSMDQEazchZuNANAWrTrg6ZFA0ButWTx3lYDQIK23V4XaANAlrdWzE95A0CouM85iIoDQLy5SKfAmwNA0LrBFPmsA0DkuzqCMb4DQPa8s+9pzwNACr4sXaLgA0Aev6XK2vEDQDLAHjgTAwRARMGXpUsUBEBYwhAThCUEQGzDiYC8NgRAgMQC7vRHBECSxXtbLVkEQKbG9MhlagRAusdtNp57BEDOyOaj1owEQOLJXxEPngRA9MrYfkevBEAIzFHsf8AEQBzNylm40QRAMM5Dx\u002fDiBEBCz7w0KfQEQFbQNaJhBQVAatGuD5oWBUB+0id90icFQJDToOoKOQVApNQZWENKBUC41ZLFe1sFQMzWCzO0bAVA3teEoOx9BUDy2P0NJY8FQAbadntdoAVAGtvv6JWxBUAu3GhWzsIFQEDd4cMG1AVAVN5aMT\u002flBUBo39Oed\u002fYFQHzgTAywBwZAjuHFeegYBkCi4j7nICoGQLbjt1RZOwZAyuQwwpFMBkDc5akvyl0GQPDmIp0CbwZABOibCjuABkAY6RR4c5EGQCrqjeWrogZAPusGU+SzBkBS7H\u002fAHMUGQGbt+C1V1gZAeO5xm43nBkCM7+oIxvgGQKDwY3b+CQdAtPHc4zYbB0DI8lVRbywHQNrzzr6nPQdA7vRHLOBOB0AC9sCZGGAHQBb3OQdRcQdAKPiydImCB0A8+SviwZMHQFD6pE\u002f6pAdAZPsdvTK2B0B2\u002fJYqa8cHQIr9D5ij2AdAnv6IBdzpB0Cy\u002fwFzFPsHQMQAe+BMDAhA2AH0TYUdCEDsAm27vS4IQAAE5ij2PwhAFAVfli5RCEAmBtgDZ2IIQDoHUXGfcwhATgjK3teECEBiCUNMEJYIQHQKvLlIpwhAiAs1J4G4CECcDK6UuckIQLANJwLy2ghAwg6gbyrsCEDWDxndYv0IQOoQkkqbDglA\u002fhELuNMfCUAQE4QlDDEJQCQU\u002fZJEQglAOBV2AH1TCUBMFu9ttWQJQGAXaNvtdQlAchjhSCaHCUCGGVq2XpgJQJoa0yOXqQlArhtMkc+6CUDAHMX+B8wJQNQdPmxA3QlA6B632XjuCUD8HzBHsf8JQA4hqbTpEApAIiIiIiIiCkA2I5uPWjMKQEokFP2SRApAXCWNastVCkBwJgbYA2cKQIQnf0U8eApAmCj4snSJCkCqKXEgrZoKQL4q6o3lqwpA0itj+x29CkDmLNxoVs4KQPotVdaO3wpADC\u002fOQ8fwCkAgMEex\u002fwELQDQxwB44EwtASDI5jHAkC0BaM7L5qDULQG40K2fhRgtAgjWk1BlYC0CWNh1CUmkLQKg3lq+KegtAvDgPHcOLC0DQOYiK+5wLQOQ6AfgzrgtA9jt6ZWy\u002fC0AKPfPSpNALQB4+bEDd4QtAMj\u002flrRXzC0BGQF4bTgQMQFhB14iGFQxAbEJQ9r4mDECAQ8lj9zcMQJREQtEvSQxApkW7PmhaDEC6RjSsoGsMQM5HrRnZfAxA4kgmhxGODED0SZ\u002f0SZ8MQAhLGGKCsAxAHEyRz7rBDEAwTQo989IMQEJOg6or5AxAVk\u002f8F2T1DEBqUHWFnAYNQH5R7vLUFw1AklJnYA0pDUCkU+DNRToNQLhUWTt+Sw1AzFXSqLZcDUDgVksW720NQPJXxIMnfw1ABlk98V+QDUAaWrZemKENQC5bL8zQsg1AQFyoOQnEDUBUXSGnQdUNQGhemhR65g1AfF8TgrL3DUCOYIzv6ggOQKJhBV0jGg5AtmJ+ylsrDkDKY\u002fc3lDwOQNxkcKXMTQ5A8GXpEgVfDkAGZ2KAPXAOQBZo2+11gQ5AKmlUW66SDkA+as3I5qMOQFJrRjYftQ5AZmy\u002fo1fGDkB6bTgRkNcOQI5usX7I6A5Aom8q7AD6DkCycKNZOQsPQMZxHMdxHA9A2nKVNKotD0Ducw6i4j4PQAJ1hw8bUA9AFnYAfVNhD0Aqd3nqi3IPQD548lfEgw9ATnlrxfyUD0BieuQyNaYPQHZ7XaBttw9AinzWDabID0CefU973tkPQLJ+yOgW6w9Axn9BVk\u002f8D0BtQN3hwwYQQPfAmRhgDxBAf0FWT\u002fwXEEAJwhKGmCAQQJNCz7w0KRBAHcOL89AxEECnQ0gqbToQQDHEBGEJQxBAu0TBl6VLEEBFxX3OQVQQQM1FOgXeXBBAV8b2O3plEEDhRrNyFm4QQGvHb6mydhBA9Ucs4E5\u002fEEB\u002fyOgW64cQQAlJpU2HkBBAk8lhhCOZEEAdSh67v6EQQKXK2vFbqhBAL0uXKPiyEEC5y1NflLsQQENMEJYwxBBAzczMzMzMEEA="},"y":{"dtype":"f8","bdata":"oTYAYzTnDj\u002fk8s+RpQEQP5YAy+p9lBA\u002fNDUL3kksET95nicpMckRP9PC7qxcaxI\u002fyUbIdPYSEz\u002fBcD6+KcATP6MisAAjcxQ\u002f3d0r9Q8sFT\u002fGanSeH+sVP5+3L1GCsBY\u002fG4dAvGl8Fz\u002fNgkvxCE8YP3ZJaG2UKBk\u002fTAz\u002fIUIJGj93UtN9SfEaP0l0PHbj4Bs\u002fbmSMkErYHD\u002f7V6XrutcdP2Xgvkly3x4\u002fiQZbGrDvHz8X\u002fDXCWoQgP3NqVbhiFSE\u002f3hMQShKrIT92TG+9jEUiP5UweEn25CI\u002f4AK8G3SJIz9bcgJeLDMkP2EJDjxG4iQ\u002fOwd76emWJT\u002fb4rinQFEmP\u002fa1Hsx0ESc\u002fSMwaxrHXJz+ek30lJKQoP2cl4KD5dik\u002f4qImHGFQKj9ymh6vijArPzCqOaynFyw\u002foJNkp+oFLT\u002fP8Pp8h\u002fstP36611iz+C4\u002fz8qCvaT9Lz9oxL3FSYUwP4pxUITcDzE\u002fcWDb86eeMT+1hQQoyjEyP6A4lvJhyTI\u002f739u545lMz8hWH1gcQY0PyT+0YEqrDQ\u002f1Em3PdxWNT8WIN9YqQY2P5gEnW61uzY\u002f+M8v9SR2Nz9ijhpCHTY4PxqIjI7E+zg\u002fJHTY+0HHOT840\u002fqXvZg6P89tL2JgcDs\u002fF\u002fGVT1ROPD9uoOVPxDI9P70SMFLcHT4\u002fTO2ySckPPz9lR1yZXARAP4\u002fLw4tthEA\u002f\u002f5ywii8IQT8FIscwu49BP3ZdPacpG0I\u002f2f1vqJSqQj+inH6CFj5DPzAd7xnK1UM\u002f3RhY7MpxRD8eRRITNRJFP3m+8EUlt0U\u002fGCIA3rhgRj9NXUzYDQ9HP5QZrdhCwkc\u002fAqqYLHd6SD\u002faXP3NyjdJPzsSIWZe+kk\u002fTviGUFPCSj+eSdudy49LP7Lq5BbqYkw\u002fCcB8P9I7TT+JlYpZqBpOP+hsB2iR\u002f04\u002fgQgFMrPqTz\u002fdQd0iGm5QP1\u002flyv0d6lA\u002fVt+oPHlpUT\u002fRaYhaQOxRPyb5PTyIclI\u002fdLLyMWb8Uj\u002fwyrf474lTPwuyG7w7G1Q\u002f9+bAF2CwVD8bWfYYdElVPw0yUUCP5lU\u002fq+ZHg8mHVj8Pa85NOy1XP2xk84P91lc\u002fMTN+gymFWD\u002fkrI0l2TdZP6deN8Am71k\u002fsCwnKC2rWj+bJT+yB2xbPz1bNzXSMVw\u002fA5U9C6n8XD8irJQTqcxdP51hM7TvoV4\u002fVXxi25p8Xz+w\u002fqyAZC5gP8Oa7pRMoWA\u002fmMPqchUXYT\u002fXznUqz49hPyVxjxOKC2I\u002f5notz1aKYj9veQVIRgxjP6YfVbNpkWM\u002fHVapkdIZZD+L1KOvkqVkP\u002f4jvya8NGU\u002fDekQXmHHZT8eVQoLlV1mP3GcNjJq92Y\u002fjk73J\u002fSUZz9YbT6RRjZoPx4fRmR122g\u002fF9dF6ZSEaT+4ziS7uTFqPwyqKcj44mo\u002fjCCnUmeYaz8Jg6XxGlJsP1H3iJEpEG0\u002fLkC0dKnSbT846Sc0sZluP+KsHcBXZW8\u002fCvVPMNoacD8Jfw5bb4VwPx0s+1x38nA\u002f9IyFX\u002f5hcT\u002fGCx+5ENRxPyWGe+26SHI\u002flWnPrQnAcj92OwvZCTpzPxt1FHzItnM\u002fN5z70VI2dD\u002fKfy9Etrh0PwKBrWoAPnU\u002fP9AuDD\u002fGdT9OhVIegFF2P915xMXR33Y\u002fIc1gVkJxdz\u002fb91NT4AV4P75WN2+6nXg\u002f6BEqjN84eT9kR+a7Xtd5Pxpf0j9HeXo\u002fu20Oiageez\u002fBjH04ksd7P94Myx4UdHw\u002fQWhrPD4kfT\u002fO2pjBINh9P\u002f6ESw7Mj34\u002frP4sslBLfz+on0O2XwWAP2VgF5YUZ4A\u002f5OCzh8\u002fKgD9YRuMxmTCBPy5UBVN6mIE\u002fAmz6wHsCgj+E5wtppm6CPwi\u002f0U8D3YI\u002fQW8VkZtNgz8BEbJfeMCDP5yVcQWjNYQ\u002fpxrn4iSthD\u002fwR0ZvByeFP5OqNzhUo4U\u002fKwCq4RQihj9xZaAlU6OGP+Ja\u002fdMYJ4c\u002fQ5NK0m+thz9Bf30bYjaIP7mJuL\u002f5wYg\u002fNfgI5EBQiT+eYyHCQeGJPye9EKgGdYo\u002fjtP195kLiz8XTa8nBqWLP34KiMBVQYw\u002fVujfXpPgjD8w09CxyYKNP7oj0HoDKI4\u002f9zhMjUvQjj8lRUbOrHuPPy4i9BkZFZA\u002fRYmLYvNtkD+ZS4DMasiQP\u002f\u002f+UuuEJJE\u002fp\u002fkwWkeCkT8EbrW7t+GRPy6AqLnbQpI\u002fyFC8BLmlkj\u002fF+UdUVQqTP255AGa2cJM\u002fFIiv\u002feHYkz9EVejk3UKUP9IpuuqvrpQ\u002fdutg410clT+nf\u002fOn7YuVPzELEBZl\u002fZU\u002fnwyGD8pwlj8+T\u002f55IuaWP161oD50XZc\u002f+9e3ScXWlz8Ae1KKG1KYP\u002fbU4vF8z5g\u002fsKnbc+9OmT8xN0sFedCZP9v0c5wfVJo\u002fICVjMOnZmj8SOoW422GbP0ANOCz965s\u002fO+xaglN4nD\u002fuetyw5AadP2VtRqy2l50\u002fuBpHZ88qnj+W6zjSNMCeP9emp9rsV58\u002f9p7Tav3xnz\u002faYZk0NkegP4vN99uflqA\u002fBxMzmj7noD9CWk9bFTmhP\u002fZWYwgnjKE\u002fOKlTh3bgoT9IPY26BjaiP0qtvoDajKI\u002f9aeQtPTkoj8fX10sWD6jP+UB57kHmaM\u002fdkUNKgb1oz\u002fIAIJEVlKkP3DefMv6sKQ\u002fbilue\u002fYQpT9zuLAKTHKlP9T8Oin+1KU\u002fCDlPgA85pj9m5Cqygp6mP0FAtVlaBac\u002fiSQtCpltpz95CNZOQdenP8tNpKpVQqg\u002fZ9Pol9iuqD9i1vuHzBypP9Mm5+IzjKk\u002fR7cPBxH9qT9pjd5IZm+qPzgaafI146o\u002fnQEZQ4JYqz9cV1NvTc+rPyRaH6CZR6w\u002f4bLM8mjBrD9CQZl4vTytP3F8VjaZua0\u002f6nAOJP43rj\u002fYYqgs7reuP40ejS1rOa8\u002fjP5K9na8rz+Q2BykiSCwP8TiDuugY7A\u002fcwXmIYKnsD+gZOYSLuywP6Bvf4ClMbE\u002frmYdJel3sT+K3Pqy+b6xPwc58tPXBrI\u002fbkFPKYRPsj9arKBL\u002f5iyP73FicpJ47I\u002f+yiULGQusz\u002fwlQHvTnqzP+PmnYUKx7M\u002feCyRWpcUtD+n9THO9WK0PwXJ1zYmsrQ\u002fg9Wt4CgCtT\u002f\u002f34UN\u002flK1P\u002flzq\u002fSlpLU\u002f01y3wiD3tT8rbmOZbkq2P7SgXo+PnrY\u002fFoohsIPztj\u002fbNcP7Skm3PzFlzmbln7c\u002fVTwX2lL3tz8zY5Eyk0+4Px6gJkGmqLg\u002fVPKNyosCuT8vMyOHQ125P8NDvyLNuLk\u002f8M2QPCgVuj+FnvVmVHK6P6yfVCdR0Lo\u002fJ3n49R0vuz+l3eo9uo67P8+K0Fwl77s\u002fFgPGol5QvD8gBz1SZbK8P9rV2p84Fb0\u002fxDhXstd4vT+pY1yiQd29P56tZ3p1Qr4\u002fhCmrNnKovj\u002f2JPDENg+\u002fPwmTegTCdr8\u002fFWrtxRLfvz\u002fa\u002fJflEyTAPwggquP\u002fWMA\u002f6yE\u002fr0yOwD\u002fAPOaS+cPAP6OcoNEF+sA\u002fRqbWpnAwwT\u002fLy01GOWfBPzXzHtxensE\u002f13CtjODVwT\u002f5mJ50vQ3CPx\u002fr0aj0RcI\u002fEtpZNoV+wj8GM3UibrfCP8YmiWqu8MI\u002fa\u002fcbBEUqwz8TTdDcMGTDP2A0YdpwnsM\u002fycie2gPZwz+njWuz6BPEP8N3ujIeT8Q\u002fOaqNHqOKxD9g6PU0dsbEP2O\u002fEiyWAsU\u002fIGkTsgE\u002fxT+6ajhtt3vFP4Lw1fu1uMU\u002fVelW9Pv1xT\u002f74kDlhzPGP4GpOFVYccY\u002f+aoHw2uvxj9QIaKlwO3GP8QDLmxVLMc\u002fHMEKfihrxz9ZxNk6OKrHP6bEh\u002fqC6cc\u002fH+JWDQcpyD8NkOm7wmjIP\u002fNNTke0qMg\u002f4i8M6dnoyD9QNzDTMSnJP4t8WzC6ack\u002fCirSI3GqyT9ZSYvJVOvJP8hiQTZjLMo\u002fWe+Dd5ptyj\u002fjncmT+K7KP7hqg4p78Mo\u002fhIowVCEyyz+aJ3Pi53PLP+7xJSDNtcs\u002fIYFy8c73yz8yiOgz6znMP2Lalb4ffMw\u002fbkAfYmq+zD+KHdroyADNPwTj5hY5Q80\u002fylFMqriFzT9miBNbRcjNP5vcZNvcCs4\u002fzX6l13xNzj9Y5pX2IpDOP5kEcdnM0s4\u002fsj0MHHgVzz+GJPhUIljPP7n4oRXJms8\u002fDOR16mndzz\u002fC+oAtARDQP8zrDPVHMdA\u002fxZ\u002f9CohS0D+SiTkswHPQPyOhgRPvlNA\u002f6qiEeRO20D93yvIULNfQP+aIkZo3+NA\u002ffAdQvTQZ0T8To1suIjrRP3rcNJ3+WtE\u002fYJLEt8h70T\u002feiHEqf5zRPwM9NqAgvdE\u002faQK3wqvd0T8qaVg6H\u002f7RPwbqVa55HtI\u002fCdfYxLk+0j9ujg8j3l7SP+XtRG3lftI\u002f+gP4Rs6e0j+A\u002ffNSl77SP+VMaDM\u002f3tI\u002f+ggBisT90j80gf\u002f3JR3TP74EUx5iPNM\u002fSdqxnXdb0z\u002f0ZbIWZXrTPxB75CkpmdM\u002fF9fqd8K30z93w5ShL9bTP37b90dv9NM\u002f\u002fvOJDIAS1D\u002fXITuRYDDUP\u002fbcj3gPTtQ\u002f5Ty7ZYtr1D9uTLn80ojUP19xaeLkpdQ\u002f1+WovL\u002fC1D9EQG0yYt\u002fUPyoH3+vK+9Q\u002fHU50kvgX1T\u002fBWAvR6TPVP0pBBVSdT9U\u002fR59gyRFr1T8hLNTgRYbVPxNi6Us4odU\u002fARMXvue71T\u002fw89vsUtbVP3Ma2Y948NU\u002f2WjsYFcK1j9s5koc7iPWP3wAm4A7PdY\u002fkrEOTz5W1j+Hi31L9W7WP8ehfjxfh9Y\u002fpVCC63qf1j\u002fR3uskR7fWPxP2KrjCztY\u002fLfDUd+zl1j8y9b05w\u002fzWPyboEddFE9c\u002fMx9tLHMp1z9t5PQZSj\u002fXP1a8b4PJVNc\u002fN29dUPBp1z+K0g5svX7XP5NPvcUvk9c\u002fYySiUEan1z99XA0EALvXP2d+fNtbztc\u002fW+uw1ljh1z+L7sX59fPXPyZ5Rk0yBtg\u002fnohC3gwY2D+ONGS+hCnYP7NhBASZOtg\u002fahc\u002fykhL2D9QdQcxk1vYP4RGO113a9g\u002fHDC2ePR62D+deGSyCYrYP+5lVT62mNg\u002fty\u002fNVfmm2D\u002fbg1Y30rTYP+ea0yZAwtg\u002fZNqObULP2D\u002fvAkta2NvYPx\u002foUkEB6Ng\u002fRbCIfLzz2D8fmnRrCf\u002fYP6BGU3PnCdk\u002fFIUj\u002f1UU2T\u002fgn7N\u002fVB7ZPygormviJ9k\u002f3j6mP\u002f8w2T+OWSN+qjnZP5GBrK\u002fjQdk\u002fGAzTYqpJ2T\u002fYyTws\u002flDZP\u002fysrabeV9k\u002fKeQQc0te2T9yaYE4RGTZPykEUqTIadk\u002fg7wUathu2T8nwKFDc3PZP8i2HfGYd9k\u002f8YX\u002fOEl72T9YgxXog37ZPxMVitFIgdk\u002f\u002fr7nzpeD2T\u002fwnBzAcIXZPzZJfYvThtk\u002fCC\u002fHHcCH2T+VSCJqNojZP5VIImo2iNk\u002fCC\u002fHHcCH2T82SX2L04bZP\u002fCcHMBwhdk\u002f\u002fr7nzpeD2T8TFYrRSIHZP1iDFeiDftk\u002f8YX\u002fOEl72T\u002fIth3xmHfZPyfAoUNzc9k\u002fg7wUathu2T8pBFKkyGnZP3JpgThEZNk\u002fKeQQc0te2T\u002f8rK2m3lfZP9jJPCz+UNk\u002fGAzTYqpJ2T+Rgayv40HZP45ZI36qOdk\u002f3j6mP\u002f8w2T8oKK5r4ifZP+Cfs39UHtk\u002fFIUj\u002f1UU2T+gRlNz5wnZPx+adGsJ\u002f9g\u002fRbCIfLzz2D8f6FJBAejYP\u002fACS1rY29g\u002fZdqObULP2D\u002fnmtMmQMLYP9uDVjfStNg\u002fti\u002fNVfmm2D\u002fuZVU+tpjYP514ZLIJitg\u002fHDC2ePR62D+CRjtdd2vYP1F1BzGTW9g\u002fahc\u002fykhL2D+zYQQEmTrYP440ZL6EKdg\u002fnohC3gwY2D8meUZNMgbYP4vuxfn189c\u002fW+uw1ljh1z9ofnzbW87XP39cDQQAu9c\u002fYySiUEan1z+TT73FL5PXP4vSDmy9ftc\u002fN29dUPBp1z9WvG+DyVTXP23k9BlKP9c\u002fMh9tLHMp1z8n6BHXRRPXPzL1vTnD\u002fNY\u002fLfDUd+zl1j8R9iq4ws7WP9Pe6yRHt9Y\u002fpVCC63qf1j\u002fHoX48X4fWP4aLfUv1btY\u002fk7EOTz5W1j9+AJuAOz3WP2zmShzuI9Y\u002f2WjsYFcK1j90GtmPePDVP\u002fHz2+xS1tU\u002fARMXvue71T8TYulLOKHVPx8s1OBFhtU\u002fSJ9gyRFr1T9KQQVUnU\u002fVP8FYC9HpM9U\u002fHE50kvgX1T8sB9\u002fryvvUP0RAbTJi39Q\u002f1+WovL\u002fC1D9dcWni5KXUP3BMufzSiNQ\u002f5zy7ZYtr1D\u002f23I94D07UP9chO5FgMNQ\u002fAPSJDIAS1D+A2\u002fdHb\u002fTTP3fDlKEv1tM\u002fF9fqd8K30z8Oe+QpKZnTP\u002fVlshZletM\u002fSdqxnXdb0z++BFMeYjzTPzKB\u002f\u002fclHdM\u002f\u002fAgBisT90j\u002flTGgzP97SP4D981KXvtI\u002f+AP4Rs6e0j\u002fn7URt5X7SP26ODyPeXtI\u002fCdfYxLk+0j8G6lWueR7SPyxpWDof\u002ftE\u002fawK3wqvd0T8DPTagIL3RP96IcSp\u002fnNE\u002fYpLEt8h70T983DSd\u002flrRPxOjWy4iOtE\u002ffAdQvTQZ0T\u002fkiJGaN\u002fjQP3nK8hQs19A\u002f6qiEeRO20D8joYET75TQP5GJOSzAc9A\u002fx5\u002f9CohS0D\u002fM6wz1RzHQP8L6gC0BENA\u002fDOR16mndzz+++KEVyZrPP4kk+FQiWM8\u002fsj0MHHgVzz+ZBHHZzNLOP1zmlfYikM4\u002f0n6l13xNzj+b3GTb3ArOP2aIE1tFyM0\u002fxlFMqriFzT8H4+YWOUPNP4od2ujIAM0\u002fbkAfYmq+zD9f2pW+H3zMPzWI6DPrOcw\u002fIYFy8c73yz\u002fu8SUgzbXLP5cnc+Lnc8s\u002fh4owVCEyyz+8aoOKe\u002fDKP+OdyZP4rso\u002fWe+Dd5ptyj\u002fLYkE2YyzKP1xJi8lU68k\u002fCirSI3GqyT+LfFswumnJP0w3MNMxKck\u002f5i8M6dnoyD\u002fzTU5HtKjIPw2Q6bvCaMg\u002fHOJWDQcpyD+qxIf6gunHP1nE2To4qsc\u002fHMEKfihrxz\u002fAAy5sVSzHP1MhoqXA7cY\u002f+aoHw2uvxj+BqThVWHHGP\u002fviQOWHM8Y\u002fWulW9Pv1xT+G8NX7tbjFP7pqOG23e8U\u002fIGkTsgE\u002fxT9nvxIslgLFP2Po9TR2xsQ\u002fOaqNHqOKxD\u002fDd7oyHk\u002fEP6SNa7PoE8Q\u002fzcie2gPZwz9gNGHacJ7DPxNN0NwwZMM\u002faPcbBEUqwz\u002fJJolqrvDCPwYzdSJut8I\u002fEtpZNoV+wj8f69Go9EXCP\u002fyYnnS9DcI\u002f2nCtjODVwT818x7cXp7BP8vLTUY5Z8E\u002fSabWpnAwwT+mnKDRBfrAP8A85pL5w8A\u002f6yE\u002fr0yOwD8FIKrj\u002f1jAP938l+UTJMA\u002fFWrtxRLfvz8Jk3oEwna\u002fP+8k8MQ2D78\u002fiymrNnKovj+erWd6dUK+P6ljXKJB3b0\u002fvjhXstd4vT\u002ff1dqfOBW9PyUHPVJlsrw\u002fFgPGol5QvD\u002fPitBcJe+7P6vd6j26jrs\u002fK3n49R0vuz+sn1QnUdC6P4We9WZUcro\u002f7M2QPCgVuj\u002fIQ78izbi5Py8zI4dDXbk\u002fVPKNyosCuT8ZoCZBpqi4PzdjkTKTT7g\u002fVTwX2lL3tz8xZc5m5Z+3P9c1w\u002ftKSbc\u002fG4ohsIPztj+0oF6Pj562PytuY5luSrY\u002f01y3wiD3tT\u002f9c6v0paS1PwXghQ3+UrU\u002fg9Wt4CgCtT8Fydc2JrK0P6v1Mc71YrQ\u002ffSyRWpcUtD\u002fj5p2FCsezP\u002fCVAe9OerM\u002f9iiULGQusz\u002fBxYnKSeOyP1qsoEv\u002fmLI\u002fbkFPKYRPsj8COfLT1wayP47c+rL5vrE\u002frmYdJel3sT+gb3+ApTGxP6Bk5hIu7LA\u002fdwXmIYKnsD\u002fI4g7roGOwP5DYHKSJILA\u002fjP5K9na8rz+VHo0tazmvP+BiqCzut64\u002f6nAOJP43rj9xfFY2mbmtPzpBmXi9PK0\u002f6LLM8mjBrD8kWh+gmUesP1xXU29Nz6s\u002flgEZQ4JYqz9BGmnyNeOqP2mN3khmb6o\u002fR7cPBxH9qT\u002fNJufiM4ypP2jW+4fMHKk\u002fbdPol9iuqD\u002fLTaSqVUKoP3kI1k5B16c\u002fjyQtCpltpz9HQLVZWgWnP2bkKrKCnqY\u002fCDlPgA85pj\u002fO\u002fDop\u002ftSlP3i4sApMcqU\u002fbilue\u002fYQpT9w3nzL+rCkP8MAgkRWUqQ\u002fe0UNKgb1oz\u002flAee5B5mjPx9fXSxYPqM\u002f8KeQtPTkoj9Prb6A2oyiP0g9jboGNqI\u002fOKlTh3bgoT\u002f2VmMIJ4yhP0ZaT1sVOaE\u002fBxMzmj7noD+Lzffbn5agP9phmTQ2R6A\u002f\u002fp7Tav3xnz\u002fXpqfa7FefP5brONI0wJ4\u002fuBpHZ88qnj9lbUastpedP\u002fl63LDkBp0\u002fO+xaglN4nD9ADTgs\u002feubPxI6hbjbYZs\u002fKiVjMOnZmj\u002fb9HOcH1SaPzE3SwV50Jk\u002fsKnbc+9OmT\u002f91OLxfM+YPwB7UoobUpg\u002f+9e3ScXWlz9etaA+dF2XP0dP\u002fnki5pY\u002fnwyGD8pwlj8xCxAWZf2VP6d\u002f86fti5U\u002fdutg410clT\u002faKbrqr66UP0RV6OTdQpQ\u002fFIiv\u002feHYkz9ueQBmtnCTP8r5R1RVCpM\u002fyFC8BLmlkj8ugKi520KSPwRutbu34ZE\u002fq\u002fkwWkeCkT\u002f\u002f\u002flLrhCSRP5lLgMxqyJA\u002fRYmLYvNtkD80IvQZGRWQPyVFRs6se48\u002f9zhMjUvQjj+6I9B6AyiOPyXT0LHJgo0\u002fYujfXpPgjD9+CojAVUGMPxdNrycGpYs\u002fjtP195kLiz8uvRCoBnWKP55jIcJB4Yk\u002fNfgI5EBQiT+5ibi\u002f+cGIP0l\u002ffRtiNog\u002fQ5NK0m+thz\u002fiWv3TGCeHP3FloCVTo4Y\u002fMwCq4RQihj+Tqjc4VKOFP\u002fBHRm8HJ4U\u002fpxrn4iSthD+UlXEFozWEPwERsl94wIM\u002fQW8VkZtNgz8Iv9FPA92CP4TnC2mmboI\u002fB2z6wHsCgj8uVAVTepiBP1hG4zGZMIE\u002f5OCzh8\u002fKgD9rYBeWFGeAP6ifQ7ZfBYA\u002frP4sslBLfz\u002f+hEsOzI9+P9zamMEg2H0\u002fQWhrPD4kfT\u002feDMseFHR8P8GMfTiSx3s\u002fwm0Oiageez8aX9I\u002fR3l6P2RH5rte13k\u002f6BEqjN84eT++Vjdvup14P+H3U1PgBXg\u002fIc1gVkJxdz\u002fdecTF0d92P06FUh6AUXY\u002fRdAuDD\u002fGdT8Cga1qAD51P8p\u002fL0S2uHQ\u002fN5z70VI2dD8fdRR8yLZzP3Y7C9kJOnM\u002flWnPrQnAcj8lhnvtukhyP8oLH7kQ1HE\u002f9IyFX\u002f5hcT8dLPtcd\u002fJwPwl\u002fDltvhXA\u002fBvVPMNoacD\u002fqrB3AV2VvPzjpJzSxmW4\u002fLkC0dKnSbT9R94iRKRBtPxiDpfEaUmw\u002fjCCnUmeYaz8MqinI+OJqP7jOJLu5MWo\u002fJNdF6ZSEaT8eH0ZkddtoP1htPpFGNmg\u002fjk73J\u002fSUZz99nDYyavdmPx5VCguVXWY\u002fDekQXmHHZT\u002f+I78mvDRlP4XUo6+SpWQ\u002fHVapkdIZZD+mH1WzaZFjP295BUhGDGM\u002f3Hotz1aKYj8ucY8TigtiP9fOdSrPj2E\u002fmMPqchUXYT\u002fDmu6UTKFgP7T+rIBkLmA\u002fVXxi25p8Xz+dYTO076FePyKslBOpzF0\u002fCZU9C6n8XD89Wzc10jFcP5slP7IHbFs\u002fsCwnKC2rWj+uXjfAJu9ZP\u002fGsjSXZN1k\u002fMTN+gymFWD9sZPOD\u002fdZXPwNrzk07LVc\u002ft+ZHg8mHVj8NMlFAj+ZVPxtZ9hh0SVU\u002f9+bAF2CwVD8Ushu8OxtUP\u002fDKt\u002fjviVM\u002fdLLyMWb8Uj8m+T08iHJSP9ppiFpA7FE\u002fVt+oPHlpUT9f5cr9HepQP91B3SIablA\u002fkQgFMrPqTz\u002f4bAdokf9OP4mVilmoGk4\u002fCcB8P9I7TT+s6uQW6mJMP6VJ253Lj0s\u002fTviGUFPCSj87EiFmXvpJP81c\u002fc3KN0k\u002fCKqYLHd6SD+UGa3YQsJHP01dTNgND0c\u002fGCIA3rhgRj9\u002fvvBFJbdFPx5FEhM1EkU\u002f3RhY7MpxRD8wHe8ZytVDP6ucfoIWPkM\u002f2f1vqJSqQj92XT2nKRtCPwUixzC7j0E\u002f9pywii8IQT+Xy8OLbYRAP2VHXJlcBEA\u002fTO2ySckPPz+tEjBS3B0+P32g5U\u002fEMj0\u002fF\u002fGVT1ROPD\u002fPbS9iYHA7PyrT+pe9mDo\u002fMXTY+0HHOT8aiIyOxPs4P2KOGkIdNjg\u002f+M8v9SR2Nz+jBJ1utbs2Pxsg31ipBjY\u002f1Em3PdxWNT8k\u002ftGBKqw0PytYfWBxBjQ\u002f+X9u545lMz+NOJbyYckyP8eFBCjKMTI\u002femDb86eeMT+ScVCE3A8xP2jEvcVJhTA\u002fz8qCvaT9Lz9uutdYs\u002fguP7\u002fw+nyH+y0\u002fhJNkp+oFLT9LqjmspxcsP4eaHq+KMCs\u002f8aImHGFQKj9nJeCg+XYpP56TfSUkpCg\u002fSMwaxrHXJz\u002frtR7MdBEnP9DiuKdAUSY\u002fUAd76emWJT92CQ48RuIkP2VyAl4sMyQ\u002f6gK8G3SJIz+VMHhJ9uQiP3ZMb72MRSI\u002f1RMQShKrIT9jalW4YhUhPwf8NcJahCA\u002fqQZbGrDvHz+D4L5Jct8ePxlYpeu61x0\u002fbmSMkErYHD9JdDx24+AbP3dS031J8Ro\u002fTAz\u002fIUIJGj9cSWhtlCgZP\u002fCCS\u002fEITxg\u002fModAvGl8Fz+2ty9RgrAWP8ZqdJ4f6xU\u002f3d0r9Q8sFT+jIrAAI3MUP8FwPr4pwBM\u002ftkbIdPYSEz\u002fBwu6sXGsSP4qeJykxyRE\u002fRTUL3kksET+WAMvqfZQQP+Tyz5GlARA\u002foTYAYzTnDj8="},"type":"scatter"},{"fill":"tozeroy","fillcolor":"rgba(255, 0, 0, 0.5)","mode":"none","name":"Left Tail (below -1.96)","showlegend":false,"x":{"dtype":"f8","bdata":"zczMzMzMEMDNzMzMzMwQwJa6ighGwRDAXqhIRL+1EMAnlgaAOKoQwPCDxLuxnhDAuXGC9yqTEMCBX0AzpIcQwEpN\u002fm4dfBDAEzu8qpZwEMDcKHrmD2UQwKQWOCKJWRDAbQT2XQJOEMA28rOZe0IQwP\u002ffcdX0NhDAx80vEW4rEMCQu+1M5x8QwFmpq4hgFBDAIpdpxNkIEMDUCU8ApvoPwGblyneY4w\u002fA98BG74rMD8CJnMJmfbUPwBp4Pt5vng\u002fArFO6VWKHD8A9LzbNVHAPwM8KskRHWQ\u002fAYOYtvDlCD8DywakzLCsPwIOdJaseFA\u002fAFXmhIhH9DsCmVB2aA+YOwDgwmRH2zg7AyQsViei3DsBa55AA26AOwOzCDHjNiQ7AfZ6I779yDsAPegRnslsOwKBVgN6kRA7AMjH8VZctDsDDDHjNiRYOwFXo80R8\u002fw3A5sNvvG7oDcB4n+szYdENwAl7Z6tTug3Am1bjIkajDcAsMl+aOIwNwL4N2xErdQ3AT+lWiR1eDcDgxNIAEEcNwHKgTngCMA3ABHzK7\u002fQYDcCVV0Zn5wENwCYzwt7Z6gzAuA4+VszTDMBJ6rnNvrwMwNvFNUWxpQzAbKGxvKOODMD+fC00lncMwI9YqauIYAzAITQlI3tJDMCyD6GabTIMwETrHBJgGwzA1caYiVIEDMBmohQBRe0LwPh9kHg31gvAilkM8Cm\u002fC8AbNYhnHKgLwKwQBN8OkQvAPux\u002fVgF6C8DPx\u002fvN82ILwGGjd0XmSwvA8n7zvNg0C8CEWm80yx0LwBU266u9BgvApxFnI7DvCsA47eKaotgKwMrIXhKVwQrAW6TaiYeqCsDsf1YBepMKwH5b0nhsfArAEDdO8F5lCsChEspnUU4KwDLuRd9DNwrAxMnBVjYgCsBWpT3OKAkKwOeAuUUb8gnAeFw1vQ3bCcAKOLE0AMQJwJsTLazyrAnALO+oI+WVCcC+yiSb134JwFCmoBLKZwnA4YEcirxQCcByXZgBrzkJwAQ5FHmhIgnAlhSQ8JMLCcAn8AtohvQIwLjLh9943QjASqcDV2vGCMDcgn\u002fOXa8IwG1e+0VQmAjA\u002fjl3vUKBCMCQFfM0NWoIwCLxbqwnUwjAs8zqIxo8CMBEqGabDCUIwNaD4hL\u002fDQjAZ19eivH2B8D4OtoB5N8HwIoWVnnWyAfAHPLR8MixB8CtzU1ou5oHwD6pyd+tgwfA0IRFV6BsB8BiYMHOklUHwPM7PUaFPgfAhBe5vXcnB8AW8zQ1ahAHwKjOsKxc+QbAOaosJE\u002fiBsDKhaibQcsGwFxhJBM0tAbA7TygiiadBsB+GBwCGYYGwBD0l3kLbwbAos8T8f1XBsAzq49o8EAGwMSGC+DiKQbAVmKHV9USBsDoPQPPx\u002fsFwHkZf0a65AXACvX6vazNBcCc0HY1n7YFwC6s8qyRnwXAv4duJISIBcBQY+qbdnEFwOI+ZhNpWgXAcxriiltDBcAE9l0CTiwFwJbR2XlAFQXAKK1V8TL+BMC5iNFoJecEwEpkTeAX0ATA3D\u002fJVwq5BMBuG0XP\u002fKEEwP\u002f2wEbvigTAkNI8vuFzBMAirrg11FwEwLSJNK3GRQTARWWwJLkuBMDWQCycqxcEwGgcqBOeAATA+fcji5DpA8CK058Cg9IDwByvG3p1uwPAroqX8WekA8A\u002fZhNpWo0DwNBBj+BMdgPAYh0LWD9fA8D0+IbPMUgDwIXUAkckMQPAFrB+vhYaA8Coi\u002fo1CQMDwDpndq376wLAy0LyJO7UAsBcHm6c4L0CwO756RPTpgLAgNVli8WPAsARseECuHgCwKKMXXqqYQLANGjZ8ZxKAsDFQ1VpjzMCwFYf0eCBHALA6PpMWHQFAsB61sjPZu4BwAuyREdZ1wHAnI3AvkvAAcAuaTw2PqkBwL9EuK0wkgHAUSA0JSN7AcDi+6+cFWQBwHTXKxQITQHABbOni\u002fo1AcCXjiMD7R4BwChqn3rfBwHAukUb8tHwAMBLIZdpxNkAwN38EuG2wgDAbtiOWKmrAMAAtArQm5QAwJGPhkeOfQDAI2sCv4BmAMC0Rn42c08AwEUi+q1lOADA1\u002f11JVghAMBo2fGcSgoAwPRp2yh65v+\u002fFiHTF1+4\u002f7862MoGRIr\u002fv1yPwvUoXP+\u002fXI\u002fC9Shc\u002f78="},"y":{"dtype":"f8","bdata":"AAAAAAAAAAChNgBjNOcOPygiyk\u002fWMhA\u002fL3M5OsT6ED+Aw134wcsRP323kzExphI\u002fvIynTHeKEz\u002foTF2Q\u002fXgUP40O40QxchU\u002fcswx1oN2Fj9FWGH3aoYXP5jw88Zgohg\u002fTfsd9OPKGT94ZQ7ldwAbP0shPN6kQxw\u002fHza9KviUHT9VzKtFBPUeP2\u002fMToIwMiA\u002fx\u002f2Y4dXxID8tjd3Hw7khP6YZg6xOiiI\u002fsaejDs5jIz+DNRaNnEYkP8MMDv8XMyU\u002fMMZRjaEpJj+u6gvMnSonP2AMN9V0Nig\u002fmyenY5JNKT9RCLLuZXAqP7VjeMZinys\u002f\u002fj\u002fRMADbLD+ENNmGuSMuP071JlMOei8\u002f4URTOEFvMD9AOg4VzygxP4r+KC336TE\u002fz9d1RgKzMj9ehvWPO4QzP7Uj7rLwXTQ\u002fhWdY5HFANT9Yo6P2ESw2P6Cy0GsmITc\u002faw7khwcgOD9XHq9jECk5PyTR8P+ePDo\u002fbW\u002fNWBRbOz\u002friZ151IQ8PzrME5FGuj0\u002fBmm5BdX7Pj9jXWDF9iRAPzPPlpqA0kA\u002fVHmpSMKGQT9hRlLc90FCP3Js7jNfBEM\u002fr6C6CjjOQz+rLDgExJ9EP0NVurdGeUU\u002fW3QbvAVbRj9CFZmzSEVHP1FV1ldZOEg\u002fcLcDhoM0ST9SiitLFTpKPw3tofBeSUs\u002fDG6XCLNiTD8VK816ZoZNP\u002fJIaZHQtE4\u002fBoPqBUvuTz95wBwHmZlQP2RF6zTyQVE\u002fWxCRt2HwUT8ucl+MGaVSPy6WhQlNYFM\u002fPEPY5DAiVD8mqaM6++pUPwBGhpTjulU\u002fKuFT8CKSVj8vkP\u002fG83BXPyyrixOSV1g\u002fSoz+WTtGWT\u002fR51quLj1aP4B+mrusPFs\u002fct+pyvdEXD+N4GPJU1ZdP81oi1EGcV4\u002fZhrCr1aVXz85Lj31xmFgP8SbcWT7\u002fWA\u002fRTXm7G6fYT\u002fEh0C9SEZiP+ONy+6w8mI\u002f3vrYiNCkYz\u002frKBuE0VxkP+e69s3eGmU\u002fLPvKSyTfZT8P+i\u002fezqlmP3ZoKWQMe2c\u002f7SJNvgtTaD\u002fQW9zR\u002fDFpP3RLzosQGGo\u002fqkfL43gFaz\u002fPGxffaPprPyR1aZMU92w\u002flC+zKbH7bT8dSs\u002fgdAhvP+ggD4jLDnA\u002fiEYFFaidcD+AdTrf7DBxP\u002fSZgz63yHE\u002fLym2GyVlcj9UA7bxVAZzPyqIdM5lrHM\u002f0irgU3dXdD9GzMO4qQd1P7YjlckdvXU\u002f73cx6fR3dj\u002fv64cRUTh3PxqdMNRU\u002fnc\u002fM9HvWiPKeD\u002fpbiRo4Jt5P8\u002f6IFewc3o\u002fllBuHLhRez+hTvdFHTZ8P+KpHPsFIX0\u002fMB2w\u002fJgSfj8\u002fJ9ak\u002fQp\u002fP7\u002fEZvMtBYA\u002fvdxNJ26IgD+6uk4AVA+BP5lWfVz0mYE\u002fGnh+ZWQogj\u002flyCOQubqCP1Za+JsJUYM\u002f+ze9kmrrgz9roNXH8omEPyh+ote4LIU\u002fgrvMptPThT99DH5hWn+GP7TLh3pkL4c\u002fTYd3qgnkhz933JjuYZ2IP71B5IeFW4k\u002flWHa+Yweij\u002fXp0sJkeaKPxynC7uqs4s\u002f0fyPUvOFjD+kXHpQhF2NP+JtDXF3Oo4\u002fbSiMquYcjz96sMEVdgKQP4CbfixReZA\u002fzwxP5hHzkD+kjVWpxW+RP0Ko\u002fPN575E\u002fz\u002fviWzxykj\u002fPlbuMGviSPzR0IkcigZM\u002f4BRlX2ENlD8W+T685ZyUP9cFilW9L5U\u002fJ6ziMvbFlT96xj9qnl+WP2Yafh7E\u002fJY\u002fzHDffXWdlz\u002fnOH3AwEGYP82sria06Zg\u002fGHFi912VmT\u002fHq2t+zESaP5+RwgoO+Jo\u002fpmu47DCvmz98GR90Q2qcP3oYZO5TKZ0\u002fWBqfpHDsnT\u002fGOZTZp7OeP0zdqccHf58\u002f+S5pT08noD+HxDRBPZGgPz4Mg8NU\u002faA\u002fBKAf2JxroT81OTN3HNyhP\u002fvBGo7aTqI\u002fsKk4\u002ft3Doj\u002fPk8CbLTujP9V4fSzQtKM\u002fh1SSZswwpD\u002fBfDXvKK+kPx7AZlnsL6U\u002fd2ugJB2zpT9pWYO7wTimP\u002fEufnLgwKY\u002f\u002fOtvhn9Lpz9K90UbpdinPz3QlTpXaKg\u002fCpIy0pv6qD8Ad76yeI+pPxuLOI7zJqo\u002f0MCG9hHBqj+Jm\u002fxb2V2rP8+l3gtP\u002fas\u002f1+viLnifrD9is67HWUStP\u002f+tUbH4660\u002fAAAAAAAAAAA="},"type":"scatter"},{"fill":"tozeroy","fillcolor":"rgba(255, 0, 0, 0.5)","mode":"none","name":"Right Tail (above +1.96)","showlegend":false,"x":{"dtype":"f8","bdata":"XI\u002fC9Shc\u002fz9cj8L1KFz\u002fPznYygZEiv8\u002fFiHTF1+4\u002fz\u002fzadsoeub\u002fP2jZ8ZxKCgBA1\u002f11JVghAEBFIvqtZTgAQLRGfjZzTwBAImsCv4BmAECRj4ZHjn0AQP+zCtCblABAbtiOWKmrAEDc\u002fBLhtsIAQEshl2nE2QBAuUUb8tHwAEAoap963wcBQJaOIwPtHgFABbOni\u002fo1AUB01ysUCE0BQOL7r5wVZAFAUSA0JSN7AUC\u002fRLitMJIBQC5pPDY+qQFAnI3AvkvAAUALskRHWdcBQHnWyM9m7gFA6PpMWHQFAkBWH9HggRwCQMVDVWmPMwJAM2jZ8ZxKAkCijF16qmECQBCx4QK4eAJAf9Vli8WPAkDu+ekT06YCQFwebpzgvQJAy0LyJO7UAkA5Z3at++sCQKiL+jUJAwNAFrB+vhYaA0CF1AJHJDEDQPP4hs8xSANAYh0LWD9fA0DQQY\u002fgTHYDQD9mE2lajQNArYqX8WekA0Acrxt6dbsDQIrTnwKD0gNA+fcji5DpA0BoHKgTngAEQNZALJyrFwRARGWwJLkuBECziTStxkUEQCKuuDXUXARAkNI8vuFzBED\u002f9sBG74oEQG0bRc\u002f8oQRA3D\u002fJVwq5BEBKZE3gF9AEQLmI0Wgl5wRAJ61V8TL+BECW0dl5QBUFQAT2XQJOLAVAcxriiltDBUDiPmYTaVoFQFBj6pt2cQVAvoduJISIBUAtrPKskZ8FQJzQdjWftgVACvX6vazNBUB5GX9GuuQFQOc9A8\u002fH+wVAVmKHV9USBkDEhgvg4ikGQDOrj2jwQAZAoc8T8f1XBkAQ9Jd5C28GQH4YHAIZhgZA7TygiiadBkBcYSQTNLQGQMqFqJtBywZAOKosJE\u002fiBkCnzrCsXPkGQBbzNDVqEAdAhBe5vXcnB0DyOz1GhT4HQGFgwc6SVQdA0IRFV6BsB0A+qcnfrYMHQK3NTWi7mgdAHPLR8MixB0CKFlZ51sgHQPg62gHk3wdAZ19eivH2B0DWg+IS\u002fw0IQESoZpsMJQhAsszqIxo8CEAh8W6sJ1MIQJAV8zQ1aghA\u002fjl3vUKBCEBsXvtFUJgIQNuCf85drwhASqcDV2vGCEC4y4ffeN0IQCbwC2iG9AhAlRSQ8JMLCUAEORR5oSIJQHJdmAGvOQlA4YEcirxQCUBQpqASymcJQL7KJJvXfglALO+oI+WVCUCbEy2s8qwJQAo4sTQAxAlAeFw1vQ3bCUDmgLlFG\u002fIJQFWlPc4oCQpAxMnBVjYgCkAy7kXfQzcKQKASymdRTgpADzdO8F5lCkB+W9J4bHwKQOx\u002fVgF6kwpAW6TaiYeqCkDKyF4SlcEKQDjt4pqi2ApAphFnI7DvCkAVNuurvQYLQIRabzTLHQtA8n7zvNg0C0Bgo3dF5ksLQM\u002fH+83zYgtAPux\u002fVgF6C0CsEATfDpELQBo1iGccqAtAiVkM8Cm\u002fC0D4fZB4N9YLQGaiFAFF7QtA1caYiVIEDEBE6xwSYBsMQLIPoZptMgxAIDQlI3tJDECPWKmriGAMQP58LTSWdwxAbKGxvKOODEDaxTVFsaUMQEnquc2+vAxAuA4+VszTDEAmM8Le2eoMQJRXRmfnAQ1AA3zK7\u002fQYDUByoE54AjANQODE0gAQRw1AT+lWiR1eDUC+DdsRK3UNQCwyX5o4jA1AmlbjIkajDUAJe2erU7oNQHif6zNh0Q1A5sNvvG7oDUBU6PNEfP8NQMMMeM2JFg5AMjH8VZctDkCgVYDepEQOQA56BGeyWw5AfZ6I779yDkDswgx4zYkOQFrnkADboA5AyAsViei3DkA3MJkR9s4OQKZUHZoD5g5AFHmhIhH9DkCDnSWrHhQPQPLBqTMsKw9AYOYtvDlCD0DOCrJER1kPQD0vNs1UcA9ArFO6VWKHD0AaeD7eb54PQImcwmZ9tQ9A98BG74rMD0Bm5cp3mOMPQNQJTwCm+g9AIpdpxNkIEEBYqauIYBQQQJC77UznHxBAx80vEW4rEED+33HV9DYQQDbys5l7QhBAbQT2XQJOEECkFjgiiVkQQNwoeuYPZRBAEju8qpZwEEBKTf5uHXwQQIJfQDOkhxBAuHGC9yqTEEDwg8S7sZ4QQCeWBoA4qhBAXqhIRL+1EECWuooIRsEQQM3MzMzMzBBAzczMzMzMEEA="},"y":{"dtype":"f8","bdata":"AAAAAAAAAAD\u002frVGx+OutP2WzrsdZRK0\u002f1+viLnifrD\u002fTpd4LT\u002f2rP4mb\u002fFvZXas\u002f0MCG9hHBqj8biziO8yaqPwB3vrJ4j6k\u002fEZIy0pv6qD890JU6V2ioP1D3RRul2Kc\u002f\u002fOtvhn9Lpz\u002f3Ln5y4MCmP2lZg7vBOKY\u002ffGugJB2zpT8ewGZZ7C+lP8h8Ne8or6Q\u002fh1SSZswwpD\u002fVeH0s0LSjP8+TwJstO6M\u002fsKk4\u002ft3Doj\u002f7wRqO2k6iPzU5M3cc3KE\u002fBKAf2JxroT8+DIPDVP2gP4vENEE9kaA\u002f+S5pT08noD9M3anHB3+fP8Y5lNmns54\u002fXxqfpHDsnT96GGTuUymdP4YZH3RDapw\u002frGu47DCvmz+fkcIKDviaP8era37MRJo\u002fGHFi912VmT\u002fUrK4mtOmYP+c4fcDAQZg\u002fzHDffXWdlz9mGn4exPyWP4LGP2qeX5Y\u002fJ6ziMvbFlT\u002fXBYpVvS+VPxb5PrzlnJQ\u002f5BRlX2ENlD80dCJHIoGTP8+Vu4wa+JI\u002fz\u002fviWzxykj9CqPzzee+RP6SNVanFb5E\u002f0wxP5hHzkD+Gm34sUXmQP3qwwRV2ApA\u002fbSiMquYcjz\u002fibQ1xdzqOP69celCEXY0\u002f0fyPUvOFjD8cpwu7qrOLP9enSwmR5oo\u002fm2Ha+Yweij+9QeSHhVuJP3fcmO5hnYg\u002fTYd3qgnkhz+0y4d6ZC+HP30MfmFaf4Y\u002firvMptPThT8wfqLXuCyFP2ug1cfyiYQ\u002f+ze9kmrrgz9WWvibCVGDP+nII5C5uoI\u002fGnh+ZWQogj+ZVn1c9JmBP7q6TgBUD4E\u002fwdxNJ26IgD+\u002fxGbzLQWAPz8n1qT9Cn8\u002fMB2w\u002fJgSfj\u002fiqRz7BSF9P6FO90UdNnw\u002fnFBuHLhRez\u002fc+iBXsHN6P+luJGjgm3k\u002fM9HvWiPKeD8mnTDUVP53P\u002fTrhxFROHc\u002f73cx6fR3dj+2I5XJHb11P0bMw7ipB3U\u002f0irgU3dXdD8qiHTOZaxzP1QDtvFUBnM\u002fLym2GyVlcj\u002f0mYM+t8hxP4B1Ot\u002fsMHE\u002fkUYFFaidcD\u002fsIA+Iyw5wPx1Kz+B0CG8\u002flC+zKbH7bT8qdWmTFPdsP94bF99o+ms\u002fqkfL43gFaz90S86LEBhqP9db3NH8MWk\u002f+SJNvgtTaD92aClkDHtnPw\u002f6L97OqWY\u002fLPvKSyTfZT\u002fnuvbN3hplP+soG4TRXGQ\u002f3vrYiNCkYz\u002fjjcvusPJiP8SHQL1IRmI\u002fRTXm7G6fYT\u002fNm3Fk+\u002f1gP0EuPfXGYWA\u002fZhrCr1aVXz\u002fNaItRBnFeP5vgY8lTVl0\u002fgN+pyvdEXD+Afpq7rDxbP9HnWq4uPVo\u002fSoz+WTtGWT8sq4sTkldYPy+Q\u002f8bzcFc\u002fNuFT8CKSVj8ARoaU47pVPyapozr76lQ\u002fPEPY5DAiVD84loUJTWBTPy5yX4wZpVI\u002fWxCRt2HwUT9kRes08kFRP37AHAeZmVA\u002fFoPqBUvuTz\u002fySGmR0LROPxUrzXpmhk0\u002fDG6XCLNiTD8N7aHwXklLP1KKK0sVOko\u002ffLcDhoM0ST9RVdZXWThIP0IVmbNIRUc\u002fW3QbvAVbRj9OVbq3RnlFP6ssOATEn0Q\u002fr6C6CjjOQz9ybO4zXwRDP2ZGUtz3QUI\u002fXXmpSMKGQT8zz5aagNJAP2NdYMX2JEA\u002fBmm5BdX7Pj86zBORRro9P+uJnXnUhDw\u002ffG\u002fNWBRbOz8k0fD\u002fnjw6P1cer2MQKTk\u002faw7khwcgOD+rstBrJiE3P1ijo\u002fYRLDY\u002fhWdY5HFANT+1I+6y8F00P2iG9Y87hDM\u002fz9d1RgKzMj+K\u002figt9+kxP0A6DhXPKDE\u002f6URTOEFvMD9e9SZTDnovP4Q02Ya5Iy4\u002fDEDRMADbLD+1Y3jGYp8rP1EIsu5lcCo\u002fmyenY5JNKT9sDDfVdDYoP67qC8ydKic\u002fMMZRjaEpJj\u002fDDA7\u002fFzMlP4M1Fo2cRiQ\u002fsaejDs5jIz+mGYOsTooiPy2N3cfDuSE\u002fx\u002f2Y4dXxID9\u002fzE6CMDIgP1XMq0UE9R4\u002fHza9KviUHT9nITzepEMcP3hlDuV3ABs\u002fTfsd9OPKGT+Y8PPGYKIYP0VYYfdqhhc\u002fiMwx1oN2Fj+NDuNEMXIVP8lMXZD9eBQ\u002f0IynTHeKEz99t5MxMaYSP4DDXfjByxE\u002fL3M5OsT6ED8oIspP1jIQP6E2AGM05w4\u002fAAAAAAAAAAA="},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"shapes":[{"line":{"color":"gray","dash":"dash","width":2},"type":"line","x0":-1.96,"x1":-1.96,"y0":0,"y1":0.42},{"line":{"color":"gray","dash":"dash","width":2},"type":"line","x0":1.96,"x1":1.96,"y0":0,"y1":0.42},{"line":{"color":"black","width":2},"type":"line","x0":0,"x1":0,"y0":0,"y1":0.45}],"annotations":[{"align":"center","font":{"color":"black","size":14},"showarrow":false,"text":"Z = -1.96","x":-1.96,"y":0.43,"yanchor":"bottom"},{"align":"center","font":{"color":"black","size":14},"showarrow":false,"text":"Z = 1.96","x":1.96,"y":0.43,"yanchor":"bottom"},{"align":"center","bgcolor":"white","bordercolor":"black","borderwidth":1,"font":{"color":"black","size":14},"showarrow":false,"text":"2.5%","x":-3.3,"y":0.15,"yanchor":"middle"},{"arrowcolor":"black","arrowhead":2,"arrowsize":1.5,"arrowwidth":2,"ax":-3.3,"ay":0.15,"showarrow":true,"text":"","x":-2.2,"y":0.03},{"align":"center","bgcolor":"white","bordercolor":"black","borderwidth":1,"font":{"color":"black","size":14},"showarrow":false,"text":"97.5%","x":3.3,"y":0.15,"yanchor":"middle"},{"arrowcolor":"black","arrowhead":2,"arrowsize":1.5,"arrowwidth":2,"ax":3.3,"ay":0.15,"showarrow":true,"text":"","x":2.2,"y":0.03},{"arrowcolor":"black","arrowhead":2,"arrowsize":1.5,"arrowwidth":2,"ax":3.3,"ay":0.15,"showarrow":true,"text":"","x":2.2,"y":0.03}],"title":{"font":{"size":16,"color":"black"},"text":"Standard Normal Distribution"},"xaxis":{"title":{"text":"Z-score (x)"},"tickvals":[-4.2,-4,-3,-1.96,-1,0,1,1.96,3,4,4.2],"range":[-4.3,4.3],"gridcolor":"#DCDCDC","linecolor":"black"},"yaxis":{"title":{"text":"Density"},"range":[-0.02,0.46],"gridcolor":"#DCDCDC","linecolor":"black"},"paper_bgcolor":"white","plot_bgcolor":"white","hovermode":"x","showlegend":false,"width":380,"height":260},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('fb6b4fc0-9d62-4492-86f2-50c49b1f6d44');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="normal-approximation-method" class="slide level2" data-number="2.3">
+<h2><span class="header-section-number">2.3</span> Normal Approximation Method</h2>
+<div style="font-size: 80%">
+<div title="Bootstrap Method">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Bootstrap Method</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Intialization: <span class="math inline">\(B\)</span> (number of bootstrap samples) and the data <span class="math inline">\(D\)</span></li>
+<li><code>for</code> <span class="math inline">\({\color{red}{b}}=1,\dots,B\)</span>:
+<ul>
+<li>Draw a bootstrap sample <span class="math inline">\(D^*_b\)</span> from the data <span class="math inline">\(D\)</span> then compute <span class="math inline">\(\color{red}{\widehat{\theta}_b}\)</span> from <span class="math inline">\(D^*_b\)</span>.</li>
+<li>Store <span class="math inline">\(\color{red}{\widehat{\theta}_b}\)</span> to the list <span class="math inline">\(\color{red}{\widehat{\Theta}}\)</span>.</li>
+</ul></li>
+<li>Return <span class="math inline">\(\color{red}{\widehat{\Theta}}=[\color{red}{\widehat{\theta}_1}, \dots, \color{red}{\widehat{\theta}_B}]\)</span> and the average &amp; std: <span class="math inline">\(\begin{cases}{\color{blue}{\widehat{\theta}^*}}&amp;=\frac{1}{B}\sum_{{\color{red}{b}}=1}^B\color{red}{\widehat{\theta}_{\color{red}{b}}}\\ {\color{purple}{\text{SD}}}&amp;=\sqrt{\frac{1}{B-1}\sum_{{\color{red}{b}}=1}^B({\color{red}{\widehat{\theta}}_{\color{red}{b}}}-{\color{blue}{\widehat{\theta}^*}})^2}\end{cases}\)</span>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Let <span class="math inline">\({\color{red}{q}_{\alpha}}=\phi^{-1}(\alpha)\)</span> for <span class="math inline">\(\alpha\in(0,1)\)</span> and <span class="math inline">\(\phi^{-1}\)</span> is the inverse CDF of the standard normal distribution.</li>
+<li>Confidence interval: <span class="box"><span class="math inline">\(\text{CI3}_{\color{red}{1-\alpha}}({\color{blue}{\theta}})=\left[\color{blue}{\widehat{\theta}^*}-{\color{purple}{\text{SD}}}{\color{red}{q_{\alpha/2}}},\color{blue}{\widehat{\theta}^*}+{\color{purple}{\text{SD}}}{\color{red}{q_{1-\alpha/2}}}\right].\)</span></span></li>
+</ul>
+</div>
+<!-- ## Percentile Method
+:::{style="font-size: 90%"}
+- By sorting all bootstrap estimates, we can find the 95% confidence interval (CI) as the middle range $[q_{0.025},q_{0.975}]$ of the estimates:
+
+$$
+\boxed{
+CI_{95\%}
+=
+[q_{0.025},q_{0.975}]
+}
+$$
+
+:::{.fragment}
+**Key idea:**
+
+> Bootstrap approximates the sampling distribution without repeatedly collecting new datasets.
+
+:::
+::: -->
+</section>
+<section id="bias-corrected-bootstrap" class="slide level2" data-number="2.4">
+<h2><span class="header-section-number">2.4</span> Bias-corrected bootstrap</h2>
+<div style="font-size: 80%">
+<ul>
+<li>In practice, bootstrap estimates can be biased.</li>
+<li><strong>Bias-corrected bootstrap confidence interval</strong> aims to correct this.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bias-correction.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</section></section>
+<section>
+<section id="bagging-method" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="3">
+<h1><span class="header-section-number">3</span> Bagging Method</h1>
+
+</section>
+<section id="from-bootstrap-to-bagging" class="slide level2" data-number="3.1">
+<h2><span class="header-section-number">3.1</span> From Bootstrap to Bagging</h2>
+<div style="font-size: 90%">
+<ul>
+<li>Bootstrap is also used as the basis in <strong>Machine Learning</strong>.</li>
+<li>Train ML model <span class="math inline">\(f_b\)</span> on a bootstrap dataset <span class="math inline">\(B_b\)</span>: <span class="vspace" style="--space: -25px"><span class="math display">\[f_1(x),f_2(x),\ldots,f_B(x)\]</span></span></li>
+<li>Then average their predictions: <span class="vspace" style="--space: -25px"><span class="math display">\[\boxed{\hat f_{\text{bag}}(x)=\frac{1}{B}\sum_{b=1}^{B}f_b(x)}\]</span></span></li>
+<li>This is called: <strong>Bootstrap Aggregating</strong> — <strong>Bagging</strong>.</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="bagging-in-practice">Bagging in Practice</h3>
+<div style="font-size: 90%">
+<div class="r-stack">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bagging1.png" class="fragment fade-out quarto-figure quarto-figure-center" data-fragment-index="1" width="950" height="560"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bagging2.png" class="fragment fade-in-then-out quarto-figure quarto-figure-center" data-fragment-index="1" width="950" height="560"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/bagging3.png" class="fragment fade-in quarto-figure quarto-figure-center" data-fragment-index="2" width="950" height="560"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 data-animate="true" id="what-does-it-aim-to-do">What does it aim to do?</h3>
+<div style="font-size: 90%">
+<ul>
+<li class="fragment">Individual models trained on bootstrap samples can have high variance and very biased.</li>
+<li class="fragment">Averaging several models can make the final prediction <strong>more stable</strong> (reducing variance).</li>
+</ul>
+<div class="fragment" data-box-id="box-1">
+<div id="00595ed1" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="1f3feb00-c406-44a1-a5ed-f2aba973484b" class="plotly-graph-div" style="height:320px; width:950px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("1f3feb00-c406-44a1-a5ed-f2aba973484b")) {                    Plotly.newPlot(                        "1f3feb00-c406-44a1-a5ed-f2aba973484b",                        [{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 1","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"8KeyfpKT2T\u002f+eeOK57XuP+uFpsm1zMM\u002f1iVUbai84D9plxMGn+7vP349+ryJV4E\u002fPAS69fExoT8PSSYFHJ7APwy8U22j69w\u002f7428ryG07z9M3q4InMqiP2QrxOIMGsI\u002fzyZ\u002f62cV3z\u002fBYAEtSPnvP1VPFL6n2Wo\u002fFf0QRSDDij+BZQpcmWmqP1ynHAHKDMk\u002fGnWO0ckl5D+Dzbuvg9ntP93a0OjzC9A\u002fxazdce8L6D8Jy8xND+jnP\u002fzvG8CZL+g\u002fkvGrRbGf5z8neSkQFrzoP2+XeNKNduY\u002fqga4Yk7H6j9FooSqVnrhP8MpY34buu8\u002fTDaKc\u002fZSoT9LZXak5rzAP6QwbGgsGd0\u002flH\u002fzhaS87z9pBvt9bLOgPzhCqNX2J8A\u002f\u002fQDwS9k73D+hbPBjho7vP9SLz9jN+as\u002fvAPnQXtyyj\u002fvFR3LkvvkPyb\u002fEw+G5ew\u002fCaE8Xmlr1j+uu+RQuSHtP\u002fP88B6v49Q\u002fJ2jvVm8k7D97mSsWGCTbP4ucqdAeQ+8\u002f8E0xZ8oQtz\u002fChLnuxPzUPw=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 2","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"EEWWIM2J6z95AXaAjLfeP3OUqL7U8u8\u002fgcq476tLej\u002fokgqbdCCaP5ER1KfNdbk\u002fEwhsR5Xt1j8WM7lemW3tP3YvqRrg69I\u002fR\u002f+qbZmn6j8BVrM8Sc\u002fhP0h0L8Ayl+8\u002fJYNRI4HdqT+qfcKy\u002f47IP8sjZg7A2OM\u002fWiYnYH8m7j\u002fo0eW1I+LLP1GTBB8tz+U\u002fp502WRLI6z+jHCbqg0zdP4wkL8ehxe8\u002fSRS8FuH5nD93wpTN+Se8PwnTi+o0D9k\u002fQcip7J9+7j8KkUcm8PPGP9wPi7VE1uI\u002f7sn7xnL+7j9ZciRGii6\u002fP9y5K1M8Yts\u002fhoUOSIVV7z9Cwg7Hz920P+ggjh9nKtM\u002fZFKkmTva6j+9sPPNKUfhP5j6oIW8y+8\u002fSSqDQQ\u002f3mT\u002fC7TNng065P+VytagVztY\u002fwZ6GUp5b7T+xjG9rSGTTP0JEB5JACOs\u002f5Mo+60XJ4D+s1y8kOOzvPzhR5Zqhu4M\u002fD8aVKvWKoz9aTs5B\u002f8vCP52FqllaCeA\u002f6tq5EPX\u002f7z\u002fdEBrRhN71Pg=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 3","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"24VLP2Xw5T8nhQqxSZfrP8nsQbGQad4\u002f0b0O1tXr7z\u002f+S0YFdR2EP4rWtE\u002fh6qM\u002ft2h01oYkwz+7LWNipEfgP\u002fjY+2x+\u002fe8\u002fsXHUKAYLVD9JzhRDvwR0P2iKhGOz65M\u002f24Sd+n2Isz8S3VGB8grSP0UIaXKQ6ek\u002fGipb9te34z9g3i44nUXuP+c5BN3vJ8o\u002f9FZO9anP5D9oWUCBRxvtP2iZji31DdU\u002fwoPGeJJB7D\u002fgNhA+XnLaP\u002fVTtpZKCe8\u002fQN1NAuzovT+\u002fdyqdUmraPxBrybZ9Bu8\u002f5v8Xcho9vj8cRb2puaraP8tIxsZ2HO8\u002fJz8sguqmuz84Rr81SKrYP5ugAfuZUe4\u002frrQu35J8yT\u002f0hMdCcGnkP6o1OBQike0\u002f21+2lBD80T8OKjwGjtzpP\u002ftWyOT\u002f1+M\u002fDnwnGjgn7j9debV\u002f7dfLPxs5QwxpyeU\u002fsWSg7G3Q6z931p+2NhvdPw4+jB0Dve8\u002fEuTL3ymcoD\u002fYWEegNxLAPxaE8EBOG9w\u002fDi5vQ7yG7z8tMtrvDN6tPw=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 4","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"81ZPeJGG4j9YwkSw3zPvPxhDQXRG4bg\u002fA0iJAUN21j8fKj7SNCjtP3GNRYYUudQ\u002f2HtW76AG7D+FEuBnL9jbP116NVDade8\u002fCxM+Uin6sD\u002f1B3Zm37PPP6difGzC2ec\u002fJOQzXMRL6D+twAOzqWXnPwyVwRsLKek\u002fuYOgb9SC5T9PWELmGjTsPwlMWt63xNo\u002fL43dogsl7z8HA26MRqO6Pzhl\u002fRS03dc\u002fuTB3SLXu7T\u002fI8GOIgPHOPzpu8qGEduc\u002fWGJXE7wJ6T\u002fjUAr8DMrlP8z+JbWAz+s\u002fj8BEwq8g3T8tASOR\u002f73vP\u002fFt60QTXqA\u002f8l0Rj0Gwvz9apzVUGMTbP9yzNvCVcO8\u002fxI2VT+qcsT8VPZwCs2bQP9wzgmlpZeg\u002foYnmoScw5z9eaVHImIrpP4wK5BrHnuQ\u002fqGsamelU7T8o62sUB5HTPxEMbXhEK+s\u002fPYR7shlo4D+A6YxjtfrvPzHf79DxJmU\u002fyjAohPYYhT+RmA0oU+GkPzPTSH9VB8Q\u002fsQnvWwrl4D8fYeOOYubvPw=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 5","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"BE4bLLzGzD\u002fJRZJJlU7mP9QbqCccB+s\u002f6zZJQWzM4D9ChUVpmOvvPySOvO6TWoQ\u002fSbSHCcsmpD\u002f\u002fK1U8wFvDP7lk9WVBbuA\u002fx4V1dxD67z\u002fEXjS7urlnP0rty4gjqIc\u002fa0mk7i5ipz+d3jfjyVDGPxI3gn\u002fRbOI\u002fZPpdEs9D7z\u002frweDNxfu2P1mTAzGI69Q\u002fFikviuAp7D9qu5dWBgPbP7vs3bHxOO8\u002fGMv8hQJHuD9tDHdanvnVP4NdwrIB3Ow\u002fKpKhFLGo1j+Tbrhl9UXtP4LfzF199NM\u002fZtt04ll36z\u002fsUHd2qCHfP1xBfCD3+e8\u002fs4XdtfAeaD+\u002fUeIuwgyIP8sNcI11xKc\u002feLWfmwOqxj\u002fUVIuMsKbiP76NuYsWH+8\u002fQSNuKJVXuz\u002ffhC67\u002fWvYP0Cf52ySNO4\u002f5ApWI5gayz9hj+ptWl3lPz0QIZwNZ+w\u002fKakiWk+L2T\u002fcVks9lLLuP65mV2ib\u002fcM\u002fp0tIzFre4D\u002feyq\u002fM2+fvP40LSdr8EYg\u002fwn25xJDJpz\u002febrlopa7GPw=="},"type":"scatter"},{"line":{"color":"black","width":4},"marker":{"color":"black","size":6},"mode":"lines+markers","name":"Ensemble Average (N=1000)","x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"oCwIa0qA3z\u002fezgAfAALpP2eSvzU8KeE\u002fopSDP7523D\u002fKLdA6PVPfP77DDQ3wE+A\u002fpXTxu3nx3z8mYzF+Q\u002fffPzOhQGfDG+A\u002fwGnlNB0o4D8Gv5R8OUXfP8\u002fzgaVanN8\u002f84wbNuP\u002f3j+lyLnueqrfP4fUhiY8p98\u002fdatohoed4D\u002f6fP5FyDvgP1F62ydv7N8\u002f+0f9mfvc3z8rpXnbfRLgP9UgeB8r7t8\u002f3QmS1ic+4D97KJCvRnXgPwE\u002fFg2DS98\u002fVt\u002frg\u002fk94D8AlGiLgRbgP1Xa+PTUAOA\u002f9lOlVZfM3j9xZQWJg4XfPxtvn2D\u002fTd8\u002fYkPQskfN3z\u002fc2y9vlmngP3U0ABzAMOA\u002fTuJQVaFT4D8MeDxZ+yHgP1TfOyqCF98\u002fORCM2Tno3z9d6PjYIL\u002fgP4No6WhSm98\u002fmXFpP4k93z9Y+EYy5bHgP3TJ2F8SLOA\u002fTTufrK6M4D\u002foAffYbw\u002ffPw6g5xv9z98\u002f2tLk+yf63z9SXcEL8ejeP4skYxjJQuA\u002f6ScmE8V+3j9zr6qCVSzgPw=="},"type":"scatter"},{"line":{"color":"red","dash":"dash","width":2},"mode":"lines","name":"Theoretical Steady State (0.5)","x":[0,49],"y":[0.5,0.5],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"title":{"text":"Order from Chaos: Ensemble Averaging of the Logistic Map","font":{"size":20}},"xaxis":{"title":{"text":"Time Step (n)"},"gridcolor":"#E5E5E5","zeroline":false},"yaxis":{"title":{"text":"Population Value (x)"},"range":[-0.05,1.05],"gridcolor":"#E5E5E5","zeroline":false},"legend":{"x":0.75,"y":1.05,"bgcolor":"rgba(255, 255, 255, 0.8)","bordercolor":"gray","borderwidth":1},"paper_bgcolor":"white","plot_bgcolor":"white","width":950,"height":320,"annotations":[{"align":"left","font":{"color":"gray","size":12},"showarrow":false,"text":"\u003cb\u003eIndividual Paths:\u003c\u002fb\u003e Highly variable and chaotic.","x":0.02,"xref":"paper","y":0.985,"yref":"paper"},{"align":"left","font":{"color":"black","size":12},"showarrow":false,"text":"\u003cb\u003eEnsemble Average:\u003c\u002fb\u003e Averaging over many independent paths leads to the stable state of 0.5.","x":0.02,"xref":"paper","y":0.92,"yref":"paper"}]},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('1f3feb00-c406-44a1-a5ed-f2aba973484b');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 data-animate="true" id="why-does-averaging-reduce-variance">4. Why Does Averaging Reduce Variance?</h3>
+<div style="font-size: 90%">
+<div data-box-id="box-1">
+<div id="99f8d2f4" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.1.1.min.js" integrity="sha256-HUEFyfiTnZJxCxur99FjbKYTvKSzwDaD3/x5TqHpFu4=" crossorigin="anonymous"></script>                <div id="4efd68ba-2ff2-4c38-b3be-506881329704" class="plotly-graph-div" style="height:320px; width:950px;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("4efd68ba-2ff2-4c38-b3be-506881329704")) {                    Plotly.newPlot(                        "4efd68ba-2ff2-4c38-b3be-506881329704",                        [{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 1","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"8KeyfpKT2T\u002f+eeOK57XuP+uFpsm1zMM\u002f1iVUbai84D9plxMGn+7vP349+ryJV4E\u002fPAS69fExoT8PSSYFHJ7APwy8U22j69w\u002f7428ryG07z9M3q4InMqiP2QrxOIMGsI\u002fzyZ\u002f62cV3z\u002fBYAEtSPnvP1VPFL6n2Wo\u002fFf0QRSDDij+BZQpcmWmqP1ynHAHKDMk\u002fGnWO0ckl5D+Dzbuvg9ntP93a0OjzC9A\u002fxazdce8L6D8Jy8xND+jnP\u002fzvG8CZL+g\u002fkvGrRbGf5z8neSkQFrzoP2+XeNKNduY\u002fqga4Yk7H6j9FooSqVnrhP8MpY34buu8\u002fTDaKc\u002fZSoT9LZXak5rzAP6QwbGgsGd0\u002flH\u002fzhaS87z9pBvt9bLOgPzhCqNX2J8A\u002f\u002fQDwS9k73D+hbPBjho7vP9SLz9jN+as\u002fvAPnQXtyyj\u002fvFR3LkvvkPyb\u002fEw+G5ew\u002fCaE8Xmlr1j+uu+RQuSHtP\u002fP88B6v49Q\u002fJ2jvVm8k7D97mSsWGCTbP4ucqdAeQ+8\u002f8E0xZ8oQtz\u002fChLnuxPzUPw=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 2","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"EEWWIM2J6z95AXaAjLfeP3OUqL7U8u8\u002fgcq476tLej\u002fokgqbdCCaP5ER1KfNdbk\u002fEwhsR5Xt1j8WM7lemW3tP3YvqRrg69I\u002fR\u002f+qbZmn6j8BVrM8Sc\u002fhP0h0L8Ayl+8\u002fJYNRI4HdqT+qfcKy\u002f47IP8sjZg7A2OM\u002fWiYnYH8m7j\u002fo0eW1I+LLP1GTBB8tz+U\u002fp502WRLI6z+jHCbqg0zdP4wkL8ehxe8\u002fSRS8FuH5nD93wpTN+Se8PwnTi+o0D9k\u002fQcip7J9+7j8KkUcm8PPGP9wPi7VE1uI\u002f7sn7xnL+7j9ZciRGii6\u002fP9y5K1M8Yts\u002fhoUOSIVV7z9Cwg7Hz920P+ggjh9nKtM\u002fZFKkmTva6j+9sPPNKUfhP5j6oIW8y+8\u002fSSqDQQ\u002f3mT\u002fC7TNng065P+VytagVztY\u002fwZ6GUp5b7T+xjG9rSGTTP0JEB5JACOs\u002f5Mo+60XJ4D+s1y8kOOzvPzhR5Zqhu4M\u002fD8aVKvWKoz9aTs5B\u002f8vCP52FqllaCeA\u002f6tq5EPX\u002f7z\u002fdEBrRhN71Pg=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 3","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"24VLP2Xw5T8nhQqxSZfrP8nsQbGQad4\u002f0b0O1tXr7z\u002f+S0YFdR2EP4rWtE\u002fh6qM\u002ft2h01oYkwz+7LWNipEfgP\u002fjY+2x+\u002fe8\u002fsXHUKAYLVD9JzhRDvwR0P2iKhGOz65M\u002f24Sd+n2Isz8S3VGB8grSP0UIaXKQ6ek\u002fGipb9te34z9g3i44nUXuP+c5BN3vJ8o\u002f9FZO9anP5D9oWUCBRxvtP2iZji31DdU\u002fwoPGeJJB7D\u002fgNhA+XnLaP\u002fVTtpZKCe8\u002fQN1NAuzovT+\u002fdyqdUmraPxBrybZ9Bu8\u002f5v8Xcho9vj8cRb2puaraP8tIxsZ2HO8\u002fJz8sguqmuz84Rr81SKrYP5ugAfuZUe4\u002frrQu35J8yT\u002f0hMdCcGnkP6o1OBQike0\u002f21+2lBD80T8OKjwGjtzpP\u002ftWyOT\u002f1+M\u002fDnwnGjgn7j9debV\u002f7dfLPxs5QwxpyeU\u002fsWSg7G3Q6z931p+2NhvdPw4+jB0Dve8\u002fEuTL3ymcoD\u002fYWEegNxLAPxaE8EBOG9w\u002fDi5vQ7yG7z8tMtrvDN6tPw=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 4","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"81ZPeJGG4j9YwkSw3zPvPxhDQXRG4bg\u002fA0iJAUN21j8fKj7SNCjtP3GNRYYUudQ\u002f2HtW76AG7D+FEuBnL9jbP116NVDade8\u002fCxM+Uin6sD\u002f1B3Zm37PPP6difGzC2ec\u002fJOQzXMRL6D+twAOzqWXnPwyVwRsLKek\u002fuYOgb9SC5T9PWELmGjTsPwlMWt63xNo\u002fL43dogsl7z8HA26MRqO6Pzhl\u002fRS03dc\u002fuTB3SLXu7T\u002fI8GOIgPHOPzpu8qGEduc\u002fWGJXE7wJ6T\u002fjUAr8DMrlP8z+JbWAz+s\u002fj8BEwq8g3T8tASOR\u002f73vP\u002fFt60QTXqA\u002f8l0Rj0Gwvz9apzVUGMTbP9yzNvCVcO8\u002fxI2VT+qcsT8VPZwCs2bQP9wzgmlpZeg\u002foYnmoScw5z9eaVHImIrpP4wK5BrHnuQ\u002fqGsamelU7T8o62sUB5HTPxEMbXhEK+s\u002fPYR7shlo4D+A6YxjtfrvPzHf79DxJmU\u002fyjAohPYYhT+RmA0oU+GkPzPTSH9VB8Q\u002fsQnvWwrl4D8fYeOOYubvPw=="},"type":"scatter"},{"hoverinfo":"skip","line":{"dash":"dot","width":1},"marker":{"size":4},"mode":"lines+markers","name":"Chaotic Path 5","opacity":0.4,"x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"BE4bLLzGzD\u002fJRZJJlU7mP9QbqCccB+s\u002f6zZJQWzM4D9ChUVpmOvvPySOvO6TWoQ\u002fSbSHCcsmpD\u002f\u002fK1U8wFvDP7lk9WVBbuA\u002fx4V1dxD67z\u002fEXjS7urlnP0rty4gjqIc\u002fa0mk7i5ipz+d3jfjyVDGPxI3gn\u002fRbOI\u002fZPpdEs9D7z\u002frweDNxfu2P1mTAzGI69Q\u002fFikviuAp7D9qu5dWBgPbP7vs3bHxOO8\u002fGMv8hQJHuD9tDHdanvnVP4NdwrIB3Ow\u002fKpKhFLGo1j+Tbrhl9UXtP4LfzF199NM\u002fZtt04ll36z\u002fsUHd2qCHfP1xBfCD3+e8\u002fs4XdtfAeaD+\u002fUeIuwgyIP8sNcI11xKc\u002feLWfmwOqxj\u002fUVIuMsKbiP76NuYsWH+8\u002fQSNuKJVXuz\u002ffhC67\u002fWvYP0Cf52ySNO4\u002f5ApWI5gayz9hj+ptWl3lPz0QIZwNZ+w\u002fKakiWk+L2T\u002fcVks9lLLuP65mV2ib\u002fcM\u002fp0tIzFre4D\u002feyq\u002fM2+fvP40LSdr8EYg\u002fwn25xJDJpz\u002febrlopa7GPw=="},"type":"scatter"},{"line":{"color":"black","width":4},"marker":{"color":"black","size":6},"mode":"lines+markers","name":"Ensemble Average (N=1000)","x":{"dtype":"i1","bdata":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDE="},"y":{"dtype":"f8","bdata":"oCwIa0qA3z\u002fezgAfAALpP2eSvzU8KeE\u002fopSDP7523D\u002fKLdA6PVPfP77DDQ3wE+A\u002fpXTxu3nx3z8mYzF+Q\u002fffPzOhQGfDG+A\u002fwGnlNB0o4D8Gv5R8OUXfP8\u002fzgaVanN8\u002f84wbNuP\u002f3j+lyLnueqrfP4fUhiY8p98\u002fdatohoed4D\u002f6fP5FyDvgP1F62ydv7N8\u002f+0f9mfvc3z8rpXnbfRLgP9UgeB8r7t8\u002f3QmS1ic+4D97KJCvRnXgPwE\u002fFg2DS98\u002fVt\u002frg\u002fk94D8AlGiLgRbgP1Xa+PTUAOA\u002f9lOlVZfM3j9xZQWJg4XfPxtvn2D\u002fTd8\u002fYkPQskfN3z\u002fc2y9vlmngP3U0ABzAMOA\u002fTuJQVaFT4D8MeDxZ+yHgP1TfOyqCF98\u002fORCM2Tno3z9d6PjYIL\u002fgP4No6WhSm98\u002fmXFpP4k93z9Y+EYy5bHgP3TJ2F8SLOA\u002fTTufrK6M4D\u002foAffYbw\u002ffPw6g5xv9z98\u002f2tLk+yf63z9SXcEL8ejeP4skYxjJQuA\u002f6ScmE8V+3j9zr6qCVSzgPw=="},"type":"scatter"},{"line":{"color":"red","dash":"dash","width":2},"mode":"lines","name":"Theoretical Steady State (0.5)","x":[0,49],"y":[0.5,0.5],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true},"yaxis":{"automargin":true,"gridcolor":"#D1DADE","linecolor":"gray","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2,"gridwidth":1,"linewidth":1,"mirror":true,"showgrid":true,"showline":true}}},"title":{"text":"Order from Chaos: Ensemble Averaging of the Logistic Map","font":{"size":20}},"xaxis":{"title":{"text":"Time Step (n)"},"gridcolor":"#E5E5E5","zeroline":false},"yaxis":{"title":{"text":"Population Value (x)"},"range":[-0.05,1.05],"gridcolor":"#E5E5E5","zeroline":false},"legend":{"x":0.75,"y":1.05,"bgcolor":"rgba(255, 255, 255, 0.8)","bordercolor":"gray","borderwidth":1},"paper_bgcolor":"white","plot_bgcolor":"white","width":950,"height":320,"annotations":[{"align":"left","font":{"color":"gray","size":12},"showarrow":false,"text":"\u003cb\u003eIndividual Paths:\u003c\u002fb\u003e Highly variable and chaotic.","x":0.02,"xref":"paper","y":0.985,"yref":"paper"},{"align":"left","font":{"color":"black","size":12},"showarrow":false,"text":"\u003cb\u003eEnsemble Average:\u003c\u002fb\u003e Averaging over many independent paths leads to the stable state of 0.5.","x":0.02,"xref":"paper","y":0.92,"yref":"paper"}]},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('4efd68ba-2ff2-4c38-b3be-506881329704');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment"><span class="nowrap">Suppose every model has prediction variance:</span> <span class="math inline">\(\mathbb{V}(f_b)=\sigma^2\)</span></li>
+<li class="fragment">If models were independent: <span class="math inline">\(\mathbb{V}\left(\frac{1}{B}\sum_{b=1}^{B}f_b\right)=\frac{\sigma^2}{B}\)</span>.</li>
+<li class="fragment">Therefore: <span class="math inline">\(\boxed{B\uparrow\quad\Rightarrow\quad \text{Variance}\downarrow}\)</span></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="but-bootstrap-models-are-correlated">But bootstrap models are correlated!</h3>
+<div style="font-size: 90%">
+<ul>
+<li class="fragment">In <span class="blue"><strong>Bagging</strong></span>, models are not actually independent!</li>
+<li class="fragment">If pairwise correlation is <span class="math inline">\(\rho\)</span>: <span class="math inline">\(\boxed{\mathbb{V}(\bar f)=\sigma^2\left[\rho+\frac{1-\rho}{B}\right]}\)</span>.</li>
+<li class="fragment">As <span class="math inline">\(B\)</span> gets large: <span class="math inline">\(\mathbb{V}(\bar f)\rightarrow\rho\sigma^2\)</span>.</li>
+<li class="fragment"><span class="blue"><strong>Important ML insight:</strong></span></li>
+</ul>
+<div class="vspace fragment" style="--space: -10px">
+<blockquote>
+<p>More models reduce variance, but <strong>correlation creates a variance floor</strong> (related bootstrap samples <span class="math inline">\(B_b\to\)</span> related models <span class="math inline">\(f_b\)</span>).</p>
+</blockquote>
+</div>
+</div>
+</section>
+
+<section class="slide level2">
+
+<h3 id="summary">Summary</h3>
+<ul>
+<li class="fragment">Bootstrap helps estimating uncertainty of estimators computed from different samples:
+<ul>
+<li class="fragment">Standard errors</li>
+<li class="fragment">Several types of confidence intervals</li>
+<li class="fragment">Sampling distributions</li>
+<li class="fragment">Uncertainty of statistics</li>
+<li class="fragment">It’s also applied to variance reduction in ML models…</li>
+</ul></li>
+</ul>
+<!--
+
+Out-of-Bag (OOB) Estimation: Each bootstrap sample excludes roughly 36.8% (1/e) of original observations. These OOB samples act as a free validation set for hyperparameter tuning and error measurement without needing cross-validation.
+Parametric vs. Non-Parametric Bootstrap: Resampling raw data points directly (non-parametric) versus fitting a theoretical distribution to D and drawing synthetic samples from that model (parametric).
+Confidence Interval Types: Going beyond basic percentile intervals to cover Standard/Normal intervals, Studentized t-intervals, and Bias-Corrected & Accelerated (BCa) intervals for skewed distributions.
+Bootstrap Failure Cases: Knowing when bootstrapping breaks—such as estimating extreme statistics (min/max), small sample sizes, heavy-tailed data, or correlated/time-series data (which requires Block Bootstrap).
+
+-->
+</section>
+<section id="section-1" class="slide level2 unlisted unnumbered no-header" data-background-image="img/bg5.png" data-background-opacity="0.6" data-background-size="35%" data-background-position="center">
+<h2></h2>
+<div class="center">
+<p>🥳 <span class="blue"><strong>Yeahhhh 🥂!!!</strong></span></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<p><span class="blue"><strong>Let’s take a break!</strong></span></p>
+</div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/AUPP_Logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="05-bootstrap-method_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="05-bootstrap-method_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true,"width":"normal","numbers":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. Create the persistent header and footer
+        let header = document.createElement('div');
+        header.id = 'quarto-custom-header';
+        header.innerHTML = `
+            <div class="header-section"></div>
+            <div class="header-subsection"></div>
+        `;
+        
+        let footerLine = document.createElement('div');
+        footerLine.id = 'quarto-custom-footer-line';
+        
+        // Append them to the slide canvas
+        let revealContainer = document.querySelector('.reveal .slides');
+        if (revealContainer) {
+            revealContainer.appendChild(header);
+            revealContainer.appendChild(footerLine);
+        }
+
+        // 2. Function to update text
+        function updateHeader() {
+            let slide = Reveal.getCurrentSlide();
+            if (!slide) return;
+
+            // Hide entirely on title slides
+            if (slide.matches('#title-slide') || slide.classList.contains('title-slide')) {
+                header.style.display = 'none';
+                footerLine.style.display = 'none';
+                return;
+            }
+            header.style.display = 'flex';
+            footerLine.style.display = 'block';
+
+            // Hide entirely on title slides OR slides with the .no-header class
+            if (slide.matches('#title-slide') || 
+                slide.classList.contains('title-slide') || 
+                slide.classList.contains('no-header')) {
+                
+                header.style.display = 'none';
+                footerLine.style.display = 'none';
+                return;
+            }
+
+            // Find Section (h1)
+            let parentStack = slide.closest('section.stack');
+            let sectionTitle = "";
+            if (parentStack) {
+                let h1 = parentStack.querySelector('h1');
+                if (h1) sectionTitle = h1.innerText;
+            }
+
+            // Find Subsection (h2) with MEMORY
+            let h2 = slide.querySelector('h2');
+            let subTitle = "";
+
+            if (h2) {
+                // If the current slide has a title, use it
+                subTitle = h2.innerText;
+            } else if (parentStack) {
+                // If it DOESN'T have a title, look backwards to remember the last one
+                let allSlides = Array.from(parentStack.querySelectorAll('section'));
+                let currentIndex = allSlides.indexOf(slide);
+                
+                for (let i = currentIndex - 1; i >= 0; i--) {
+                    let prevH2 = allSlides[i].querySelector('h2');
+                    if (prevH2) {
+                        subTitle = prevH2.innerText;
+                        break;
+                    }
+                }
+            }
+
+            // Keep the subsection blank if we are looking at the main # Section slide
+            if (slide.querySelector('h1')) {
+                subTitle = "";
+            }
+
+            // Inject the text into the header
+            header.querySelector('.header-section').innerText = sectionTitle;
+            header.querySelector('.header-subsection').innerText = subTitle;
+        }
+
+        // 3. Trigger updates safely
+        if (Reveal.isReady()) {
+            updateHeader();
+        } else {
+            Reveal.on('ready', updateHeader);
+        }
+        Reveal.on('slidechanged', updateHeader);
+    });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
