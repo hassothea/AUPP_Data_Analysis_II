@@ -200,7 +200,7 @@ window.Quarto = {
 </table>
 <p>Sections 1-4 are designed for our <strong>75-minute session</strong>; Section 5 is for you to finish <strong>at home</strong>.</p>
 <p>Run the cell below to load the packages we need.</p>
-<div id="ef4da1b5" class="cell">
+<div id="ef4da1b5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
@@ -213,13 +213,40 @@ window.Quarto = {
 <section id="a-small-skewed-sample" class="level3">
 <h3 class="anchored" data-anchor-id="a-small-skewed-sample"><strong>1.1. A Small, Skewed Sample</strong></h3>
 <p>Imagine we tracked the <strong>session duration</strong> (in minutes) of <span class="math inline">\(n=25\)</span> visitors on a website. Session durations are typically <strong>right-skewed</strong>: most visits are short, a few are very long. Run the cell below to simulate such a sample (treat it as our <em>one and only</em> observed dataset <span class="math inline">\(D\)</span>, exactly as in the lecture).</p>
-<div id="cell-6" class="cell">
+<div id="cell-6" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">25</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>session_times <span class="op">=</span> np.<span class="bu">round</span>(np.random.lognormal(mean<span class="op">=</span><span class="fl">1.6</span>, sigma<span class="op">=</span><span class="fl">0.7</span>, size<span class="op">=</span>n), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>A.1. Statistics and visualization:</strong> Compute statistical summary and visualize the distribution of the data above.</p>
-<div id="2d0baf87" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To do</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="2d0baf87" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(session_times, columns<span class="op">=</span>[<span class="st">'session time'</span>])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.describe())</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sns.histplot(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    df,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'session time'</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    kde<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'#292B71'</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       session time
+count     25.000000
+mean       7.340000
+std        7.076722
+min        1.000000
+25%        2.800000
+50%        4.700000
+75%        8.300000
+max       29.600000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab5-bootstrap-method_files/figure-html/cell-4-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 <p><strong>A.2</strong> In a markdown cell, briefly answer: <em>looking at the histogram, would you trust the Normal (Gaussian) approximation of the sampling distribution of the mean here, given the skewness and small <span class="math inline">\(n=25\)</span>? Why does this matter for building confidence intervals?</em></p>
 <p><strong>A.2.</strong> <em>Your answer here:</em></p>
@@ -228,26 +255,29 @@ window.Quarto = {
 <section id="a-generic-bootstrap-resampler" class="level3">
 <h3 class="anchored" data-anchor-id="a-generic-bootstrap-resampler"><strong>1.2. A Generic Bootstrap Resampler</strong></h3>
 <p><strong>B.</strong> Complete the function below: it should draw <code>B</code> bootstrap samples (each of size <code>n</code>, <strong>with replacement</strong>) from <code>data</code>, apply <code>stat_func</code> to each, and return the array of <code>B</code> bootstrap estimates. <em>Hint: use <code>np.random.choice()</code>.</em></p>
-<div id="cell-12" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bootstrap_estimates(data, stat_func, B<span class="op">=</span><span class="dv">2000</span>):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Draw B bootstrap samples (with replacement) from `data` and</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">    return an array of B values of stat_func evaluated on each sample.</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(data)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    estimates <span class="op">=</span> np.zeros(B)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        sample_b <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: draw one bootstrap sample of size n, with replacement</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        estimates[b] <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: apply stat_func to sample_b</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-12" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bootstrap_estimates(data, stat_func, B<span class="op">=</span><span class="dv">2000</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Draw B bootstrap samples (with replacement) from `data` and</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    return an array of B values of stat_func evaluated on each sample.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(data)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    estimates <span class="op">=</span> np.zeros(B)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        sample_b <span class="op">=</span> np.random.choice(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            data,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            size<span class="op">=</span>n,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            replace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        estimates[b] <span class="op">=</span> stat_func(sample_b)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>C.</strong> Use your function to draw <span class="math inline">\(B=2000\)</span> bootstrap estimates of the <strong>mean</strong> session duration. Plot a histogram of the bootstrap sampling distribution <span class="math inline">\(\widehat\Theta\)</span>, and report the <strong>bootstrap standard error</strong> <span class="math inline">\(\text{SE}(\widehat\theta) = \text{sd}(\widehat\Theta)\)</span>.</p>
-<div id="cell-14" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">2000</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="op">=</span> session_times.mean()  <span class="co"># the original point estimate, from D itself</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>theta_boot_mean <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: bootstrap_estimates(...)</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>se_boot <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: standard deviation of theta_boot_mean (use ddof=1)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-14" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="op">=</span> session_times.mean()  <span class="co"># the original point estimate, from D itself</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>theta_boot_mean <span class="op">=</span> bootstrap_estimates(session_times, np.mean)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>se_boot <span class="op">=</span> theta_boot_mean.std(ddof<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 </section>
@@ -297,59 +327,59 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="percentile-ci"><strong>2.1. Percentile CI</strong></h3>
 <p><strong>A.</strong> Complete <code>percentile_ci</code> below.</p>
 <div id="cell-18" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> percentile_ci(theta_boot, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ci_perc <span class="op">=</span> percentile_ci(theta_boot_mean)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Percentile 95% CI: [</span><span class="sc">{</span>ci_perc[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_perc[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> percentile_ci(theta_boot, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ci_perc <span class="op">=</span> percentile_ci(theta_boot_mean)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Percentile 95% CI: [</span><span class="sc">{</span>ci_perc[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_perc[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="basic-reflection-ci" class="level3">
 <h3 class="anchored" data-anchor-id="basic-reflection-ci"><strong>2.2. Basic (Reflection) CI</strong></h3>
 <p><strong>B.</strong> Complete <code>basic_ci</code> below. Notice how it uses <code>theta_hat</code> (from the original data) explicitly, not just <span class="math inline">\(\widehat\Theta\)</span>.</p>
 <div id="cell-20" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> basic_ci(theta_boot, theta_hat, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    lower_perc, upper_perc <span class="op">=</span> percentile_ci(theta_boot, alpha)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ci_basic <span class="op">=</span> basic_ci(theta_boot_mean, theta_hat)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Basic 95% CI:      [</span><span class="sc">{</span>ci_basic[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_basic[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> basic_ci(theta_boot, theta_hat, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    lower_perc, upper_perc <span class="op">=</span> percentile_ci(theta_boot, alpha)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ci_basic <span class="op">=</span> basic_ci(theta_boot_mean, theta_hat)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Basic 95% CI:      [</span><span class="sc">{</span>ci_basic[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_basic[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="normal-approximation-ci" class="level3">
 <h3 class="anchored" data-anchor-id="normal-approximation-ci"><strong>2.3. Normal-Approximation CI</strong></h3>
 <p><strong>C.</strong> Complete <code>normal_ci</code> below. Use <code>stats.norm.ppf</code> for the quantile <span class="math inline">\(q_{1-\alpha/2}\)</span>.</p>
 <div id="cell-22" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normal_ci(theta_hat, se, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: stats.norm.ppf(1 - alpha/2)</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ci_norm <span class="op">=</span> normal_ci(theta_hat, se_boot)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Normal-approx 95% CI: [</span><span class="sc">{</span>ci_norm[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_norm[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normal_ci(theta_hat, se, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: stats.norm.ppf(1 - alpha/2)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ci_norm <span class="op">=</span> normal_ci(theta_hat, se_boot)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Normal-approx 95% CI: [</span><span class="sc">{</span>ci_norm[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_norm[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="bias-corrected-ci" class="level3">
 <h3 class="anchored" data-anchor-id="bias-corrected-ci"><strong>2.4 Bias-corrected CI</strong></h3>
 <p><strong>D.</strong> Complete <code>bias_corrected_CI</code> below.</p>
 <div id="59bc202e" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bias_corrected_ci(theta_hat, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    bias <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: compute bias</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    c0 <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute correction c0</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: stats.norm.ppf(1 - alpha/2)</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    aL <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: compute lower bound of percentage</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    aU <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: compute upper bound of percentage</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>ci_bias_corrected <span class="op">=</span> bias_corrected_ci(theta_hat)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Normal-approx 95% CI: [</span><span class="sc">{</span>ci_bias_corrected[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_bias_corrected[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bias_corrected_ci(theta_hat, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    bias <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: compute bias</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    c0 <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute correction c0</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: stats.norm.ppf(1 - alpha/2)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    aL <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: compute lower bound of percentage</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    aU <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: compute upper bound of percentage</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lower, upper</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ci_bias_corrected <span class="op">=</span> bias_corrected_ci(theta_hat)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Normal-approx 95% CI: [</span><span class="sc">{</span>ci_bias_corrected[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_bias_corrected[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 </section>
@@ -361,35 +391,35 @@ window.Quarto = {
 <p>For the mean specifically, classical (non-bootstrap) statistics gives us the analytic <span class="math inline">\(t\)</span>-interval: <span class="math display">\[\text{CI}_t = \left[\bar x - t_{1-\alpha/2,\,n-1}\cdot\frac{s}{\sqrt n},\ \bar x + t_{1-\alpha/2,\,n-1}\cdot\frac{s}{\sqrt n}\right]\]</span></p>
 <p><strong>A.</strong> Compute this interval using <code>stats.t.interval</code> with <span class="math inline">\(s=\)</span> sample std (<code>ddof=1</code>).</p>
 <div id="cell-26" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute std of the session_times data.</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>se_analytic <span class="op">=</span> <span class="va">None</span> <span class="co"># Compute SE by s / np.sqrt(n)</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>ci_t <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: use the formula above.</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Classical t-interval: [</span><span class="sc">{</span>ci_t[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_t[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: Compute std of the session_times data.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>se_analytic <span class="op">=</span> <span class="va">None</span> <span class="co"># Compute SE by s / np.sqrt(n)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>ci_t <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: use the formula above.</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Classical t-interval: [</span><span class="sc">{</span>ci_t[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_t[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="side-by-side-comparison" class="level3">
 <h3 class="anchored" data-anchor-id="side-by-side-comparison"><strong>3.2. Side-by-Side Comparison</strong></h3>
 <p><strong>B.</strong> Complete the plotting code below to visualize all four 95% CIs for the mean session duration on the same axis (as horizontal error bars), together with <span class="math inline">\(\widehat\theta\)</span>.</p>
 <div id="cell-28" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ci_dict <span class="op">=</span> {</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Percentile'</span>: ci_perc,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Basic'</span>: ci_basic,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Normal-approx'</span>: ci_norm,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Bias-correction'</span>: ci_bias_corrected,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Classical t'</span>: ci_t,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (name, (lo, hi)) <span class="kw">in</span> <span class="bu">enumerate</span>(ci_dict.items()):</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    center <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: midpoint of (lo, hi)</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    half_width <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: half of (hi - lo)</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    ax.errorbar(center, i, xerr<span class="op">=</span>half_width, fmt<span class="op">=</span><span class="st">'o'</span>, capsize<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'#345a8b'</span>)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>ax.axvline(theta_hat, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="vs">r'</span><span class="dv">$</span><span class="er">\</span><span class="vs">hat</span><span class="ch">\t</span><span class="vs">heta</span><span class="dv">$</span><span class="vs">'</span>)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(ci_dict)))<span class="op">;</span> ax.set_yticklabels(ci_dict.keys())</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Mean session duration (minutes)'</span>)<span class="op">;</span> ax.set_title(<span class="st">'95% CIs for the mean: four methods'</span>)</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ci_dict <span class="op">=</span> {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Percentile'</span>: ci_perc,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Basic'</span>: ci_basic,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Normal-approx'</span>: ci_norm,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Bias-correction'</span>: ci_bias_corrected,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Classical t'</span>: ci_t,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (name, (lo, hi)) <span class="kw">in</span> <span class="bu">enumerate</span>(ci_dict.items()):</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    center <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: midpoint of (lo, hi)</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    half_width <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: half of (hi - lo)</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    ax.errorbar(center, i, xerr<span class="op">=</span>half_width, fmt<span class="op">=</span><span class="st">'o'</span>, capsize<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'#345a8b'</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>ax.axvline(theta_hat, color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="vs">r'</span><span class="dv">$</span><span class="er">\</span><span class="vs">hat</span><span class="ch">\t</span><span class="vs">heta</span><span class="dv">$</span><span class="vs">'</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(ci_dict)))<span class="op">;</span> ax.set_yticklabels(ci_dict.keys())</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Mean session duration (minutes)'</span>)<span class="op">;</span> ax.set_title(<span class="st">'95% CIs for the mean: four methods'</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>C.</strong> In a markdown cell, briefly answer:</p>
 <ol type="i">
@@ -407,18 +437,18 @@ window.Quarto = {
 <p>The <span class="math inline">\(t\)</span>-interval above only works because we have a textbook formula for the standard error of the mean. Bootstrap doesn’t need one — it works for (almost) <strong>any</strong> statistic. Let’s try the <strong>median</strong>, for which there is no simple closed-form CI.</p>
 <p><strong>D.</strong> Repeat the bootstrap + four-CI pipeline for <code>np.median</code> instead of <code>np.mean</code> (reuse your functions!). Print all four CIs.</p>
 <div id="cell-32" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>theta_hat_med <span class="op">=</span> np.median(session_times)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>theta_boot_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: compute median instead.</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>se_boot_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>ci_perc_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ci_basic_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ci_norm_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median (theta_hat):   </span><span class="sc">{</span>theta_hat_med<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Percentile 95% CI:    [</span><span class="sc">{</span>ci_perc_med[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_perc_med[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Basic 95% CI:         [</span><span class="sc">{</span>ci_basic_med[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_basic_med[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Normal-approx 95% CI: [</span><span class="sc">{</span>ci_norm_med[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_norm_med[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>theta_hat_med <span class="op">=</span> np.median(session_times)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>theta_boot_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: compute median instead.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>se_boot_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ci_perc_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>ci_basic_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>ci_norm_med <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median (theta_hat):   </span><span class="sc">{</span>theta_hat_med<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Percentile 95% CI:    [</span><span class="sc">{</span>ci_perc_med[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_perc_med[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Basic 95% CI:         [</span><span class="sc">{</span>ci_basic_med[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_basic_med[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Normal-approx 95% CI: [</span><span class="sc">{</span>ci_norm_med[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_norm_med[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>E.</strong> In one or two sentences: why is there no simple <span class="math inline">\(t\)</span>-interval equivalent for the median, and why does that make bootstrap especially valuable here?</p>
 <p><strong>E.</strong> <em>Your answer here:</em></p>
@@ -431,51 +461,51 @@ window.Quarto = {
 <p>Recall from lecture: <strong>Bagging</strong> (Bootstrap <strong>Agg</strong>regat<strong>ing</strong>) trains one model <span class="math inline">\(f_b\)</span> per bootstrap sample <span class="math inline">\(D_b^*\)</span>, then averages: <span class="math inline">\(\widehat f_{\text{bag}}(x)=\frac1B\sum_b f_b(x)\)</span>. A single model trained on one dataset can be <strong>unstable</strong> (high variance); averaging over many bootstrap-trained models tends to <strong>stabilize</strong> the prediction.</p>
 <p>Let’s see this with a small regression example.</p>
 <div id="cell-36" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">605</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>n_pts <span class="op">=</span> <span class="dv">30</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> np.sort(np.random.uniform(<span class="dv">0</span>, <span class="dv">10</span>, n_pts))          <span class="co"># For training</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> np.sin(x_train) <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.3</span>, n_pts) <span class="co"># For training</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>x_grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">200</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)             <span class="co"># For testing</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, color<span class="op">=</span><span class="st">'#345a8b'</span>, label<span class="op">=</span><span class="st">'Training data'</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, np.sin(x_grid), color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'True function sin(x)'</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.title(<span class="st">'A small, noisy regression dataset'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">605</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>n_pts <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> np.sort(np.random.uniform(<span class="dv">0</span>, <span class="dv">10</span>, n_pts))          <span class="co"># For training</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> np.sin(x_train) <span class="op">+</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.3</span>, n_pts) <span class="co"># For training</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>x_grid <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">200</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)             <span class="co"># For testing</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, color<span class="op">=</span><span class="st">'#345a8b'</span>, label<span class="op">=</span><span class="st">'Training data'</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, np.sin(x_grid), color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'True function sin(x)'</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.title(<span class="st">'A small, noisy regression dataset'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>A.</strong> Train <strong>one</strong> <code>DecisionTreeRegressor</code> (<code>max_depth=4</code>) on the full training set, and plot its prediction curve over <code>x_grid</code> against the true function. Decision trees trained on few data points tend to be quite unstable/wiggly — keep this in mind for the next part.</p>
 <div id="cell-38" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tree_single <span class="op">=</span> DecisionTreeRegressor(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">605</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>tree_single.fit(<span class="va">None</span>, <span class="va">None</span>)  <span class="co"># </span><span class="al">TODO</span><span class="co">: fit on x_train (reshaped to a column) and y_train</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>y_single <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: predict on x_grid</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, color<span class="op">=</span><span class="st">'#345a8b'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, np.sin(x_grid), color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'True function'</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, y_single, color<span class="op">=</span><span class="st">'#d97f2e'</span>, label<span class="op">=</span><span class="st">'Single tree'</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.title(<span class="st">'A single decision tree'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tree_single <span class="op">=</span> DecisionTreeRegressor(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">605</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tree_single.fit(<span class="va">None</span>, <span class="va">None</span>)  <span class="co"># </span><span class="al">TODO</span><span class="co">: fit on x_train (reshaped to a column) and y_train</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>y_single <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: predict on x_grid</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, color<span class="op">=</span><span class="st">'#345a8b'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, np.sin(x_grid), color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'True function'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, y_single, color<span class="op">=</span><span class="st">'#d97f2e'</span>, label<span class="op">=</span><span class="st">'Single tree'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.title(<span class="st">'A single decision tree'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>B.</strong> Now build a small <strong>Bagging ensemble</strong>: train <span class="math inline">\(B=100\)</span> trees, each on an independent bootstrap sample of <code>(x_train, y_train)</code> (sample the <strong>indices</strong> with replacement, size <span class="math inline">\(n\)</span>), then average their predictions on <code>x_grid</code>. Plot the ensemble average against the single tree and the truth.</p>
 <div id="cell-40" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>B_bag <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> np.zeros((B_bag, <span class="bu">len</span>(x_grid)))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B_bag):</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: sample indices with replacement to generate bootstrap sample</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    x_b, y_b <span class="op">=</span> x_train[idx], y_train[idx]   <span class="co"># select those bootstrap sample from the data</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    tree_b <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: build the tree on the bootstrap samples</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    tree_b.fit(<span class="va">None</span>, <span class="va">None</span>) <span class="co"># Fit the model on the bootstrap data</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    predictions[b] <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: predict it on x_grid</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>y_bagged <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: average predictions over the B_bag trees (axis=0)</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, color<span class="op">=</span><span class="st">'#345a8b'</span>, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, np.sin(x_grid), color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'True function'</span>)</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, y_single, color<span class="op">=</span><span class="st">'#d97f2e'</span>, label<span class="op">=</span><span class="st">'Single tree'</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, y_bagged, color<span class="op">=</span><span class="st">'#2e8b57'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Bagged (</span><span class="sc">{</span>B_bag<span class="sc">}</span><span class="ss"> trees)'</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.title(<span class="st">'Single tree vs. Bagging'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>B_bag <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> np.zeros((B_bag, <span class="bu">len</span>(x_grid)))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B_bag):</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: sample indices with replacement to generate bootstrap sample</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    x_b, y_b <span class="op">=</span> x_train[idx], y_train[idx]   <span class="co"># select those bootstrap sample from the data</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    tree_b <span class="op">=</span> <span class="va">None</span> <span class="co"># </span><span class="al">TODO</span><span class="co">: build the tree on the bootstrap samples</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    tree_b.fit(<span class="va">None</span>, <span class="va">None</span>) <span class="co"># Fit the model on the bootstrap data</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    predictions[b] <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: predict it on x_grid</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>y_bagged <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: average predictions over the B_bag trees (axis=0)</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, color<span class="op">=</span><span class="st">'#345a8b'</span>, alpha<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, np.sin(x_grid), color<span class="op">=</span><span class="st">'black'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'True function'</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, y_single, color<span class="op">=</span><span class="st">'#d97f2e'</span>, label<span class="op">=</span><span class="st">'Single tree'</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plt.plot(x_grid, y_bagged, color<span class="op">=</span><span class="st">'#2e8b57'</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="ss">f'Bagged (</span><span class="sc">{</span>B_bag<span class="sc">}</span><span class="ss"> trees)'</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.title(<span class="st">'Single tree vs. Bagging'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>C.</strong> Compute the <strong>pointwise variance</strong> across the <span class="math inline">\(B=100\)</span> bootstrap-trained trees at each grid point (<code>predictions.var(axis=0)</code>), and report its average. Then, in a markdown cell, connect what you see to the lecture’s variance formula <span class="math inline">\(\mathbb V(\bar f)=\sigma^2\left[\rho+\frac{1-\rho}{B}\right]\)</span> — does averaging make the prediction perfectly stable, or is there a limit?</p>
 <div id="cell-42" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pointwise_var <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: compute variance of the prediction using 'predictions' above.</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average pointwise variance across the ensemble: </span><span class="sc">{</span>pointwise_var<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pointwise_var <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: compute variance of the prediction using 'predictions' above.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average pointwise variance across the ensemble: </span><span class="sc">{</span>pointwise_var<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>D.</strong> <em>Your answer here:</em></p>
 <p>…</p>
@@ -495,30 +525,30 @@ window.Quarto = {
 <li><p>records whether each CI contains the true mean. Report the <strong>empirical coverage</strong> (fraction of intervals containing the true mean) for each method. <em>(This will take a little while to run — that’s fine, let it finish while you read ahead.)</em></p></li>
 </ol>
 <div id="cell-46" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>true_mu, true_sigma <span class="op">=</span> <span class="fl">1.6</span>, <span class="fl">0.7</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>true_mean <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: apply formula of expectation in question A. above in here.</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True population mean: </span><span class="sc">{</span>true_mean<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>B_small <span class="op">=</span> <span class="dv">500</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>covered <span class="op">=</span> {<span class="st">'Percentile'</span>: <span class="dv">0</span>, <span class="st">'Basic'</span>: <span class="dv">0</span>, <span class="st">'Normal-approx'</span>: <span class="dv">0</span>}</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> <span class="bu">range</span>(n_repeats):</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    sample_r <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: draw a fresh lognormal sample, size n, params (true_mu, true_sigma)</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    theta_hat_r <span class="op">=</span> sample_r.mean()</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    theta_boot_r <span class="op">=</span> bootstrap_estimates(sample_r, np.mean, B_small)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    se_r <span class="op">=</span> theta_boot_r.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    lo_p, hi_p <span class="op">=</span> percentile_ci(theta_boot_r)</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    lo_b, hi_b <span class="op">=</span> basic_ci(theta_boot_r, theta_hat_r)</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    lo_n, hi_n <span class="op">=</span> normal_ci(theta_hat_r, se_r)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    covered[<span class="st">'Percentile'</span>]    <span class="op">+=</span> (lo_p <span class="op">&lt;=</span> true_mean <span class="op">&lt;=</span> hi_p)</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    covered[<span class="st">'Basic'</span>]         <span class="op">+=</span> (lo_b <span class="op">&lt;=</span> true_mean <span class="op">&lt;=</span> hi_b)</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    covered[<span class="st">'Normal-approx'</span>] <span class="op">+=</span> (lo_n <span class="op">&lt;=</span> true_mean <span class="op">&lt;=</span> hi_n)</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> method, count <span class="kw">in</span> covered.items():</span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>method<span class="sc">:15s}</span><span class="ss">: empirical coverage = </span><span class="sc">{</span>count<span class="op">/</span>n_repeats<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>true_mu, true_sigma <span class="op">=</span> <span class="fl">1.6</span>, <span class="fl">0.7</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>true_mean <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: apply formula of expectation in question A. above in here.</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"True population mean: </span><span class="sc">{</span>true_mean<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>n_repeats <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>B_small <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>covered <span class="op">=</span> {<span class="st">'Percentile'</span>: <span class="dv">0</span>, <span class="st">'Basic'</span>: <span class="dv">0</span>, <span class="st">'Normal-approx'</span>: <span class="dv">0</span>}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> <span class="bu">range</span>(n_repeats):</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    sample_r <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: draw a fresh lognormal sample, size n, params (true_mu, true_sigma)</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    theta_hat_r <span class="op">=</span> sample_r.mean()</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    theta_boot_r <span class="op">=</span> bootstrap_estimates(sample_r, np.mean, B_small)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    se_r <span class="op">=</span> theta_boot_r.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    lo_p, hi_p <span class="op">=</span> percentile_ci(theta_boot_r)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    lo_b, hi_b <span class="op">=</span> basic_ci(theta_boot_r, theta_hat_r)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    lo_n, hi_n <span class="op">=</span> normal_ci(theta_hat_r, se_r)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    covered[<span class="st">'Percentile'</span>]    <span class="op">+=</span> (lo_p <span class="op">&lt;=</span> true_mean <span class="op">&lt;=</span> hi_p)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    covered[<span class="st">'Basic'</span>]         <span class="op">+=</span> (lo_b <span class="op">&lt;=</span> true_mean <span class="op">&lt;=</span> hi_b)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    covered[<span class="st">'Normal-approx'</span>] <span class="op">+=</span> (lo_n <span class="op">&lt;=</span> true_mean <span class="op">&lt;=</span> hi_n)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> method, count <span class="kw">in</span> covered.items():</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>method<span class="sc">:15s}</span><span class="ss">: empirical coverage = </span><span class="sc">{</span>count<span class="op">/</span>n_repeats<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>C.</strong> Is the empirical coverage close to the nominal 95%? If one method’s coverage is noticeably off, which one is it, and can you connect that back to what you observed about skewness in Section 1?</p>
 <p><strong>C.</strong> <em>Your answer here:</em></p>
@@ -529,32 +559,32 @@ window.Quarto = {
 <p>Bootstrap is especially handy for statistics like the <strong>Pearson correlation</strong> <span class="math inline">\(r\)</span>, which has an awkward sampling distribution (bounded in <span class="math inline">\([-1,1]\)</span>, skewed when <span class="math inline">\(|r|\)</span> is large) — an exact analytic CI exists (Fisher’s <span class="math inline">\(z\)</span>-transform) but is easy to get wrong, whereas the bootstrap recipe is <em>exactly the same as before</em>.</p>
 <p><strong>A.</strong> Run the cell below to simulate <span class="math inline">\(n=40\)</span> paired observations <span class="math inline">\((u_i, v_i)\)</span> with true correlation around 0.6.</p>
 <div id="cell-50" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">47</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>n_corr <span class="op">=</span> <span class="dv">40</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>mean_uv <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>cov_uv <span class="op">=</span> [[<span class="dv">1</span>, <span class="fl">0.6</span>], [<span class="fl">0.6</span>, <span class="dv">1</span>]]</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>uv <span class="op">=</span> np.random.multivariate_normal(mean_uv, cov_uv, size<span class="op">=</span>n_corr)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>u, v <span class="op">=</span> uv[:, <span class="dv">0</span>], uv[:, <span class="dv">1</span>]</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(u, v, color<span class="op">=</span><span class="st">'#345a8b'</span>)<span class="op">;</span> plt.xlabel(<span class="st">'u'</span>)<span class="op">;</span> plt.ylabel(<span class="st">'v'</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Sample correlation r = </span><span class="sc">{</span>np<span class="sc">.</span>corrcoef(u, v)[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">47</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>n_corr <span class="op">=</span> <span class="dv">40</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>mean_uv <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>cov_uv <span class="op">=</span> [[<span class="dv">1</span>, <span class="fl">0.6</span>], [<span class="fl">0.6</span>, <span class="dv">1</span>]]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>uv <span class="op">=</span> np.random.multivariate_normal(mean_uv, cov_uv, size<span class="op">=</span>n_corr)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>u, v <span class="op">=</span> uv[:, <span class="dv">0</span>], uv[:, <span class="dv">1</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(u, v, color<span class="op">=</span><span class="st">'#345a8b'</span>)<span class="op">;</span> plt.xlabel(<span class="st">'u'</span>)<span class="op">;</span> plt.ylabel(<span class="st">'v'</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Sample correlation r = </span><span class="sc">{</span>np<span class="sc">.</span>corrcoef(u, v)[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>B.</strong> Since our <code>bootstrap_estimates</code> function expects a single 1-D <code>data</code> array, resample <strong>row indices</strong> of the paired data instead (with replacement), and compute the correlation on each resampled pair. Complete the function <code>bootstrap_correlation</code> below, then build the <strong>Percentile</strong> 95% CI for the true correlation.</p>
 <div id="cell-52" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bootstrap_correlation(u, v, B<span class="op">=</span><span class="dv">2000</span>):</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    n_uv <span class="op">=</span> <span class="bu">len</span>(u)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    r_boot <span class="op">=</span> np.zeros(B)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: np.random.choice(n_uv, size=n_uv, replace=True)</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        r_boot[b] <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: np.corrcoef(u[idx], v[idx])[0, 1]</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> r_boot</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>r_hat <span class="op">=</span> np.corrcoef(u, v)[<span class="dv">0</span>, <span class="dv">1</span>]</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>r_boot <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: apply the function above on u, v and B=2000</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>ci_perc_r <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: compute the percentile on r_boot</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sample correlation r:  </span><span class="sc">{</span>r_hat<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Percentile 95% CI:     [</span><span class="sc">{</span>ci_perc_r[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_perc_r[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> bootstrap_correlation(u, v, B<span class="op">=</span><span class="dv">2000</span>):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    n_uv <span class="op">=</span> <span class="bu">len</span>(u)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    r_boot <span class="op">=</span> np.zeros(B)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B):</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: np.random.choice(n_uv, size=n_uv, replace=True)</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        r_boot[b] <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: np.corrcoef(u[idx], v[idx])[0, 1]</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> r_boot</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>r_hat <span class="op">=</span> np.corrcoef(u, v)[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>r_boot <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: apply the function above on u, v and B=2000</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>ci_perc_r <span class="op">=</span> <span class="va">None</span>  <span class="co"># </span><span class="al">TODO</span><span class="co">: compute the percentile on r_boot</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sample correlation r:  </span><span class="sc">{</span>r_hat<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Percentile 95% CI:     [</span><span class="sc">{</span>ci_perc_r[<span class="dv">0</span>]<span class="sc">:.3f}</span><span class="ss">, </span><span class="sc">{</span>ci_perc_r[<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="bonus-how-does-b-affect-baggings-variance-floor" class="level3">
@@ -562,22 +592,22 @@ window.Quarto = {
 <p>Recall from lecture: with pairwise model correlation <span class="math inline">\(\rho\)</span>, <span class="math inline">\(\mathbb V(\bar f)=\sigma^2\left[\rho+\frac{1-\rho}{B}\right]\to\rho\sigma^2\)</span> as <span class="math inline">\(B\to\infty\)</span> — more trees help, but only up to a point.</p>
 <p><strong>A.</strong> Using the same setup as Section 4, repeat the bagging experiment for a few different ensemble sizes, e.g.&nbsp;<code>B_values = [1, 5, 20, 50, 100, 300]</code>. For each <span class="math inline">\(B\)</span>, train the ensemble (you can reuse your loop from Section 4.2) and record the <strong>average pointwise variance</strong> across grid points. Plot average variance vs.&nbsp;<span class="math inline">\(B\)</span>. Does it plateau, as the formula predicts?</p>
 <div id="cell-54" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>B_values <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">500</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>avg_variances <span class="op">=</span> []</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> B_val <span class="kw">in</span> B_values:</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    preds <span class="op">=</span> np.zeros((B_val, <span class="bu">len</span>(x_grid)))</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B_val):</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> <span class="va">None</span> <span class="co"># generate random indices for bootstrap sample</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        x_b, y_b <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span> <span class="co"># # draw bootstrap sample</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        tree_b <span class="op">=</span> DecisionTreeRegressor(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span>b)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        tree_b.fit(<span class="va">None</span>, <span class="va">None</span>) <span class="co"># fit. model on the bootstrap sample</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        preds[b] <span class="op">=</span> <span class="va">None</span> <span class="co"># Prediction</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    avg_variances.append(<span class="va">None</span>)  <span class="co"># </span><span class="al">TODO</span><span class="co">: average pointwise variance for this B_val</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>plt.plot(B_values, avg_variances, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'#345a8b'</span>)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of bootstrap trees B'</span>)<span class="op">;</span> plt.ylabel(<span class="st">'Average pointwise variance'</span>)</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Does more trees keep reducing variance forever?'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>B_values <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">300</span>, <span class="dv">500</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>avg_variances <span class="op">=</span> []</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> B_val <span class="kw">in</span> B_values:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    preds <span class="op">=</span> np.zeros((B_val, <span class="bu">len</span>(x_grid)))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(B_val):</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> <span class="va">None</span> <span class="co"># generate random indices for bootstrap sample</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        x_b, y_b <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span> <span class="co"># # draw bootstrap sample</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        tree_b <span class="op">=</span> DecisionTreeRegressor(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span>b)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        tree_b.fit(<span class="va">None</span>, <span class="va">None</span>) <span class="co"># fit. model on the bootstrap sample</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        preds[b] <span class="op">=</span> <span class="va">None</span> <span class="co"># Prediction</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    avg_variances.append(<span class="va">None</span>)  <span class="co"># </span><span class="al">TODO</span><span class="co">: average pointwise variance for this B_val</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>plt.plot(B_values, avg_variances, marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'#345a8b'</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of bootstrap trees B'</span>)<span class="op">;</span> plt.ylabel(<span class="st">'Average pointwise variance'</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Does more trees keep reducing variance forever?'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 </section>
