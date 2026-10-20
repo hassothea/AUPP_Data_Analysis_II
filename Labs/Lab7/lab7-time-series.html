@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 7: Time Series Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="lab7-time-series_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab7-time-series_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="lab7-time-series_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="lab7-time-series_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="lab7-time-series_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab7-time-series_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab7-time-series_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab7-time-series_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab7-time-series_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab7-time-series_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab7-time-series_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab7-time-series_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>Lab 7: Time Series Analysis</strong></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Course</strong>: <strong>INS-605: Data Analysis II</strong> <br> <strong>Lecturer</strong>: <strong>Sothea HAS, PhD</strong></p>
+<hr>
+<ul>
+<li>Student name: …</li>
+<li>ID: …</li>
+</ul>
+<hr>
+<blockquote class="blockquote">
+<p>The jupyter notebook can be downloaded <a href="https://hassothea.github.io/AUPP_Data_Analysis_II/Labs/Lab7/lab7-time-series.ipynb" target="_blank">here</a>.</p>
+</blockquote>
+<div id="cell-3" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These are the libraries that you will need for this lab</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools, time, warnings</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller, kpss</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf, plot_pacf</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.arima.model <span class="im">import</span> ARIMA</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.diagnostic <span class="im">import</span> acorr_ljungbox</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> TimeSeriesSplit</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> root_mean_squared_error, mean_absolute_percentage_error</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> (<span class="dv">10</span>, <span class="fl">3.5</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>SEED <span class="op">=</span> <span class="dv">605</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+<section id="simulated-series-stationarity-acf-pacf-15-min" class="level2">
+<h2 class="anchored" data-anchor-id="simulated-series-stationarity-acf-pacf-15-min"><strong>1. Simulated Series: Stationarity, ACF &amp; PACF</strong> <em>(~15 min)</em></h2>
+<p><strong>Goal:</strong> know what stationary / non-stationary series look like, test it, and read the orders <span class="math inline">\(p,q\)</span> from ACF/PACF. Here the true model is known, so you can check your reading.</p>
+<section id="visualization-stationarity" class="level3">
+<h3 class="anchored" data-anchor-id="visualization-stationarity"><strong>1.1. Visualization &amp; Stationarity</strong></h3>
+<p>Run the cell below to simulate three series (<span class="math inline">\(n=500\)</span>):</p>
+<ul>
+<li><span class="math inline">\(\text{AR}(2)\)</span>: <span class="math inline">\(X_t=0.5X_{t-1}+0.3X_{t-2}+\varepsilon_t\)</span></li>
+<li><span class="math inline">\(\text{MA}(1)\)</span>: <span class="math inline">\(X_t=\varepsilon_t+0.8\varepsilon_{t-1}\)</span></li>
+<li>Random walk with drift: <span class="math inline">\(X_t=X_{t-1}+0.1+\varepsilon_t\)</span></li>
+</ul>
+<div id="cell-5" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(SEED)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> rng.normal(size<span class="op">=</span>n <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ar2 <span class="op">=</span> np.zeros(n <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, n <span class="op">+</span> <span class="dv">2</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    ar2[t] <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> ar2[t<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> <span class="fl">0.3</span> <span class="op">*</span> ar2[t<span class="op">-</span><span class="dv">2</span>] <span class="op">+</span> e[t]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ma1 <span class="op">=</span> e[<span class="dv">1</span>:] <span class="op">+</span> <span class="fl">0.8</span> <span class="op">*</span> e[:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>rw <span class="op">=</span> np.cumsum(<span class="fl">0.1</span> <span class="op">+</span> e)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> pd.date_range(<span class="st">'2000-01-01'</span>, periods<span class="op">=</span>n, freq<span class="op">=</span><span class="st">'D'</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> pd.DataFrame({<span class="st">'AR(2)'</span>: ar2[<span class="dv">2</span>:], <span class="st">'MA(1)'</span>: ma1[<span class="dv">1</span>:], <span class="st">'RandomWalk'</span>: rw[<span class="dv">2</span>:]}, index<span class="op">=</span>idx)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>sim.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> Plot each series with its <strong>rolling mean</strong> and <strong>rolling std</strong> (window = 50). Which series have a constant mean and variance?</p>
+<div id="cell-7" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, col <span class="kw">in</span> <span class="bu">zip</span>(axes, sim.columns):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    roll_mean <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: sim[col].rolling(50).mean()</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    roll_std <span class="op">=</span> <span class="va">None</span>    <span class="co"># </span><span class="al">TODO</span><span class="co">: sim[col].rolling(50).std()</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ax.plot(sim[col], color<span class="op">=</span><span class="st">'#345a8b'</span>, lw<span class="op">=</span><span class="dv">1</span>, label<span class="op">=</span>col)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    ax.plot(roll_mean, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'rolling mean'</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ax.plot(roll_std, color<span class="op">=</span><span class="st">'orange'</span>, label<span class="op">=</span><span class="st">'rolling std'</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ax.set_title(col)<span class="op">;</span> ax.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Complete <code>adf_report</code> and run the <strong>ADF test</strong> on each series.</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span>: the series is <strong>non-stationary</strong> (unit root) vs.&nbsp;<span class="math inline">\(H_1\)</span>: stationary. Reject <span class="math inline">\(H_0\)</span> if p-value <span class="math inline">\(&lt;\alpha=0.05\)</span>.</li>
+</ul>
+<div id="cell-9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adf_report(x, name<span class="op">=</span><span class="st">''</span>, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    stat, pval, <span class="op">*</span>_ <span class="op">=</span> adfuller(pd.Series(x).dropna(), autolag<span class="op">=</span><span class="st">'AIC'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">'series'</span>: name, <span class="st">'ADF stat'</span>: stat, <span class="st">'p-value'</span>: pval,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">'stationary?'</span>: <span class="va">None</span>}   <span class="co"># </span><span class="al">TODO</span><span class="co">: decision at level alpha</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>pd.DataFrame([adf_report(sim[c], c) <span class="cf">for</span> c <span class="kw">in</span> sim.columns]).set_index(<span class="st">'series'</span>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> Difference the random walk once (<span class="math inline">\(\Delta X_t=X_t-X_{t-1}\)</span>), plot it, and rerun the ADF test.</p>
+<div id="cell-11" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rw_diff <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: first difference of sim['RandomWalk'] (drop the NaN)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: plot rw_diff</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(adf_report(rw_diff, <span class="st">'diff(RandomWalk)'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>D.</strong> In a markdown cell, briefly answer: <em>which series are stationary? What does differencing do to a random walk?</em></p>
+<p><strong>D.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="acf-pacf" class="level3">
+<h3 class="anchored" data-anchor-id="acf-pacf"><strong>1.2. ACF &amp; PACF</strong></h3>
+<p><strong>A.</strong> Plot the ACF and PACF (40 lags) of the <strong>AR(2)</strong>, <strong>MA(1)</strong> and <strong>random walk</strong>.</p>
+<div id="cell-15" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, col <span class="kw">in</span> <span class="bu">enumerate</span>(sim.columns):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: plot_acf(sim[col], lags=40, ax=axes[i, 0], title=f'ACF - {col}')</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># </span><span class="al">TODO</span><span class="co">: plot_pacf(sim[col], lags=40, ax=axes[i, 1], title=f'PACF - {col}', method='ywm')</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, fill in the table (cuts off after lag <span class="math inline">\(k\)</span> / decays gradually) and answer: <em>how do you read <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>? Is the random walk ACF consistent with a stationary series?</em></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Series</th>
+<th>ACF</th>
+<th>PACF</th>
+<th>Suggested model</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AR(2)</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="even">
+<td>MA(1)</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+<hr>
+</section>
+</section>
+<section id="real-data-visualization-stationarity-transformation-20-min" class="level2">
+<h2 class="anchored" data-anchor-id="real-data-visualization-stationarity-transformation-20-min"><strong>2. Real Data: Visualization, Stationarity &amp; Transformation</strong> <em>(~20 min)</em></h2>
+<p><strong>Data:</strong> monthly international airline passengers (thousands), 1949-1960 (144 observations).</p>
+<p><strong>Model class of this lab: ARIMA <span class="math inline">\((p,d,q)\)</span> only</strong> (no seasonal terms). The seasonality is therefore removed <strong>before</strong> modeling, by a <strong>seasonal difference</strong> <span class="math inline">\(X_t-X_{t-12}\)</span> treated as part of the transformation.</p>
+<section id="data-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="data-visualization"><strong>2.1. Data &amp; Visualization</strong></h3>
+<p>Run the cell below to load the data (a simulated series with the same structure is used if there is no internet access).</p>
+<div id="cell-19" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv'</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    air <span class="op">=</span> pd.read_csv(url, parse_dates<span class="op">=</span>[<span class="st">'Month'</span>], index_col<span class="op">=</span><span class="st">'Month'</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:                      <span class="co"># fallback if no internet access to GitHub</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(SEED)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    t <span class="op">=</span> np.arange(<span class="dv">144</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    vals <span class="op">=</span> <span class="dv">110</span> <span class="op">*</span> np.exp(<span class="fl">0.0095</span> <span class="op">*</span> t) <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> <span class="fl">0.22</span> <span class="op">*</span> np.sin(<span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> (t <span class="op">-</span> <span class="dv">2</span>) <span class="op">/</span> <span class="dv">12</span>)) <span class="op">*</span> np.exp(rng.normal(<span class="dv">0</span>, <span class="fl">0.04</span>, <span class="dv">144</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    air <span class="op">=</span> pd.DataFrame({<span class="st">'Passengers'</span>: vals.<span class="bu">round</span>()}, index<span class="op">=</span>pd.date_range(<span class="st">'1949-01-01'</span>, periods<span class="op">=</span><span class="dv">144</span>, freq<span class="op">=</span><span class="st">'MS'</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>air.columns <span class="op">=</span> [<span class="st">'Passengers'</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>air <span class="op">=</span> air.asfreq(<span class="st">'MS'</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> air[<span class="st">'Passengers'</span>]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y.shape, y.index.<span class="bu">min</span>().date(), <span class="st">'-&gt;'</span>, y.index.<span class="bu">max</span>().date(), <span class="st">'| freq ='</span>, y.index.freq)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>air.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> Check missing values and plot the series. Then plot the <strong>seasonal profile</strong> (one line per year, x = month) and the <strong>rolling mean / std</strong> (window = 12).</p>
+<div id="cell-21" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'missing:'</span>, <span class="va">None</span>)   <span class="co"># </span><span class="al">TODO</span><span class="co">: number of NaN in y</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="fl">3.8</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(y, color<span class="op">=</span><span class="st">'#345a8b'</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_title(<span class="st">'Passengers'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>pivot <span class="op">=</span> y.to_frame().assign(year<span class="op">=</span>y.index.year, month<span class="op">=</span>y.index.month).pivot(index<span class="op">=</span><span class="st">'month'</span>, columns<span class="op">=</span><span class="st">'year'</span>, values<span class="op">=</span><span class="st">'Passengers'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>pivot.plot(ax<span class="op">=</span>axes[<span class="dv">1</span>], legend<span class="op">=</span><span class="va">False</span>, colormap<span class="op">=</span><span class="st">'viridis'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_title(<span class="st">'Seasonal profile (1 line / year)'</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>roll_mean <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: 12-month rolling mean</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>roll_std <span class="op">=</span> <span class="va">None</span>    <span class="co"># </span><span class="al">TODO</span><span class="co">: 12-month rolling std</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].plot(roll_mean, label<span class="op">=</span><span class="st">'rolling mean'</span>)<span class="op">;</span> axes[<span class="dv">2</span>].plot(roll_std, label<span class="op">=</span><span class="st">'rolling std'</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_title(<span class="st">'Rolling mean / std (12)'</span>)<span class="op">;</span> axes[<span class="dv">2</span>].legend()</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, list what you see: <em>trend? seasonality (period)? does the spread change with the level?</em></p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="stationarity-tests" class="level3">
+<h3 class="anchored" data-anchor-id="stationarity-tests"><strong>2.2. Stationarity Tests</strong></h3>
+<p><strong>A.</strong> Run <strong>ADF</strong> and <strong>KPSS</strong> on the raw series. KPSS has the <strong>opposite</strong> null: <span class="math inline">\(H_0\)</span>: the series is <strong>stationary</strong>.</p>
+<div id="cell-25" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kpss_report(x, name<span class="op">=</span><span class="st">''</span>, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    stat, pval, <span class="op">*</span>_ <span class="op">=</span> kpss(pd.Series(x).dropna(), regression<span class="op">=</span><span class="st">'c'</span>, nlags<span class="op">=</span><span class="st">'auto'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">'series'</span>: name, <span class="st">'KPSS stat'</span>: stat, <span class="st">'p-value'</span>: pval, <span class="st">'stationary?'</span>: pval <span class="op">&gt;</span> alpha}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>adf_raw <span class="op">=</span> <span class="va">None</span>    <span class="co"># </span><span class="al">TODO</span><span class="co">: adf_report on y</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>kpss_raw <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: kpss_report on y</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>display(pd.DataFrame([adf_raw]).<span class="bu">round</span>(<span class="dv">4</span>))<span class="op">;</span> display(pd.DataFrame([kpss_raw]).<span class="bu">round</span>(<span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer: <em>do both tests agree? Why is it useful to run both?</em></p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="transformation-differencing" class="level3">
+<h3 class="anchored" data-anchor-id="transformation-differencing"><strong>2.3. Transformation &amp; Differencing</strong></h3>
+<p><strong>A.</strong> Compare variance-stabilizing transformations: <code>sqrt</code>, <code>log</code>, and <code>Box-Cox</code>. A good transformation makes the rolling std <strong>independent of the rolling mean</strong> (correlation <span class="math inline">\(\approx 0\)</span>).</p>
+<blockquote class="blockquote">
+<p><span class="math inline">\(\lambda\)</span> of Box-Cox is estimated here on the whole series for exploration only. In the modeling part it must be estimated on the <strong>training set only</strong>.</p>
+</blockquote>
+<div id="cell-29" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> spread_vs_level(x, w<span class="op">=</span><span class="dv">12</span>):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> pd.Series(x).rolling(w)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.corrcoef(r.mean().dropna(), r.std().dropna())[<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>lam, y_bc <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: y_bc, lam = stats.boxcox(y)  -&gt; transformed values, lambda</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Box-Cox lambda ='</span>, lam)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>transforms <span class="op">=</span> {</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'raw'</span>: y,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'sqrt'</span>: <span class="va">None</span>,       <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'log'</span>: <span class="va">None</span>,        <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'box-cox'</span>: pd.Series(y_bc, index<span class="op">=</span>y.index),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.Series({k: spread_vs_level(v) <span class="cf">for</span> k, v <span class="kw">in</span> transforms.items()}, name<span class="op">=</span><span class="st">'corr(rolling mean, rolling std)'</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">3</span>))</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (k, v) <span class="kw">in</span> <span class="bu">zip</span>(axes, transforms.items()):</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    ax.plot(v, color<span class="op">=</span><span class="st">'#345a8b'</span>)<span class="op">;</span> ax.set_title(k)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Using the <strong>log</strong> series <code>ly</code>, compare the differencing options below. For each version, run ADF and KPSS and plot it.</p>
+<ul>
+<li><span class="math inline">\(d=1\)</span>: <span class="math inline">\(\Delta X_t\)</span> removes the <strong>trend</strong>.</li>
+<li><span class="math inline">\(D=1\)</span>, lag 12: <span class="math inline">\(X_t-X_{t-12}\)</span> removes the <strong>seasonality</strong> (done <em>before</em> ARIMA, since ARIMA has no seasonal term).</li>
+</ul>
+<div id="cell-31" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ly <span class="op">=</span> np.log(y)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>versions <span class="op">=</span> {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'log'</span>: ly,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'log, d=1'</span>: ly.diff(),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'log, D=1 (lag 12)'</span>: <span class="va">None</span>,         <span class="co"># </span><span class="al">TODO</span><span class="co">: seasonal difference ly.diff(12)</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'log, D=1 &amp; d=1'</span>: <span class="va">None</span>,            <span class="co"># </span><span class="al">TODO</span><span class="co">: both differences</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>tests <span class="op">=</span> pd.DataFrame({k: {<span class="st">'ADF p-value'</span>: adf_report(v, k)[<span class="st">'p-value'</span>],</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'KPSS p-value'</span>: kpss_report(v, k)[<span class="st">'p-value'</span>]} <span class="cf">for</span> k, v <span class="kw">in</span> versions.items()}).T</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>display(tests.<span class="bu">round</span>(<span class="dv">4</span>))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, (k, v) <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), versions.items()):</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    ax.plot(v, color<span class="op">=</span><span class="st">'#345a8b'</span>, lw<span class="op">=</span><span class="dv">1</span>)<span class="op">;</span> ax.set_title(k)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell: <em>which transformation do you keep? After the seasonal difference <span class="math inline">\(w_t=\ln X_t-\ln X_{t-12}\)</span>, does the series need one more difference (<span class="math inline">\(d=1\)</span>) or not (<span class="math inline">\(d=0\)</span>)? Justify with the tests and the plots.</em></p>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="acf-pacf-1" class="level3">
+<h3 class="anchored" data-anchor-id="acf-pacf-1"><strong>2.4. ACF &amp; PACF</strong></h3>
+<p><strong>A.</strong> Choose <code>d</code> (0 or 1, from 2.3.C), build the stationary series <code>z</code> (log, seasonal difference at lag 12, then <span class="math inline">\(d\)</span> regular differences) and plot its ACF and PACF (36 lags).</p>
+<div id="cell-35" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> ly.diff(<span class="dv">12</span>).dropna()        <span class="co"># log + seasonal difference</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="va">None</span>                        <span class="co"># </span><span class="al">TODO</span><span class="co">: 0 or 1 (from 2.3.C)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> (w.diff(d) <span class="cf">if</span> d <span class="op">&gt;</span> <span class="dv">0</span> <span class="cf">else</span> w).dropna()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="fl">3.8</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: plot_acf(z, lags=36, ax=axes[0])</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: plot_pacf(z, lags=36, ax=axes[1], method='ywm')</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, read <span class="math inline">\(p\)</span> (PACF) and <span class="math inline">\(q\)</span> (ACF) from the <strong>first lags</strong> (<span class="math inline">\(1,2,3\)</span>). Any remaining spike at lag 12 cannot be captured by a non-seasonal ARIMA with small order: just note it.</p>
+<p>Write your candidate model as <span class="math inline">\(\text{ARIMA}(p,d,q)\)</span> on <span class="math inline">\(w_t\)</span>.</p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+<hr>
+</section>
+</section>
+<section id="modeling-tuning-evaluation-25-min" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-tuning-evaluation-25-min"><strong>3. Modeling, Tuning &amp; Evaluation</strong> <em>(~25 min)</em></h2>
+<p><strong>Rule:</strong> the test set is <strong>never</strong> used to fit, to choose the transformation parameters, or to tune. All tuning is done with a <strong>time-ordered</strong> CV <strong>inside the training set</strong>.</p>
+<section id="chronological-split" class="level3">
+<h3 class="anchored" data-anchor-id="chronological-split"><strong>3.1. Chronological Split</strong></h3>
+<p><strong>A.</strong> Keep the <strong>last 24 months</strong> as the test set (no shuffling). Work on the log scale for fitting, but evaluate on the <strong>original scale</strong>.</p>
+<div id="cell-39" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>h, s <span class="op">=</span> <span class="dv">24</span>, <span class="dv">12</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>train, test <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>          <span class="co"># </span><span class="al">TODO</span><span class="co">: log series, first part / last h months</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>y_train, y_test <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>      <span class="co"># </span><span class="al">TODO</span><span class="co">: original-scale series, same split</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(train), <span class="bu">len</span>(test), <span class="st">'|'</span>, train.index[<span class="op">-</span><span class="dv">1</span>].date(), <span class="st">'|'</span>, test.index[<span class="dv">0</span>].date())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer: <em>why is <code>train_test_split(shuffle=True)</code> wrong here? If we used Box-Cox, on which data should <span class="math inline">\(\lambda\)</span> be estimated?</em></p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="metrics-baselines" class="level3">
+<h3 class="anchored" data-anchor-id="metrics-baselines"><strong>3.2. Metrics &amp; Baselines</strong></h3>
+<p><strong>A.</strong> Complete <code>evaluate</code> (RMSE, MAPE, RMSE/mean(y)) and build two baselines on the test set:</p>
+<ul>
+<li><strong>Naive</strong>: repeat the last training value.</li>
+<li><strong>Seasonal naive</strong>: repeat the last 12 training values (2 times to cover 24 months).</li>
+</ul>
+<div id="cell-43" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate(y_true, y_pred):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    rmse <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: root_mean_squared_error</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">'RMSE'</span>: rmse,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">'MAPE'</span>: <span class="va">None</span>,            <span class="co"># </span><span class="al">TODO</span><span class="co">: mean_absolute_percentage_error</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">'RMSE/mean(y)'</span>: <span class="va">None</span>}    <span class="co"># </span><span class="al">TODO</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>naive <span class="op">=</span> np.full(h, y_train.iloc[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>snaive <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: np.tile(last 12 training values, h // 12)</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> {<span class="st">'Naive'</span>: {<span class="st">'AIC'</span>: np.nan, <span class="st">'BIC'</span>: np.nan, <span class="op">**</span>evaluate(y_test, naive)},</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Seasonal naive'</span>: {<span class="st">'AIC'</span>: np.nan, <span class="st">'BIC'</span>: np.nan, <span class="op">**</span>evaluate(y_test, snaive)}}</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>forecasts <span class="op">=</span> {<span class="st">'Seasonal naive'</span>: pd.Series(snaive, index<span class="op">=</span>y_test.index)}</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).T.<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="fit-compare-arima-models" class="level3">
+<h3 class="anchored" data-anchor-id="fit-compare-arima-models"><strong>3.3. Fit &amp; Compare ARIMA Models</strong></h3>
+<p><strong>A.</strong> The helper <code>forecast_original</code> runs the full pipeline for one candidate:</p>
+<ol type="1">
+<li>log series <span class="math inline">\(\to\)</span> seasonal difference at lag <code>s</code> (skipped if <code>s=None</code>) <span class="math inline">\(=w_t\)</span>;</li>
+<li>fit <code>ARIMA(w, order=(p,d,q))</code> and forecast <code>steps</code> ahead;</li>
+<li><strong>invert</strong> the pipeline: <span class="math inline">\(\ln\widehat X_{t}=\ln X_{t-12}+\widehat w_t\)</span> (recursively beyond 12 steps), then <code>np.exp</code>.</li>
+</ol>
+<p>Complete the fit and the forecast lines.</p>
+<div id="cell-45" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forecast_original(order, ly_tr, steps, s<span class="op">=</span><span class="dv">12</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1) log + seasonal difference</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    w_tr <span class="op">=</span> ly_tr <span class="cf">if</span> s <span class="kw">is</span> <span class="va">None</span> <span class="cf">else</span> ly_tr.diff(s).iloc[s:]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2) ARIMA on w_tr</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> <span class="va">None</span>      <span class="co"># </span><span class="al">TODO</span><span class="co">: ARIMA(w_tr, order=order).fit()</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    w_fc <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: res.forecast(steps=steps).to_numpy()</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3) invert</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> s <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> res, np.exp(w_fc)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    hist <span class="op">=</span> <span class="bu">list</span>(ly_tr.iloc[<span class="op">-</span>s:])</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(steps):</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        hist.append(hist[k] <span class="op">+</span> w_fc[k])          <span class="co"># ln X_{T+k+1} = ln X_{T+k+1-s} + w_{T+k+1}</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res, np.exp(np.array(hist[s:]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Compare three ARIMA models on the test set:</p>
+<ul>
+<li><code>ARIMA(1,1,1)</code> on the <strong>log</strong> series only (no seasonal difference, <code>s=None</code>).</li>
+<li><strong>Your ARIMA</strong> from Section 2.4 on <span class="math inline">\(w_t\)</span> (<code>s=12</code>).</li>
+<li><code>ARIMA(2,1,2)</code> on <span class="math inline">\(w_t\)</span> (<code>s=12</code>): larger model.</li>
+</ul>
+<div id="cell-47" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>specs <span class="op">=</span> {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ARIMA(1,1,1) on log'</span>: ((<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="va">None</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ARIMA (mine) on log+D12'</span>: (<span class="va">None</span>, <span class="dv">12</span>),          <span class="co"># </span><span class="al">TODO</span><span class="co">: replace None by your (p, d, q) from Section 2.4</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ARIMA(2,1,2) on log+D12'</span>: ((<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dv">12</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>fits <span class="op">=</span> {}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, (order, s_) <span class="kw">in</span> specs.items():</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    res, fc <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: forecast_original(order, train, h, s=s_)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    fc <span class="op">=</span> pd.Series(fc, index<span class="op">=</span>y_test.index)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    fits[name], forecasts[name] <span class="op">=</span> res, fc</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    rows[name] <span class="op">=</span> {<span class="st">'AIC'</span>: res.aic, <span class="st">'BIC'</span>: res.bic, <span class="op">**</span>evaluate(y_test, fc)}</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).T.<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-48" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">4</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>y.iloc[<span class="op">-</span><span class="dv">60</span>:].plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="fl">1.5</span>, label<span class="op">=</span><span class="st">'Observed'</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, fc <span class="kw">in</span> forecasts.items():</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    fc.plot(ax<span class="op">=</span>ax, label<span class="op">=</span>name)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ax.axvline(y_test.index[<span class="dv">0</span>], color<span class="op">=</span><span class="st">'gray'</span>, ls<span class="op">=</span><span class="st">'--'</span>)<span class="op">;</span> ax.legend()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Which model is best on the test set? Does it beat the seasonal naive baseline? Why does <code>ARIMA(1,1,1)</code> on the log series fail?</p></li>
+<li><p>Why can <strong>AIC/BIC not</strong> be used to compare <code>ARIMA(1,1,1)</code> (log) with the two other models?</p></li>
+</ol>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="hyperparameter-tuning-with-time-series-cv" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameter-tuning-with-time-series-cv"><strong>3.4. Hyperparameter Tuning with Time Series CV</strong></h3>
+<p><strong>A.</strong> Complete <code>cv_rmse</code>: for each fold of <code>TimeSeriesSplit</code> (<strong>expanding window</strong>: train on the past, validate on the next 12 months), fit the model with <code>forecast_original</code>, forecast the validation block (already back-transformed), and compute the RMSE on the original scale. Return the mean over folds.</p>
+<pre><code>fold 1: [train.......][val]
+fold 2: [train..........][val]
+fold 3: [train.............][val]
+fold 4: [train.................][val]</code></pre>
+<div id="cell-52" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tscv <span class="op">=</span> TimeSeriesSplit(n_splits<span class="op">=</span><span class="dv">4</span>, test_size<span class="op">=</span><span class="dv">12</span>)     <span class="co"># applied on `train` only</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cv_rmse(order, series, cv, s<span class="op">=</span><span class="dv">12</span>):</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> []</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> tr_idx, va_idx <span class="kw">in</span> cv.split(series):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        ly_tr, ly_va <span class="op">=</span> series.iloc[:va_idx[<span class="dv">0</span>]], series.iloc[va_idx]     <span class="co"># everything before the validation block</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            _, pred <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: forecast_original(order, ly_tr, len(ly_va), s=s)</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            scores.append(<span class="va">None</span>)    <span class="co"># </span><span class="al">TODO</span><span class="co">: RMSE between np.exp(ly_va) and pred</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            scores.append(np.nan)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.nanmean(scores)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># sanity check on one model</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cv_rmse((<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>), train, tscv))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Grid search over <span class="math inline">\(p\in\{0,1,2\}\)</span>, <span class="math inline">\(d\in\{0,1\}\)</span>, <span class="math inline">\(q\in\{0,1,2\}\)</span> on <span class="math inline">\(w_t\)</span> (18 models <span class="math inline">\(\times\)</span> 4 folds, takes ~1-2 min). Show the 10 best models.</p>
+<div id="cell-54" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> <span class="bu">list</span>(itertools.product([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>]))    <span class="co"># p, d, q</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.time()</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>cv_rows <span class="op">=</span> []</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p, d_, q <span class="kw">in</span> grid:</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: cv_rmse((p, d_, q), train, tscv)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    cv_rows.append({<span class="st">'p'</span>: p, <span class="st">'d'</span>: d_, <span class="st">'q'</span>: q, <span class="st">'CV RMSE'</span>: score})</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>cv_tab <span class="op">=</span> pd.DataFrame(cv_rows).sort_values(<span class="st">'CV RMSE'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>time<span class="sc">.</span>time() <span class="op">-</span> t0<span class="sc">:.0f}</span><span class="ss">s'</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>cv_tab.head(<span class="dv">10</span>).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell, briefly answer: <em>why do we tune on CV folds from <code>train</code> and not on <code>test</code>? Is the best CV model close to your ARIMA from Section 2.4? Can CV compare different <span class="math inline">\(d\)</span> while AIC cannot?</em></p>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="final-evaluation-test-set-used-once" class="level3">
+<h3 class="anchored" data-anchor-id="final-evaluation-test-set-used-once"><strong>3.5. Final Evaluation (test set, used once)</strong></h3>
+<p><strong>A.</strong> Refit the best CV model on the <strong>whole training set</strong>, forecast the test set and add it to the comparison table. Plot the forecasts.</p>
+<div id="cell-58" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>best <span class="op">=</span> cv_tab.iloc[<span class="dv">0</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>order_b <span class="op">=</span> (<span class="bu">int</span>(best[<span class="st">'p'</span>]), <span class="bu">int</span>(best[<span class="st">'d'</span>]), <span class="bu">int</span>(best[<span class="st">'q'</span>]))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>name_b <span class="op">=</span> <span class="ss">f'CV-best ARIMA</span><span class="sc">{</span>order_b<span class="sc">}</span><span class="ss"> on log+D12'</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>res_b, fc_b <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: forecast_original(order_b, train, h, s=12)</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>fc_b <span class="op">=</span> pd.Series(fc_b, index<span class="op">=</span>y_test.index)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>fits[name_b], forecasts[name_b] <span class="op">=</span> res_b, fc_b</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>rows[name_b] <span class="op">=</span> {<span class="st">'AIC'</span>: res_b.aic, <span class="st">'BIC'</span>: res_b.bic, <span class="op">**</span>evaluate(y_test, fc_b)}</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>display(pd.DataFrame(rows).T.sort_values(<span class="st">'RMSE'</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">4</span>))</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>y.iloc[<span class="op">-</span><span class="dv">60</span>:].plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="fl">1.5</span>, label<span class="op">=</span><span class="st">'Observed'</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, fc <span class="kw">in</span> forecasts.items():</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    fc.plot(ax<span class="op">=</span>ax, label<span class="op">=</span>name)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>ax.axvline(y_test.index[<span class="dv">0</span>], color<span class="op">=</span><span class="st">'gray'</span>, ls<span class="op">=</span><span class="st">'--'</span>)<span class="op">;</span> ax.legend()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Which model do you report? Compare the CV RMSE of the best model with its test RMSE.</p></li>
+<li><p>Name two ways a time series evaluation can leak future information.</p></li>
+</ol>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="going-further-homework" class="level2">
+<h2 class="anchored" data-anchor-id="going-further-homework"><strong>4. Going Further</strong> <em>(Homework)</em></h2>
+<p>The sections below are for you to complete <strong>after class</strong>.</p>
+<section id="residual-diagnostics" class="level3">
+<h3 class="anchored" data-anchor-id="residual-diagnostics"><strong>4.1. Residual Diagnostics</strong></h3>
+<p><strong>A.</strong> For the CV-best model, plot the residual diagnostics and run the <strong>Ljung-Box</strong> test (<span class="math inline">\(H_0\)</span>: no autocorrelation in the residuals) at lags 12 and 24. Drop the first <span class="math inline">\(d\)</span> residuals (not meaningful).</p>
+<div id="cell-62" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> res_b.resid.iloc[order_b[<span class="dv">1</span>]:]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> res_b.plot_diagnostics(figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">7</span>))<span class="op">;</span> plt.show()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>lb <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: acorr_ljungbox(resid, lags=[12, 24])</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>lb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell: <em>are the residuals consistent with white noise? What would you change if not?</em></p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="prediction-intervals" class="level3">
+<h3 class="anchored" data-anchor-id="prediction-intervals"><strong>4.2. Prediction Intervals</strong></h3>
+<p><strong>A.</strong> Get the 95% forecast interval of the CV-best model for the <strong>first 12 months</strong> of the test set. For these steps the inversion is exact: <span class="math inline">\(\ln X_{T+k}=\ln X_{T+k-12}+w_{T+k}\)</span>, so both bounds are <code>np.exp(base + bound_of_w)</code> with <code>base = train.iloc[-12:]</code>.</p>
+<p>Plot it and compute the <strong>empirical coverage</strong> on the test set (proportion of the 12 test points inside the interval).</p>
+<div id="cell-66" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> train.iloc[<span class="op">-</span><span class="dv">12</span>:].to_numpy()</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>sf <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: res_b.get_forecast(steps=k).summary_frame(alpha=0.05)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>lower <span class="op">=</span> np.exp(base <span class="op">+</span> sf[<span class="st">'mean_ci_lower'</span>].to_numpy())</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>upper <span class="op">=</span> np.exp(base <span class="op">+</span> sf[<span class="st">'mean_ci_upper'</span>].to_numpy())</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>obs <span class="op">=</span> y_test.iloc[:k]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>coverage <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: proportion of obs within [lower, upper]</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'coverage = </span><span class="sc">{</span>coverage<span class="sc">:.1%}</span><span class="ss">'</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">4</span>))</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>y.iloc[<span class="op">-</span><span class="dv">36</span>:].plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'k'</span>, label<span class="op">=</span><span class="st">'Observed'</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>ax.plot(obs.index, fc_b.iloc[:k], color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Forecast'</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>ax.fill_between(obs.index, lower, upper, color<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">.2</span>, label<span class="op">=</span><span class="st">'95% PI'</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>ax.legend()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="full-workflow-on-a-new-series-pm2.5-in-phnom-penh" class="level3">
+<h3 class="anchored" data-anchor-id="full-workflow-on-a-new-series-pm2.5-in-phnom-penh"><strong>4.3. Full Workflow on a New Series: PM2.5 in Phnom Penh</strong></h3>
+<p>Hourly PM2.5 (Open-Meteo API, last 60 days). Apply the <strong>same workflow</strong> with a <strong>non-seasonal</strong> <code>ARIMA(p,d,q)</code>, as in the lecture.</p>
+<div id="cell-68" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(<span class="st">'https://air-quality-api.open-meteo.com/v1/air-quality'</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                 params<span class="op">=</span>{<span class="st">'latitude'</span>: <span class="fl">11.5564</span>, <span class="st">'longitude'</span>: <span class="fl">104.9282</span>, <span class="st">'hourly'</span>: <span class="st">'pm2_5'</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                         <span class="st">'timezone'</span>: <span class="st">'Asia/Bangkok'</span>, <span class="st">'past_days'</span>: <span class="dv">60</span>, <span class="st">'forecast_days'</span>: <span class="dv">0</span>}).json()</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>pm <span class="op">=</span> pd.DataFrame(r[<span class="st">'hourly'</span>])</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>pm[<span class="st">'time'</span>] <span class="op">=</span> pd.to_datetime(pm[<span class="st">'time'</span>])</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>pm <span class="op">=</span> pm.set_index(<span class="st">'time'</span>)[<span class="st">'pm2_5'</span>].dropna()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pm.shape)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>pm.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> Do the following (add cells below):</p>
+<ol type="1">
+<li>Plot the series and its <strong>daily pattern</strong> (mean PM2.5 by hour of the day).</li>
+<li>Test stationarity (ADF + KPSS) on the raw and the differenced series.</li>
+<li>Compare <code>sqrt</code> / <code>log1p</code> with <code>spread_vs_level</code> (window 24); keep one.</li>
+<li>Plot ACF/PACF (lags up to 48) and propose <span class="math inline">\((p,1,q)\)</span>.</li>
+<li>Split the <strong>last 10%</strong> as test; tune <span class="math inline">\((p, q)\)</span> with <code>TimeSeriesSplit</code> on the training part only.</li>
+<li>Compare the tuned ARIMA with the <strong>naive</strong> and <strong>seasonal naive (lag 24)</strong> baselines on the test set (RMSE, MAPE).</li>
+<li>Does ARIMA beat the baselines for long horizons? Explain.</li>
+</ol>
+<div id="cell-70" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+<hr>
+</section>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up"><strong>Wrap-up</strong></h2>
+<p>In this lab you:</p>
+<ul>
+<li><strong>Visualized</strong> series, tested <strong>stationarity</strong> (ADF / KPSS), and read orders from <strong>ACF / PACF</strong> (Sections 1-2).</li>
+<li>Applied <strong>transformations</strong> (log, Box-Cox) and <strong>differencing</strong> (seasonal lag 12 and regular <span class="math inline">\(d\)</span>) to make a series stationary (Section 2).</li>
+<li>Split the data <strong>chronologically</strong>, built <strong>baselines</strong>, fitted <strong>ARIMA<span class="math inline">\((p,d,q)\)</span></strong> models, inverted the transformation, and <strong>tuned</strong> <span class="math inline">\((p,d,q)\)</span> with <strong>expanding-window CV</strong> inside the training set (Section 3).</li>
+<li><em>(At home)</em> Checked <strong>residuals</strong>, built <strong>prediction intervals</strong>, and repeated the workflow on a real PM2.5 series (Section 4).</li>
+</ul>
+<p>The core idea: <strong>make it stationary, identify with ACF/PACF, tune with time-ordered CV on the training set only, and report the test error once against a naive baseline.</strong></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
