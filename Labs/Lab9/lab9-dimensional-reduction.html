@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lab 9: Dimensional Reduction - PCA &amp; t-SNE</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="lab9-dimensional-reduction_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lab9-dimensional-reduction_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="lab9-dimensional-reduction_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="lab9-dimensional-reduction_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="lab9-dimensional-reduction_files/libs/quarto-html/popper.min.js"></script>
+<script src="lab9-dimensional-reduction_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lab9-dimensional-reduction_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lab9-dimensional-reduction_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lab9-dimensional-reduction_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lab9-dimensional-reduction_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lab9-dimensional-reduction_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lab9-dimensional-reduction_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>Lab 9: Dimensional Reduction - PCA &amp; t-SNE</strong></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><strong>Course</strong>: <strong>INS-605: Data Analysis II</strong> <br> <strong>Lecturer</strong>: <strong>Sothea HAS, PhD</strong></p>
+<hr>
+<ul>
+<li>Student name: …</li>
+<li>ID: …</li>
+</ul>
+<hr>
+<blockquote class="blockquote">
+<p>The notebook of the lab can be downloaded from <a href="https://hassothea.github.io/AUPP_Data_Analysis_II/Labs/Lab9/lab9-dimensional-reduction.ipynb" target="_blank">Lab9: Dimensional Reduction</a>.</p>
+</blockquote>
+<hr>
+<div id="cell-3" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These are the libraries that you will need for this lab</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time, warnings</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> (<span class="dv">10</span>, <span class="fl">3.5</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>SEED <span class="op">=</span> <span class="dv">605</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+<section id="pca-on-the-usarrests-data-30-min" class="level2">
+<h2 class="anchored" data-anchor-id="pca-on-the-usarrests-data-30-min"><strong>1. PCA on the USArrests Data</strong> <em>(~30 min)</em></h2>
+<p><strong>Goal:</strong> summarize 4 correlated variables with a few <strong>principal components</strong>, understand what PCA computes (eigen-decomposition), measure what is lost when we <strong>reduce</strong> the dimension, and <strong>interpret</strong> the components with a correlation circle.</p>
+<p><strong>Data:</strong> <em>USArrests</em>: for each of the 50 US states in 1973, the number of arrests per 100,000 residents for <code>Murder</code>, <code>Assault</code> and <code>Rape</code>, and the percentage of the population living in urban areas (<code>UrbanPop</code>).</p>
+<section id="data-exploration" class="level3">
+<h3 class="anchored" data-anchor-id="data-exploration"><strong>1.1. Data Exploration</strong></h3>
+<p>The data may be downloaded from Kaggle using the following link: <a href="https://www.kaggle.com/datasets/halimedogan/usarrests" target="_blank">Kaggle USArrests dataset</a>.</p>
+<div id="cell-5" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Load the dataset</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> Look at the <strong>scale</strong> of the variables: the summary statistics are printed below. Compute the <strong>variance</strong> of each variable.</p>
+<div id="cell-7" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>display(arrests.describe().<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>variances <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: the variance of each of the 4 variables (a pandas Series indexed by the variable names)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(variances.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Compute the <strong>correlation matrix</strong> of the variables and display it as a heatmap.</p>
+<div id="cell-9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: the 4 x 4 correlation matrix of the variables (a table)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr, annot<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'RdBu_r'</span>, vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Correlation matrix'</span>)<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Which variables are strongly correlated? According to the lecture, is a dimensional reduction promising here?</p></li>
+<li><p>The variances are very different. If we ran PCA on the <strong>raw</strong> data, which variable would dominate the 1st principal direction, and why? What should we do before PCA?</p></li>
+</ol>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="pca-on-raw-vs-standardized-data" class="level3">
+<h3 class="anchored" data-anchor-id="pca-on-raw-vs-standardized-data"><strong>1.2. PCA on Raw vs Standardized Data</strong></h3>
+<p>The lecture distinguishes two versions of PCA: <strong>unnormalized PCA</strong> (eigen-decomposition of the <em>covariance</em> matrix, centered data) and <strong>normalized PCA</strong> (eigen-decomposition of the <em>correlation</em> matrix, i.e.&nbsp;standardized data). Note that <code>PCA</code> of <code>scikit-learn</code> centers the data but does <strong>not</strong> scale it.</p>
+<p><strong>A.</strong> Fit a PCA with all 4 components on the <strong>raw</strong> data and on the <strong>standardized</strong> data, and compare the proportion of variance explained by each PC.</p>
+<div id="cell-13" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> <span class="bu">list</span>(arrests.columns)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> <span class="va">None</span>      <span class="co"># </span><span class="al">TODO</span><span class="co">: a standard scaler learned on the 4 variables</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> <span class="va">None</span>           <span class="co"># </span><span class="al">TODO</span><span class="co">: the standardized data (a NumPy array): each variable now has mean 0 and standard deviation 1</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pca_raw <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: a PCA keeping all 4 components, fitted on the RAW data</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>pca_std <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: a PCA keeping all 4 components, fitted on the standardized data Z</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>pcs <span class="op">=</span> [<span class="ss">f'PC</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>)]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>evr <span class="op">=</span> pd.DataFrame({<span class="st">'raw data'</span>: pca_raw.explained_variance_ratio_,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'standardized data'</span>: pca_std.explained_variance_ratio_}, index<span class="op">=</span>pcs)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>evr.<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Build the <strong>loading tables</strong> (the principal directions <span class="math inline">\(\vec{u}_k\)</span>): one row per original variable and one column per PC, for both PCAs. Be careful: <code>scikit-learn</code> stores the directions as the <em>rows</em> of its <code>components_</code> attribute.</p>
+<div id="cell-15" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>load_raw <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: table of the principal directions of pca_raw: variable names as index, PC names (PC1,...,PC4) as columns</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>load_std <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: the same table for pca_std</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pd.concat({<span class="st">'Raw data'</span>: load_raw, <span class="st">'Standardized data'</span>: load_std}, axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">round</span>(<span class="dv">3</span>)    <span class="co"># side by side</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>On the raw data, how much variance does PC1 capture and which variable does it essentially contain? Explain it with your answer of 1.1.C.</p></li>
+<li><p>What changes on the standardized data (variance explained, loadings of PC1)? Why do we use the standardized version here?</p></li>
+</ol>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="pca-by-hand-eigen-decomposition-of-the-correlation-matrix" class="level3">
+<h3 class="anchored" data-anchor-id="pca-by-hand-eigen-decomposition-of-the-correlation-matrix"><strong>1.3. PCA by Hand: Eigen-decomposition of the Correlation Matrix</strong></h3>
+<p>According to the lecture, <strong>normalized PCA</strong> is the eigen-decomposition <span class="math inline">\(C=U\Lambda U^T\)</span> of the <strong>correlation matrix</strong> <span class="math inline">\(C\)</span>: the columns of <span class="math inline">\(U\)</span> are the <strong>principal directions</strong>, <span class="math inline">\(\lambda_1\geq\dots\geq\lambda_4\)</span> are the variances along them, and the <strong>rotated data</strong> (the principal components) is <span class="math inline">\(\tilde D=ZU\)</span>.</p>
+<p><strong>A.</strong> Recompute everything without the <code>PCA</code> class and check that you get the same results as <code>scikit-learn</code>.</p>
+<div id="cell-19" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>C <span class="op">=</span> <span class="va">None</span>                 <span class="co"># </span><span class="al">TODO</span><span class="co">: the 4 x 4 correlation matrix of the variables (as a NumPy array)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>eigval, eigvec <span class="op">=</span> <span class="va">None</span>, <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: the eigenvalues and eigenvectors of C (C is symmetric), sorted from the LARGEST to the smallest eigenvalue (careful: the function you use may return them in increasing order). The eigenvectors are the columns of eigvec</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>scores_manual <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: the rotated data: the standardized data Z multiplied by the matrix of eigenvectors</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'eigenvalues:'</span>, eigval.<span class="bu">round</span>(<span class="dv">4</span>), <span class="st">'| sum ='</span>, eigval.<span class="bu">sum</span>().<span class="bu">round</span>(<span class="dv">4</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'variance ratios match sklearn  :'</span>, np.allclose(eigval <span class="op">/</span> eigval.<span class="bu">sum</span>(), pca_std.explained_variance_ratio_))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'directions match (up to sign)  :'</span>, np.allclose(np.<span class="bu">abs</span>(eigvec), np.<span class="bu">abs</span>(pca_std.components_.T)))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'components match (up to sign)  :'</span>, np.allclose(np.<span class="bu">abs</span>(scores_manual), np.<span class="bu">abs</span>(pca_std.transform(Z))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Why do the eigenvalues of the correlation matrix sum to 4? What does the ratio <span class="math inline">\(\lambda_k/\sum_j\lambda_j\)</span> represent?</p></li>
+<li><p>Why do we compare the directions and the components only <em>up to sign</em>?</p></li>
+</ol>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="dimensional-reduction-reconstruction" class="level3">
+<h3 class="anchored" data-anchor-id="dimensional-reduction-reconstruction"><strong>1.4. Dimensional Reduction &amp; Reconstruction</strong></h3>
+<p><strong>A.</strong> Compute the <strong>cumulative proportion of variance explained</strong> by the first <span class="math inline">\(k\)</span> PCs (<span class="math inline">\(k=1,\dots,4\)</span>), using the eigenvalues of 1.3, and plot it (a <em>scree plot</em>).</p>
+<div id="cell-23" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cum_var <span class="op">=</span> <span class="va">None</span>    <span class="co"># </span><span class="al">TODO</span><span class="co">: an array of 4 numbers: the proportion of variance explained by the first k PCs, for k = 1, 2, 3, 4 (cumulative sum of the eigenvalues divided by their total)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="fl">3.5</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].bar(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>), eigval <span class="op">/</span> eigval.<span class="bu">sum</span>(), color<span class="op">=</span><span class="st">'#345a8b'</span>)<span class="op">;</span> axes[<span class="dv">0</span>].set_title(<span class="st">'Variance explained by each PC'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>), cum_var <span class="op">*</span> <span class="dv">100</span>, <span class="st">'o-'</span>, color<span class="op">=</span><span class="st">'#345a8b'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].axhline(<span class="dv">85</span>, color<span class="op">=</span><span class="st">'red'</span>, ls<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'85%'</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Cumulative variance explained (%)'</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_xticks(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>))<span class="op">;</span> axes[<span class="dv">1</span>].legend()</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes: ax.set_xlabel(<span class="st">'number of PCs'</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>((cum_var <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> <strong>Reconstruct</strong> the standardized data from the first <span class="math inline">\(k\)</span> PCs, <span class="math inline">\(Z^{\text{rec}}_k=\tilde D_k\,U_k^T\)</span> (lecture), and measure the <strong>relative squared reconstruction error</strong> <span class="math inline">\(\|Z-Z^{\text{rec}}_k\|_F^2/\|Z\|_F^2\)</span>. Compare it with <span class="math inline">\(1-\)</span> (variance explained).</p>
+<div id="cell-25" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">5</span>):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    Z_rec <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: reconstruction of Z from the first k PCs: the first k columns of scores_manual multiplied by the transpose of the first k columns of eigvec</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    err <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: the relative squared Frobenius error: (sum of the squared entries of Z - Z_rec) divided by (sum of the squared entries of Z)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    rows.append({<span class="st">'k'</span>: k, <span class="st">'relative squared error'</span>: err, <span class="st">'1 - variance explained'</span>: <span class="dv">1</span> <span class="op">-</span> cum_var[k <span class="op">-</span> <span class="dv">1</span>]})</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(rows).set_index(<span class="st">'k'</span>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>How many PCs would you keep to retain at least 85% of the variance? What do we gain?</p></li>
+<li><p>What relation do you observe between the reconstruction error and the variance explained? Why? What is the error for <span class="math inline">\(k=4\)</span>?</p></li>
+</ol>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="correlation-circle-biplot" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-circle-biplot"><strong>1.5. Correlation Circle &amp; Biplot</strong></h3>
+<p><strong>A.</strong> To interpret the PCs, compute the <strong>correlation between each original (standardized) variable and PC1, PC2</strong>. The scores of the first two PCs are already prepared below.</p>
+<div id="cell-29" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>scores_df <span class="op">=</span> pd.DataFrame(pca_std.transform(Z)[:, :<span class="dv">2</span>], index<span class="op">=</span>arrests.index, columns<span class="op">=</span>[<span class="st">'PC1'</span>, <span class="st">'PC2'</span>])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Z_df <span class="op">=</span> pd.DataFrame(Z, index<span class="op">=</span>arrests.index, columns<span class="op">=</span>cols)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>corr_pc <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: a 4 x 2 table: the correlation between each standardized variable (rows) and each of PC1, PC2 (columns). Z_df and scores_df are two tables with the same rows (the states)</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>corr_pc.<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> Run the cell below: the <strong>correlation circle</strong> (left) and the <strong>biplot</strong> of the states (right, the 10 states farthest from the origin are named). The sign of a PC is arbitrary, so the cell flips it, if needed, to make PC1 positively correlated with <code>Murder</code> and PC2 with <code>UrbanPop</code>.</p>
+<div id="cell-31" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>signs <span class="op">=</span> np.where(np.diag(corr_pc.loc[[<span class="st">'Murder'</span>, <span class="st">'UrbanPop'</span>]].to_numpy()) <span class="op">&lt;</span> <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>corr_pc, scores_df <span class="op">=</span> corr_pc <span class="op">*</span> signs, scores_df <span class="op">*</span> signs</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>evr_std <span class="op">=</span> pca_std.explained_variance_ratio_</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="fl">5.5</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">0</span>]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ax.add_patch(plt.Circle((<span class="dv">0</span>, <span class="dv">0</span>), <span class="dv">1</span>, fill<span class="op">=</span><span class="va">False</span>, ls<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'k'</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var, (a, b) <span class="kw">in</span> corr_pc.iterrows():</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    ax.arrow(<span class="dv">0</span>, <span class="dv">0</span>, a, b, head_width<span class="op">=</span><span class="fl">0.03</span>, color<span class="op">=</span><span class="st">'#345a8b'</span>, length_includes_head<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    ax.text(a <span class="op">*</span> <span class="fl">1.1</span>, b <span class="op">*</span> <span class="fl">1.1</span>, var, ha<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">.8</span>)<span class="op">;</span> ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">.8</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="fl">1.25</span>, <span class="fl">1.25</span>)<span class="op">;</span> ax.set_ylim(<span class="op">-</span><span class="fl">1.25</span>, <span class="fl">1.25</span>)<span class="op">;</span> ax.set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="ss">f'PC1 (</span><span class="sc">{</span>evr_std[<span class="dv">0</span>]<span class="sc">:.1%}</span><span class="ss">)'</span>)<span class="op">;</span> ax.set_ylabel(<span class="ss">f'PC2 (</span><span class="sc">{</span>evr_std[<span class="dv">1</span>]<span class="sc">:.1%}</span><span class="ss">)'</span>)<span class="op">;</span> ax.set_title(<span class="st">'Correlation circle'</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> axes[<span class="dv">1</span>]</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>ax.scatter(scores_df[<span class="st">'PC1'</span>], scores_df[<span class="st">'PC2'</span>], color<span class="op">=</span><span class="st">'#345a8b'</span>, s<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> st <span class="kw">in</span> (scores_df <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).nlargest(<span class="dv">10</span>).index:</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    ax.annotate(st, (scores_df.loc[st, <span class="st">'PC1'</span>], scores_df.loc[st, <span class="st">'PC2'</span>]), fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">.8</span>)<span class="op">;</span> ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, ls<span class="op">=</span><span class="st">'--'</span>, lw<span class="op">=</span><span class="fl">.8</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="ss">f'PC1 (</span><span class="sc">{</span>evr_std[<span class="dv">0</span>]<span class="sc">:.1%}</span><span class="ss">)'</span>)<span class="op">;</span> ax.set_ylabel(<span class="ss">f'PC2 (</span><span class="sc">{</span>evr_std[<span class="dv">1</span>]<span class="sc">:.1%}</span><span class="ss">)'</span>)<span class="op">;</span> ax.set_title(<span class="st">'Biplot of the states'</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>C.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Interpret <strong>PC1</strong> and <strong>PC2</strong>: which variables are well represented by the plane (long arrows)? Which ones are aligned / nearly perpendicular, and what does it say about their correlation (compare with 1.1.B)?</p></li>
+<li><p>Use the biplot: name a state with a high PC1 and a state with a low PC1, a state with a high PC2 and a state with a low PC2.</p></li>
+<li><p>The lecture warns that the interpretation of PCs may be misleading. Why?</p></li>
+</ol>
+<p><strong>C.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="t-sne-on-fashion-mnist-28-min" class="level2">
+<h2 class="anchored" data-anchor-id="t-sne-on-fashion-mnist-28-min"><strong>2. t-SNE on Fashion-MNIST</strong> <em>(~28 min)</em></h2>
+<p><strong>Goal:</strong> visualize <strong>high-dimensional</strong> data (<span class="math inline">\(d=784\)</span>) in 2D, compare the <strong>linear</strong> PCA with the <strong>non-linear</strong> <span class="math inline">\(t\)</span>-SNE, and explore the effect of the main hyperparameter of <span class="math inline">\(t\)</span>-SNE: the <strong>perplexity</strong>.</p>
+<p><strong>Data:</strong> <em>Fashion-MNIST</em>: 28x28 grayscale images of 10 types of clothing (60,000 for training). Each image is a vector of <span class="math inline">\(d=784\)</span> pixels. To keep <span class="math inline">\(t\)</span>-SNE fast, we use a random sample of <span class="math inline">\(N=2000\)</span> images.</p>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data"><strong>2.1. Data</strong></h3>
+<p>Run the cell below to load the data (it needs <code>keras</code> as in the lecture; if it is not installed, it downloads the data from OpenML instead, so an internet connection is required).</p>
+<div id="cell-35" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> keras.datasets <span class="im">import</span> fashion_mnist           <span class="co"># same source as the MNIST example of the lecture</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    (x_train, y_train), _ <span class="op">=</span> fashion_mnist.load_data()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">Exception</span>:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_openml</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    fm <span class="op">=</span> fetch_openml(<span class="st">'Fashion-MNIST'</span>, version<span class="op">=</span><span class="dv">1</span>, as_frame<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    x_train, y_train <span class="op">=</span> fm.data[:<span class="dv">60000</span>].reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">28</span>, <span class="dv">28</span>), fm.target[:<span class="dv">60000</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x_train.shape, y_train.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> Take a random sample of <span class="math inline">\(N=2000\)</span> images and transform each image into a <strong>row vector</strong> of 784 pixels, with pixel values rescaled to <span class="math inline">\([0,1]\)</span>.</p>
+<div id="cell-37" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>class_names <span class="op">=</span> [<span class="st">'T-shirt/top'</span>, <span class="st">'Trouser'</span>, <span class="st">'Pullover'</span>, <span class="st">'Dress'</span>, <span class="st">'Coat'</span>, <span class="st">'Sandal'</span>, <span class="st">'Shirt'</span>, <span class="st">'Sneaker'</span>, <span class="st">'Bag'</span>, <span class="st">'Ankle boot'</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(SEED)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> rng.choice(<span class="bu">len</span>(x_train), size<span class="op">=</span>N, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>img_s, y_s <span class="op">=</span> x_train[idx], y_train[idx]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>X_s <span class="op">=</span> <span class="va">None</span>    <span class="co"># </span><span class="al">TODO</span><span class="co">: the N sampled images as a matrix with N rows and 784 columns (each 28 x 28 image flattened into one row), with the pixel values rescaled from [0, 255] to [0, 1]</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_s.shape, X_s.<span class="bu">min</span>(), X_s.<span class="bu">max</span>(), <span class="st">'| images per class:'</span>, np.bincount(y_s))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Run the cell below to look at some images and to define a plotting helper used in the next sections.</p>
+<div id="cell-39" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">6</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">3.4</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, i <span class="kw">in</span> <span class="bu">zip</span>(axes.ravel(), <span class="bu">range</span>(<span class="dv">12</span>)):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    ax.imshow(img_s[i], cmap<span class="op">=</span><span class="st">'gray'</span>)<span class="op">;</span> ax.axis(<span class="st">'off'</span>)<span class="op">;</span> ax.set_title(class_names[y_s[i]], fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scatter2d(Z2, y, ax, title):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2D scatter plot with one color per class</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    sns.scatterplot(x<span class="op">=</span>Z2[:, <span class="dv">0</span>], y<span class="op">=</span>Z2[:, <span class="dv">1</span>], hue<span class="op">=</span>[class_names[c] <span class="cf">for</span> c <span class="kw">in</span> y], hue_order<span class="op">=</span>class_names,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                    palette<span class="op">=</span><span class="st">'tab10'</span>, s<span class="op">=</span><span class="dv">14</span>, ax<span class="op">=</span>ax, legend<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title)<span class="op">;</span> ax.set_xticks([])<span class="op">;</span> ax.set_yticks([])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="baseline-pca-in-2d" class="level3">
+<h3 class="anchored" data-anchor-id="baseline-pca-in-2d"><strong>2.2. Baseline: PCA in 2D</strong></h3>
+<p><strong>A.</strong> Fit a PCA with 2 components on <code>X_s</code> and project the data. Then fit a PCA with all components and find the <strong>smallest number of PCs explaining at least 90%</strong> of the variance.</p>
+<div id="cell-41" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pca_fm <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: a PCA with 2 components fitted on X_s</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Z_pca <span class="op">=</span> <span class="va">None</span>      <span class="co"># </span><span class="al">TODO</span><span class="co">: the 2-dimensional projection of X_s (a matrix with N rows and 2 columns)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Variance explained by 2 PCs: </span><span class="sc">{</span>pca_fm<span class="sc">.</span>explained_variance_ratio_<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:.1%}</span><span class="ss">'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>pca_full <span class="op">=</span> <span class="va">None</span>   <span class="co"># </span><span class="al">TODO</span><span class="co">: a PCA keeping all the components, fitted on X_s</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>k90 <span class="op">=</span> <span class="va">None</span>        <span class="co"># </span><span class="al">TODO</span><span class="co">: the smallest number of PCs whose cumulative proportion of explained variance is at least 90%</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Number of PCs needed for 90</span><span class="sc">% o</span><span class="st">f the variance:'</span>, k90)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>scatter2d(Z_pca, y_s, ax, <span class="st">'PCA (2 components)'</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>[plt.Line2D([], [], marker<span class="op">=</span><span class="st">'o'</span>, ls<span class="op">=</span><span class="st">''</span>, color<span class="op">=</span>c, label<span class="op">=</span>n) <span class="cf">for</span> c, n <span class="kw">in</span> <span class="bu">zip</span>(sns.color_palette(<span class="st">'tab10'</span>), class_names)],</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>          bbox_to_anchor<span class="op">=</span>(<span class="fl">1.02</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>How much variance do 2 PCs keep, and how many PCs are needed for 90%? Is the data “essentially 2-dimensional” for a linear method?</p></li>
+<li><p>Looking at the PCA plot, which classes are well separated and which ones overlap?</p></li>
+</ol>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="t-sne-in-2d" class="level3">
+<h3 class="anchored" data-anchor-id="t-sne-in-2d"><strong>2.3. t-SNE in 2D</strong></h3>
+<p><span class="math inline">\(t\)</span>-SNE converts the distances between the images into <strong>neighbor probabilities</strong> <span class="math inline">\(P\)</span> (Gaussian, in the 784-D space) and looks for 2D points whose <span class="math inline">\(t\)</span>-distribution probabilities <span class="math inline">\(Q\)</span> are as close as possible to <span class="math inline">\(P\)</span> in terms of the <strong>KL divergence</strong> (minimized by gradient descent with momentum).</p>
+<p><strong>A.</strong> Fit a <code>TSNE</code> with <strong>2 components</strong>, <strong>perplexity 30</strong> and <code>random_state=SEED</code> on <code>X_s</code> (this takes about 10-60 s) and report the final KL divergence.</p>
+<div id="cell-45" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.time()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>tsne <span class="op">=</span> <span class="va">None</span>       <span class="co"># </span><span class="al">TODO</span><span class="co">: a t-SNE model with 2 components, perplexity 30 and random_state=SEED</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>Z_tsne <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: the 2-dimensional embedding of X_s learned by this model</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>time<span class="sc">.</span>time() <span class="op">-</span> t0<span class="sc">:.0f}</span><span class="ss">s | final KL divergence: </span><span class="sc">{</span>tsne<span class="sc">.</span>kl_divergence_<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">5</span>))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>scatter2d(Z_pca, y_s, axes[<span class="dv">0</span>], <span class="st">'PCA (2 components)'</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>scatter2d(Z_tsne, y_s, axes[<span class="dv">1</span>], <span class="st">'t-SNE (perplexity 30)'</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(handles<span class="op">=</span>[plt.Line2D([], [], marker<span class="op">=</span><span class="st">'o'</span>, ls<span class="op">=</span><span class="st">''</span>, color<span class="op">=</span>c, label<span class="op">=</span>n) <span class="cf">for</span> c, n <span class="kw">in</span> <span class="bu">zip</span>(sns.color_palette(<span class="st">'tab10'</span>), class_names)],</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>               bbox_to_anchor<span class="op">=</span>(<span class="fl">1.02</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">'upper left'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Compare t-SNE with PCA: which classes are now well separated? Which ones still overlap and why?</p></li>
+<li><p>PCA is a <em>linear rotation</em>, t-SNE is <em>non-linear</em> and keeps <strong>neighborhoods</strong>. In which situation would you prefer each one?</p></li>
+</ol>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+</section>
+<section id="effect-of-the-perplexity" class="level3">
+<h3 class="anchored" data-anchor-id="effect-of-the-perplexity"><strong>2.4. Effect of the Perplexity</strong></h3>
+<p>The <strong>perplexity</strong> is the main hyperparameter of <span class="math inline">\(t\)</span>-SNE: it is (roughly) the number of effective neighbors of each point, typically between 5 and 50 (see the <em>How to use t-SNE effectively</em> article of the lecture).</p>
+<p><strong>A.</strong> Fit a t-SNE for each perplexity in <code>[5, 30, 100]</code> (same <code>random_state=SEED</code>), keep the embeddings and the final KL divergences (about 1-3 min in total), and plot the three embeddings.</p>
+<div id="cell-49" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>perplexities <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>embeds, kls <span class="op">=</span> {}, {}</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> perp <span class="kw">in</span> perplexities:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="va">None</span>            <span class="co"># </span><span class="al">TODO</span><span class="co">: a t-SNE model with 2 components, perplexity `perp` and random_state=SEED</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    embeds[perp] <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: the 2-dimensional embedding of X_s learned by this model</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    kls[perp] <span class="op">=</span> <span class="va">None</span>        <span class="co"># </span><span class="al">TODO</span><span class="co">: the final KL divergence reached by this model</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'perplexity </span><span class="sc">{</span>perp<span class="sc">:&gt;3}</span><span class="ss">: KL = </span><span class="sc">{</span>kls[perp]<span class="sc">:.3f}</span><span class="ss">'</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">5</span>))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, perp <span class="kw">in</span> <span class="bu">zip</span>(axes, perplexities):</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    scatter2d(embeds[perp], y_s, ax, <span class="ss">f'perplexity = </span><span class="sc">{</span>perp<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell, briefly answer:</p>
+<ol type="i">
+<li><p>Describe how the embedding changes when the perplexity goes from 5 to 100 (cluster shapes, fragmentation, global arrangement).</p></li>
+<li><p>Which quantity of the lecture does the perplexity control? (think about <span class="math inline">\(p_{j|i}\)</span> and <span class="math inline">\(\sigma_i\)</span>)</p></li>
+<li><p>The KL divergence is smaller for one of the perplexities. Can we use it to <em>choose</em> the best perplexity? Can we read the distances between clusters and the cluster sizes in a t-SNE plot?</p></li>
+</ol>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<ol type="i">
+<li><p>…</p></li>
+<li><p>…</p></li>
+<li><p>…</p></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="going-further-homework" class="level2">
+<h2 class="anchored" data-anchor-id="going-further-homework"><strong>3. Going Further</strong> <em>(Homework)</em></h2>
+<p>The sections below are for you to complete <strong>after class</strong>.</p>
+<section id="reconstruction-of-images-with-pca" class="level3">
+<h3 class="anchored" data-anchor-id="reconstruction-of-images-with-pca"><strong>3.1. Reconstruction of Images with PCA</strong></h3>
+<p><strong>A.</strong> The lecture showed that PCA can <strong>reconstruct</strong> the data from <span class="math inline">\(k&lt;d\)</span> PCs. For <span class="math inline">\(k\in\{2,10,50,200\}\)</span>, fit a PCA with <span class="math inline">\(k\)</span> components on <code>X_s</code>, reconstruct all the images from their <span class="math inline">\(k\)</span> PCs, and compute the <strong>mean squared reconstruction error</strong> (mean of the squared differences between <code>X_s</code> and its reconstruction). The cell then displays 4 reconstructed images for each <span class="math inline">\(k\)</span>.</p>
+<div id="cell-53" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ks <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">200</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>recs, mses <span class="op">=</span> {}, {}</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> ks:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    pca_k <span class="op">=</span> <span class="va">None</span>          <span class="co"># </span><span class="al">TODO</span><span class="co">: a PCA with k components fitted on X_s</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    recs[k] <span class="op">=</span> <span class="va">None</span>        <span class="co"># </span><span class="al">TODO</span><span class="co">: the reconstruction of X_s from its k PCs (project the images on the k PCs, then go back to the 784-dimensional space)</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    mses[k] <span class="op">=</span> <span class="va">None</span>        <span class="co"># </span><span class="al">TODO</span><span class="co">: the mean of the squared differences between X_s and recs[k]</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({k: <span class="bu">round</span>(v, <span class="dv">5</span>) <span class="cf">for</span> k, v <span class="kw">in</span> mses.items()})</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="bu">len</span>(ks) <span class="op">+</span> <span class="dv">1</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">9</span>))</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, j].imshow(X_s[j].reshape(<span class="dv">28</span>, <span class="dv">28</span>), cmap<span class="op">=</span><span class="st">'gray'</span>)<span class="op">;</span> axes[<span class="dv">0</span>, j].set_title(<span class="st">'original'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, k <span class="kw">in</span> <span class="bu">enumerate</span>(ks, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        axes[i, j].imshow(recs[k][j].reshape(<span class="dv">28</span>, <span class="dv">28</span>), cmap<span class="op">=</span><span class="st">'gray'</span>)<span class="op">;</span> axes[i, j].set_title(<span class="ss">f'k = </span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.ravel(): ax.axis(<span class="st">'off'</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell: <em>how does the error behave when <span class="math inline">\(k\)</span> increases? From which <span class="math inline">\(k\)</span> can you recognize the garments? Compare with the number of PCs needed for 90% of the variance in 2.2.</em></p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="speeding-up-t-sne-with-pca" class="level3">
+<h3 class="anchored" data-anchor-id="speeding-up-t-sne-with-pca"><strong>3.2. Speeding up t-SNE with PCA</strong></h3>
+<p><strong>A.</strong> A common practice is to apply PCA first (here 50 PCs) and then t-SNE on the PCs. Fit a PCA with <strong>50 components</strong> on <code>X_s</code>, run a t-SNE (perplexity 30, <code>random_state=SEED</code>) on these 50 PCs, measure the <strong>time</strong> and plot the result next to the t-SNE of 2.3.</p>
+<div id="cell-57" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pca50 <span class="op">=</span> <span class="va">None</span>        <span class="co"># </span><span class="al">TODO</span><span class="co">: a PCA with 50 components fitted on X_s</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>X_50 <span class="op">=</span> <span class="va">None</span>         <span class="co"># </span><span class="al">TODO</span><span class="co">: the data X_s projected on these 50 PCs</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>t0 <span class="op">=</span> time.time()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>Z_tsne50 <span class="op">=</span> <span class="va">None</span>     <span class="co"># </span><span class="al">TODO</span><span class="co">: the 2-dimensional t-SNE embedding (perplexity 30, random_state=SEED) of X_50</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>time<span class="sc">.</span>time() <span class="op">-</span> t0<span class="sc">:.0f}</span><span class="ss">s | variance kept by the 50 PCs: </span><span class="sc">{</span>pca50<span class="sc">.</span>explained_variance_ratio_<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:.1%}</span><span class="ss">'</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>scatter2d(Z_tsne, y_s, axes[<span class="dv">0</span>], <span class="st">'t-SNE on the 784 pixels'</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>scatter2d(Z_tsne50, y_s, axes[<span class="dv">1</span>], <span class="st">'t-SNE on the 50 first PCs'</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span> plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>B.</strong> In a markdown cell: <em>is the picture similar? Why does the PCA preprocessing speed up t-SNE and why can it even help (think about the noise and about the distances in high dimension)?</em></p>
+<p><strong>B.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+</section>
+<section id="more-experiments" class="level3">
+<h3 class="anchored" data-anchor-id="more-experiments"><strong>3.3. More Experiments</strong></h3>
+<p><strong>A.</strong> Do the following (add cells below):</p>
+<ol type="1">
+<li><strong>Stability:</strong> run the t-SNE of 2.3 with 3 different <code>random_state</code>. What stays the same and what changes between the runs?</li>
+<li><strong>PCA + kNN</strong> (Lab 8): split <code>X_s</code> into train/test (80/20, stratified). For <span class="math inline">\(k\in\{2,5,10,20,50,100\}\)</span> PCs, fit PCA on the training set only, train a kNN classifier on the PCs and plot the test accuracy against <span class="math inline">\(k\)</span>. How many PCs are enough? Compare with the accuracy of the kNN on the 784 pixels.</li>
+<li><strong>USArrests with t-SNE:</strong> apply a t-SNE (perplexity 10) on the standardized USArrests data and compare the 2D picture with the biplot of 1.5.</li>
+</ol>
+<div id="cell-61" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>A.</strong> <em>Your answer here:</em></p>
+<p>…</p>
+<hr>
+</section>
+</section>
+<section id="wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrap-up"><strong>Wrap-up</strong></h2>
+<p>In this lab you:</p>
+<ul>
+<li><strong>Explored</strong> the USArrests data and saw why PCA must be applied on <strong>standardized</strong> data when the variables have different scales (Sections 1.1-1.2).</li>
+<li>Computed PCA <strong>by hand</strong> (eigen-decomposition of the correlation matrix), measured the <strong>variance explained</strong>, and <strong>reconstructed</strong> the data from the first <span class="math inline">\(k\)</span> PCs (Sections 1.3-1.4).</li>
+<li><strong>Interpreted</strong> the PCs with a <strong>correlation circle</strong> and a <strong>biplot</strong> (Section 1.5).</li>
+<li>Embedded Fashion-MNIST in 2D with <strong>PCA</strong> and <strong>t-SNE</strong>, and explored the effect of the <strong>perplexity</strong> (Section 2).</li>
+<li><em>(At home)</em> Reconstructed images with PCA, combined PCA and t-SNE, and ran more experiments (Section 3).</li>
+</ul>
+<p>The core idea: <strong>PCA is a linear, deterministic, interpretable rotation that keeps the largest variance (good for summarizing, compressing and reconstructing); t-SNE is a non-linear, stochastic, visualization-only embedding that keeps neighborhoods (clusters are meaningful, distances between clusters and cluster sizes are not).</strong></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
