@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="10-sql_files/libs/clipboard/clipboard.min.js"></script>
+<script src="10-sql_files/libs/quarto-html/tabby.min.js"></script>
+<script src="10-sql_files/libs/quarto-html/popper.min.js"></script>
+<script src="10-sql_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="10-sql_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="10-sql_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="10-sql_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="10-sql_files/libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="10-sql_files/libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Lecturer: Dr.&nbsp;Sothea HAS">
+  <title> SQL for Data Analysis</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="10-sql_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="10-sql_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="10-sql_files/libs/revealjs/dist/theme/quarto-ae43b858813db9b1761978c2fc6eca2a.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="10-sql_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="10-sql_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="10-sql_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="10-sql_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <style>
+  #title-slide .title {
+      font-size: 3em;
+  }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title"><i class="fa-solid fa-database" aria-label="database"></i> SQL for Data Analysis</h1>
+  <p class="subtitle"><br> <span class="blue">INS-605: Data Analysis II</span> <br> <a href="https://www.aupp.edu.kh/" target="_blank"><img data-src="./img/AUPP_Logo.png" width="150"></a> <br></p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<span class="blue">Lecturer: Dr.&nbsp;Sothea HAS</span> 
+</div>
+</div>
+</div>
+
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title"><i class="fa-solid fa-map-location-dot" aria-label="map-location-dot"></i> Content</h2>
+<ul>
+<li><a href="#/intro-motivation" id="/toc-intro-motivation"><span class="header-section-number">1</span> Intro &amp; Motivation</a></li>
+<li><a href="#/getting-started-with-sql" id="/toc-getting-started-with-sql"><span class="header-section-number">2</span> Getting Started with SQL</a></li>
+<li><a href="#/database-design-manipulation" id="/toc-database-design-manipulation"><span class="header-section-number">3</span> Database Design &amp; Manipulation</a></li>
+<li><a href="#/querying-select" id="/toc-querying-select"><span class="header-section-number">4</span> Querying: SELECT</a></li>
+<li><a href="#/aggregation-grouping" id="/toc-aggregation-grouping"><span class="header-section-number">5</span> Aggregation &amp; Grouping</a></li>
+<li><a href="#/combining-tables-join" id="/toc-combining-tables-join"><span class="header-section-number">6</span> Combining Tables: JOIN</a></li>
+<li><a href="#/validation-practical-workflow" id="/toc-validation-practical-workflow"><span class="header-section-number">7</span> Validation &amp; Practical Workflow</a></li>
+</ul>
+</nav>
+</section>
+<section>
+<section id="intro-motivation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="1">
+<h1><span class="header-section-number">1</span> Intro &amp; Motivation</h1>
+
+</section>
+<section id="from-pandas-to-sql" class="slide level2" data-number="1.1">
+<h2><span class="header-section-number">1.1</span> From pandas to SQL</h2>
+<div style="font-size: 80%">
+<ul>
+<li class="fragment"><span class="blue"><strong>Context:</strong></span> You know how to manipulate data with <span class="light-red">Python &amp; pandas</span>. Now let’s explore its database-side counterpart: <span class="blue">SQL</span>.</li>
+</ul>
+<div class="vspace" style="--space: -15px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><span class="blue"><strong><code>pandas</code> (Python Library):</strong></span>
+<ul>
+<li class="fragment">In-memory dataframes (<code>pd.DataFrame</code>).</li>
+<li class="fragment">Imperative operations (<code>df.groupby().mean()</code>).</li>
+<li class="fragment">Great for modeling, machine learning, and visualization.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><span class="blue"><strong><code>SQL</code> (Database Language):</strong></span>
+<ul>
+<li class="fragment">Client-server / file-based relational databases (SQLite, DuckDB, Postgres).</li>
+<li class="fragment">Declarative querying (describe <em>what</em> you want, not <em>how</em> to get it).</li>
+<li class="fragment">Built for storage efficiency, scale, and transaction safety.</li>
+</ul></li>
+</ul>
+</div></div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="pandas-vs-sql"><code>pandas</code> vs <code>SQL</code></h3>
+<div style="font-size: 80%">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./img/pd_sql.png" class="quarto-figure quarto-figure-center" style="width:98.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="why-learn-sql">Why learn SQL?</h3>
+<div style="font-size: 80%">
+<ul>
+<li class="fragment"><span class="blue"><strong>The Real Analyst Workflow:</strong></span> <span style="font-size: 70%"><span class="math display">\[\boxed{\text{Business Question} \longrightarrow {\color{blue}{\text{Database Query (SQL)}}} \longrightarrow \text{Query Set} \longrightarrow \text{Analysis / KPI / Model}.}\]</span></span></li>
+<li class="fragment"><span class="red"><strong>Enterprise Reality:</strong></span> Most corporate data lives in relational databases or data warehouses (Snowflake, BigQuery, PostgreSQL), not clean CSV files.</li>
+<li class="fragment"><span class="blue"><strong>Performance &amp; Scale:</strong></span> SQL databases handle millions of rows efficiently without crashing your local RAM.</li>
+<li class="fragment"><span class="blue"><strong>Collaboration:</strong></span>
+<ul>
+<li class="fragment"><strong>Data engineers</strong> commonly build databases in SQL</li>
+<li class="fragment"><strong>ata analysts</strong> query them to analyze and extract insights.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="one-dataset-two-ways-of-working">One dataset, two ways of working</h3>
+<div style="font-size: 65%">
+<ul>
+<li><span class="nowrap">Let <code>table</code> be the data table, let’s compare common operations across paradigms:</span></li>
+</ul>
+<table class="caption-top">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 55%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Operation</th>
+<th style="text-align: left;">pandas (Python)</th>
+<th style="text-align: left;">SQL (RD)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Select columns</strong></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="1"><code>df[['col1', 'col2']]</code></span></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="1"><code>SELECT col1, col2 FROM table</code></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Filter rows</strong></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="2"><code>df[df['age'] &gt; 30]</code></span></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="2"><code>SELECT * FROM table WHERE age &gt; 30</code></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Sort values</strong></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="3"><code>df.sort_values('date', ascending=False)</code></span></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="3"><code>SELECT * FROM table ORDER BY date DESC</code></span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Aggregate</strong></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="4"><code>df.groupby('cat').mean()</code></span></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="4"><code>SELECT cat, AVG(val) FROM table GROUP BY cat</code></span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Join tables</strong></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="5"><code>pd.merge(df1, df2, on='id', how='inner')</code></span></td>
+<td style="text-align: left;"><span class="fragment fade-in" data-fragment-index="5"><code>SELECT * FROM t1 JOIN t2 ON t1.id = t2.id</code></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section></section>
+<section>
+<section id="getting-started-with-sql" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="2">
+<h1><span class="header-section-number">2</span> Getting Started with SQL</h1>
+
+</section>
+<section id="what-is-sql" class="slide level2" data-number="2.1">
+<h2><span class="header-section-number">2.1</span> What is SQL?</h2>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li class="fragment"><span class="blue"><strong>Relational Database Management System (RDBMS):</strong></span>
+<ul>
+<li class="fragment">Data stored in normalized tables (relations).</li>
+<li class="fragment">Tables consist of <strong>rows</strong> (records/entities) and <strong>columns</strong> (attributes/fields).</li>
+<li class="fragment">Linked via <strong>keys</strong> (Primary Keys &amp; Foreign Keys).</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<pre><code>  CUSTOMERS TABLE
+┌────┬──────────┬───────────┐
+│ ID │ Name     │ City      │
+├────┼──────────┼───────────┤
+│  1 │ Alice    │ Phnom Penh│
+│  2 │ Bob      │ Siem Reap │
+└────┴──────────┴───────────┘
+            │   (1-to-Many)
+            ▼
+       ORDERS TABLE
+┌─────┬─────────────┬────────┐
+│ Ord │ Customer_ID │ Amount │
+├─────┼─────────────┼────────┤
+│ 101 │           1 │  45.50 │
+│ 102 │           1 │ 120.00 │
+│ 103 │           2 │  15.00 │
+└─────┴─────────────┴────────┘</code></pre>
+</div></div>
+<div class="vspace" style="--space: -20px">
+<ul>
+<li class="fragment"><span class="blue"><strong>Declarative Nature:</strong></span> You specify <em>what</em> data to retrieve, and the database engine optimizes <em>how</em> to fetch it.</li>
+</ul>
+</div>
+</div>
+<p><span class="slide-note fragment"><span class="blue"><em>Primary keys</em></span>: identifier of items/records in entity tables. <span class="red"><em>Foreign key</em></span>: reference to links of primary keys created in liked tables.</span></p>
+</section>
+<section class="slide level2">
+
+<h3 id="which-platform-should-we-use">Which platform should we use?</h3>
+<div style="font-size: 80%">
+<ul>
+<li class="fragment"><span class="blue"><strong>Low-Friction Classroom Options:</strong></span>
+<ul>
+<li class="fragment"><a href="https://sqliteonline.com/" target="_blank"><strong>SQLite Online:</strong></a> Browser-based, zero installation, supports SQLite, PostgreSQL, MySQL, and MS SQL.</li>
+<li class="fragment"><a href="https://sqlitebrowser.org/" target="_blank"><strong>DB Browser for SQLite:</strong></a> Lightweight desktop application for managing local <code>.db</code> files.</li>
+</ul></li>
+<li class="fragment"><span class="blue"><strong>Production &amp; Big Data Tools:</strong></span>
+<ul>
+<li class="fragment"><span class="light-red"><strong>DuckDB:</strong></span> In-process analytical database, fantastic companion to Python/pandas.</li>
+<li class="fragment"><span class="light-red"><strong>PostgreSQL / MySQL:</strong></span> Robust enterprise-grade relational database servers.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="getting-started-create-a-database">Getting started: create a database</h3>
+<div style="font-size: 80%">
+<ul>
+<li><span class="nowrap">Creating tables using <strong>DDL</strong> (Data Definition Language):</span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href=""></a><span class="co">-- Create our customers table</span></span>
+<span id="cb2-2"><a href=""></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> customers (</span>
+<span id="cb2-3"><a href=""></a>    customer_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-4"><a href=""></a>    name TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-5"><a href=""></a>    city TEXT</span>
+<span id="cb2-6"><a href=""></a>);</span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a><span class="co">-- Insert a record</span></span>
+<span id="cb2-9"><a href=""></a><span class="kw">INSERT</span> <span class="kw">INTO</span> customers (customer_id, name, city) </span>
+<span id="cb2-10"><a href=""></a><span class="kw">VALUES</span> (<span class="dv">1</span>, <span class="st">'Srey Mom'</span>, <span class="st">'Battambang'</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li class="fragment"><span class="blue"><strong>Key remark:</strong></span> Unlike pandas where data types are inferred dynamically upon reading a CSV, SQL requires explicit schema definitions and data types (<code>INTEGER</code>, <code>TEXT</code>, <code>REAL</code>, <code>DATETIME</code>).</li>
+<li class="fragment"><span class="red"><strong>Task:</strong></span> Add a few more customers to the <code>customers</code> table.</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="our-running-example-a-small-shop">Our running example: a small shop</h3>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>We will query a compact shop database containing two related tables:
+<ol type="1">
+<li><span class="blue"><code>customers</code></span>: stores customer profile information (<code>customer_id</code>, <code>name</code>, <code>city</code>, <code>signup_date</code>).</li>
+<li><span class="blue"><code>orders</code></span>: stores transaction records (<code>order_id</code>, <code>customer_id</code>, <code>order_date</code>, <code>amount</code>, <code>status</code>).</li>
+</ol></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<pre><code>  CUSTOMERS TABLE
+┌────┬──────────┬───────────┐
+│ ID │ Name     │ City      │
+├────┼──────────┼───────────┤
+│  1 │ Alice    │ Phnom Penh│
+│  2 │ Bob      │ Siem Reap │
+└────┴──────────┴───────────┘
+            │   (1-to-Many)
+            ▼
+       ORDERS TABLE
+┌─────┬─────────────┬────────┐
+│ Ord │ Customer_ID │ Amount │
+├─────┼─────────────┼────────┤
+│ 101 │           1 │  45.50 │
+│ 102 │           1 │ 120.00 │
+│ 103 │           2 │  15.00 │
+└─────┴─────────────┴────────┘</code></pre>
+</div><div class="vspace" style="--space: -20px">
+<ul>
+<li><span class="light-red"><strong>Relationship:</strong></span> One customer can place many orders (<span class="blue">1-to-Many relationship</span>).</li>
+<li>We will use this running example to master filtering, grouping, joining, and table modification. <span class="red"><strong>Task:</strong></span> Create <code>Orders</code> table.</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="database-design-manipulation" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="3">
+<h1><span class="header-section-number">3</span> Database Design &amp; Manipulation</h1>
+
+</section>
+<section id="flat-files-to-relational-tables" class="slide level2" data-number="3.1">
+<h2><span class="header-section-number">3.1</span> Flat files to relational tables</h2>
+<div style="font-size: 80%">
+<ul>
+<li class="fragment"><span class="nowrap"><strong>The Problem with Flat Files (Spreadsheets):</strong></span>
+<ul>
+<li class="fragment">A single giant CSV containing customer details repeated across every single transaction row.</li>
+</ul></li>
+<li class="fragment"><span class="light-red"><strong>Consequences:</strong></span>
+<ul>
+<li class="fragment">Redundant storage space.</li>
+<li class="fragment">Risk of update anomalies (if a customer changes their city, you must update 50 rows instead of 1).</li>
+</ul></li>
+<li class="fragment"><span class="blue"><strong>Relational Principle (Normalization):</strong></span>
+<ul>
+<li class="fragment">Split entities into distinct thematic tables.</li>
+<li class="fragment">Link them using unique identifiers (Keys) to maintain data integrity.</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="keys-and-relationships">Keys and relationships</h3>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="font-size: 95%">
+<ul>
+<li><span class="blue"><strong>Primary Key (PK):</strong></span>
+<ul>
+<li>A column (or set of columns) that uniquely identifies each row in a table (e.g., <code>customer_id</code>).</li>
+<li>Must contain unique, non-null values.</li>
+</ul></li>
+<li><span class="blue"><strong>Foreign Key (FK):</strong></span>
+<ul>
+<li>A column in one table that references the Primary Key of another table (e.g., <code>orders.customer_id</code> references <code>customers.customer_id</code>).</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="column" style="width:45%;">
+<ul>
+<li><span class="light-red"><strong>Relationship Types:</strong></span>
+<ul>
+<li><span class="blue"><strong>1-to-Many:</strong></span> One customer has many orders. (Most common).</li>
+<li><span class="blue"><strong>1-to-1:</strong></span> One user profile has one extended passport record.</li>
+<li><span class="blue"><strong>Many-to-Many:</strong></span> Students enroll in many courses, courses have many students (requires a junction/bridge table).</li>
+</ul></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="database-design-a-practical-checklist">Database design: a practical checklist</h3>
+<div style="font-size: 80%">
+<ol type="1">
+<li class="fragment"><span class="blue"><strong>Identify Entities:</strong></span> What are the core business objects? (e.g., Customers, Products, Orders, Categories).</li>
+<li class="fragment"><span class="blue"><strong>Determine Grain:</strong></span> What does a single row represent? (e.g., One row per order item).</li>
+<li class="fragment"><span class="blue"><strong>Define Keys &amp; Constraints:</strong></span> Assign primary keys, foreign keys, <code>NOT NULL</code>, and <code>UNIQUE</code> constraints.</li>
+<li class="fragment"><span class="blue"><strong>Choose Data Types:</strong></span> Match columns to appropriate types (<code>INTEGER</code>, <code>REAL</code>, <code>TEXT</code>, <code>DATE</code>).</li>
+<li class="fragment"><span class="blue"><strong>Minimize Redundancy:</strong></span> Avoid storing derived calculations or duplicate descriptive attributes across tables.</li>
+</ol>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="create-tables-ddl">Create tables: DDL</h3>
+<div style="font-size: 72%">
+<ul>
+<li><span class="nowrap">Building a robust table schema with constraints:</span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href=""></a><span class="co">--| echo: true</span></span>
+<span id="cb4-2"><a href=""></a><span class="co">--| code-fold: true</span></span>
+<span id="cb4-3"><a href=""></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> products (</span>
+<span id="cb4-4"><a href=""></a>    product_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb4-5"><a href=""></a>    product_name TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb4-6"><a href=""></a>    price <span class="dt">REAL</span> <span class="kw">CHECK</span>(price <span class="op">&gt;=</span> <span class="dv">0</span>),</span>
+<span id="cb4-7"><a href=""></a>    <span class="kw">category</span> TEXT</span>
+<span id="cb4-8"><a href=""></a>);</span>
+<span id="cb4-9"><a href=""></a></span>
+<span id="cb4-10"><a href=""></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> order_items (</span>
+<span id="cb4-11"><a href=""></a>    order_id <span class="dt">INTEGER</span>,</span>
+<span id="cb4-12"><a href=""></a>    product_id <span class="dt">INTEGER</span>,</span>
+<span id="cb4-13"><a href=""></a>    quantity <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span>(quantity <span class="op">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb4-14"><a href=""></a>    <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (order_id, product_id),</span>
+<span id="cb4-15"><a href=""></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (order_id) <span class="kw">REFERENCES</span> orders(order_id),</span>
+<span id="cb4-16"><a href=""></a>    <span class="kw">FOREIGN</span> <span class="kw">KEY</span> (product_id) <span class="kw">REFERENCES</span> products(product_id)</span>
+<span id="cb4-17"><a href=""></a>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><span class="blue"><strong>Key Concept:</strong></span> Constraints (<code>CHECK</code>, <code>NOT NULL</code>, <code>FOREIGN KEY</code>) act as automated database guardrails protecting data quality at insertion time.</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="insert-records-insert">Insert records: INSERT</h3>
+<div style="font-size: 80%">
+<ul>
+<li><span class="blue"><strong>Inserting Single Records:</strong></span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href=""></a>  <span class="kw">INSERT</span> <span class="kw">INTO</span> products </span>
+<span id="cb5-2"><a href=""></a>    (product_id, product_name, price, <span class="kw">category</span>)</span>
+<span id="cb5-3"><a href=""></a>  <span class="kw">VALUES</span> </span>
+<span id="cb5-4"><a href=""></a>    (<span class="dv">101</span>, <span class="st">'Wireless Mouse'</span>, <span class="fl">25.50</span>, <span class="st">'Electronics'</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p><span class="blue"><strong>Persistence:</strong></span> Unlike Python objects stored in volatile RAM, SQL inserts persist data immediately to disk (or secure storage).</p></li>
+<li><p><span class="blue"><strong>Inserting Multiple Rows:</strong></span></p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href=""></a>  <span class="kw">INSERT</span> <span class="kw">INTO</span> products <span class="kw">VALUES</span></span>
+<span id="cb6-2"><a href=""></a>    (<span class="dv">102</span>, <span class="st">'Mechanical Keyboard'</span>, <span class="fl">75.00</span>, <span class="st">'Electronics'</span>),</span>
+<span id="cb6-3"><a href=""></a>    (<span class="dv">103</span>, <span class="st">'Desk Mat'</span>, <span class="fl">18.00</span>, <span class="st">'Accessories'</span>);</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><span class="blue"><strong>Comparison:</strong></span> Equivalent to appending rows to a pandas DataFrame using <code>pd.concat()</code>, but with strict schema enforcement.</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="update-and-delete-records">Update and delete records</h3>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><span class="blue"><strong>Updating Records (<code>UPDATE</code>):</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb7-1"><a href=""></a><span class="kw">UPDATE</span> products</span>
+<span id="cb7-2"><a href=""></a><span class="kw">SET</span> price <span class="op">=</span> <span class="fl">22.99</span></span>
+<span id="cb7-3"><a href=""></a><span class="kw">WHERE</span> product_id <span class="op">=</span> <span class="dv">101</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><span class="blue"><strong>Deleting Records (<code>DELETE</code>):</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href=""></a><span class="kw">DELETE</span> <span class="kw">FROM</span> products</span>
+<span id="cb8-2"><a href=""></a><span class="kw">WHERE</span> product_id <span class="op">=</span> <span class="dv">103</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><span class="red"><strong>⚠️ Critical Danger Warning:</strong></span>
+<ul>
+<li>Omitting the <code>WHERE</code> clause in an <code>UPDATE</code> or <code>DELETE</code> statement modifies or deletes <strong>every single row</strong> in the table!</li>
+<li>Always run a corresponding <code>SELECT</code> statement with your <code>WHERE</code> condition first to verify affected rows.</li>
+</ul></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="querying-vs.-changing-data">Querying vs.&nbsp;changing data</h3>
+<div style="font-size: 75%">
+<ul>
+<li><span class="nowrap">Overview of SQL Command Categories:</span></li>
+</ul>
+<div class="vspace" style="--space: -10px">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Category</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Key Commands</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>DQL</strong> (Data Query Language)</td>
+<td style="text-align: left;">Retrieve data from databases</td>
+<td style="text-align: left;"><code>SELECT</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>DDL</strong> (Data Definition Language)</td>
+<td style="text-align: left;">Define and modify table structures</td>
+<td style="text-align: left;"><code>CREATE</code>, <code>ALTER</code>, <code>DROP</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>DML</strong> (Data Manipulation Language)</td>
+<td style="text-align: left;">Insert, update, and delete records</td>
+<td style="text-align: left;"><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>TCL</strong> (Transaction Control Language)</td>
+<td style="text-align: left;">Manage database transactions</td>
+<td style="text-align: left;"><code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section>
+<section>
+<section id="querying-select" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="4">
+<h1><span class="header-section-number">4</span> Querying: SELECT</h1>
+
+</section>
+<section id="the-basic-select-statement" class="slide level2" data-number="4.1">
+<h2><span class="header-section-number">4.1</span> The basic SELECT statement</h2>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><span class="blue"><strong><code>pandas</code>:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>df[[<span class="st">'customer_id'</span>, </span>
+<span id="cb9-2"><a href=""></a>    <span class="st">'name'</span>, <span class="st">'city'</span>]].head(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><span class="blue"><strong><code>SQL</code> Equivalent Query:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href=""></a><span class="kw">SELECT</span> customer_id, name, city</span>
+<span id="cb10-2"><a href=""></a><span class="kw">FROM</span> customers</span>
+<span id="cb10-3"><a href=""></a><span class="kw">LIMIT</span> <span class="dv">5</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><span class="blue"><strong>Anatomy:</strong></span></p>
+<ul>
+<li><code>SELECT</code>: Choose columns.</li>
+<li><code>FROM</code>: Specify table source.</li>
+<li><code>LIMIT</code>: Restrict output row count.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><p><span class="light-red"><strong>Execution Order Concept:</strong></span></p>
+<ul>
+<li class="fragment">Although <code>SELECT</code> appears first in syntax, the database engine evaluates <code>FROM</code> first, then <em>filters</em> and <em>selects</em>.</li>
+</ul></li>
+<li class="fragment"><p><span class="blue"><strong>Wildcard selection:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb11-1"><a href=""></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> customers;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>(Equivalent to printing the entire DataFrame; use with caution on large tables!)</em></p></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="filtering-rows-where">Filtering rows: WHERE</h3>
+<div style="font-size: 80%">
+<ul>
+<li>Filter rows using comparison and logical operators:</li>
+</ul>
+<div class="vspace" style="--space: -10px">
+<div class="columns">
+<div class="column" style="width:53%;">
+<ul>
+<li><p><span class="blue"><strong>SQL:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href=""></a><span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb12-2"><a href=""></a><span class="kw">FROM</span> customers </span>
+<span id="cb12-3"><a href=""></a><span class="kw">WHERE</span> city <span class="op">=</span> <span class="st">'Phnom Penh'</span> </span>
+<span id="cb12-4"><a href=""></a>  <span class="kw">AND</span> signup_date <span class="op">&gt;=</span> <span class="st">'2025-01-01'</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ul>
+<div class="vspace" style="--space: -20px">
+<div style="font-size: 90%">
+<ul>
+<li><span class="light-red"><strong>Common Operators in <code>WHERE</code>:</strong></span>
+<ul>
+<li>Logic: <code>=</code>, <code>!=</code> or <code>&lt;&gt;</code></li>
+<li>Set: <code>IN('Phnom Penh', 'Siem Reap')</code></li>
+<li>Date: <code>BETWEEN '2025-01-01' AND '2025-12-31'</code></li>
+<li>Pattern: <code>LIKE 'Srey%'</code>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div><div class="column" style="width:47%;">
+<ul>
+<li><p><span class="blue"><strong><code>pandas</code> Equivalence:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>df[</span>
+<span id="cb13-2"><a href=""></a>  (df[<span class="st">'city'</span>] <span class="op">==</span> <span class="st">'Phnom Penh'</span>) <span class="op">&amp;</span></span>
+<span id="cb13-3"><a href=""></a>  (df[<span class="st">'signup_date'</span>] <span class="op">&gt;=</span> <span class="st">'2025-01-01'</span>)</span>
+<span id="cb13-4"><a href=""></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><span class="blue"><strong>Handling NULLs:</strong></span></p>
+<ul>
+<li>Use <code>IS NULL</code> or</li>
+<li>Use <code>IS NOT NULL</code> to avoid <code>NULL</code>.</li>
+</ul></li>
+<li><p><span class="red"><strong>Task:</strong></span> Try it in your <code>orders</code> tables.</p></li>
+</ul>
+</div></div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="sorting-and-limiting">Sorting and limiting</h3>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><span class="blue"><strong>SQL Sorting:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href=""></a><span class="kw">SELECT</span> order_id, amount</span>
+<span id="cb14-2"><a href=""></a><span class="kw">FROM</span> orders</span>
+<span id="cb14-3"><a href=""></a><span class="kw">ORDER</span> <span class="kw">BY</span> amount <span class="kw">DESC</span>, </span>
+<span id="cb14-4"><a href=""></a>         order_date <span class="kw">ASC</span></span>
+<span id="cb14-5"><a href=""></a><span class="kw">LIMIT</span> <span class="dv">10</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><span class="blue"><strong>Ordering Rules:</strong></span></p>
+<ul>
+<li><code>ASC</code> (default): ascending order (<span class="math inline">\(1 \to 10\)</span>, <span class="math inline">\(A \to Z\)</span>).</li>
+<li><code>DESC</code>: descending order (<span class="math inline">\(10 \to 1\)</span>, <span class="math inline">\(Z \to A\)</span>).</li>
+<li>Multiple columns break ties.</li>
+</ul></li>
+</ul>
+</div><div class="column fragment" style="width:50%;">
+<ul>
+<li><p><span class="blue"><strong>pandas Equivalent:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>orders[[<span class="st">'order_id'</span>, <span class="st">'amount'</span>]]<span class="op">\</span></span>
+<span id="cb15-2"><a href=""></a>  .sort_values(</span>
+<span id="cb15-3"><a href=""></a>    by<span class="op">=</span>[<span class="st">'amount'</span>, <span class="st">'order_date'</span>],</span>
+<span id="cb15-4"><a href=""></a>    ascending<span class="op">=</span>[<span class="va">False</span>, <span class="va">True</span>]</span>
+<span id="cb15-5"><a href=""></a>  )<span class="op">\</span></span>
+<span id="cb15-6"><a href=""></a>  .head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><span class="light-red"><strong>Top-N Queries:</strong></span> <code>LIMIT</code> ensures high performance without pulling unneeded records into memory.</p></li>
+<li><p><code>LIMIT</code> is very important when working with large datasets.</p></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="derived-columns-expressions-and-case">Derived columns: expressions and <code>CASE</code></h3>
+<div style="font-size: 80%">
+<ul>
+<li><span class="nowrap">Compute calculated fields or categorical labels directly in SQL:</span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href=""></a><span class="kw">SELECT</span> order_id, amount,</span>
+<span id="cb16-2"><a href=""></a>       amount <span class="op">*</span> <span class="fl">0.10</span> <span class="kw">AS</span> tax_amount,</span>
+<span id="cb16-3"><a href=""></a>       <span class="cf">CASE</span> </span>
+<span id="cb16-4"><a href=""></a>           <span class="cf">WHEN</span> amount <span class="op">&gt;=</span> <span class="dv">100</span> <span class="cf">THEN</span> <span class="st">'High Value'</span></span>
+<span id="cb16-5"><a href=""></a>           <span class="cf">WHEN</span> amount <span class="op">&gt;=</span> <span class="dv">50</span> <span class="cf">THEN</span> <span class="st">'Medium Value'</span></span>
+<span id="cb16-6"><a href=""></a>           <span class="cf">else</span> <span class="st">'Low Value'</span></span>
+<span id="cb16-7"><a href=""></a>       <span class="cf">END</span> <span class="kw">AS</span> order_tier</span>
+<span id="cb16-8"><a href=""></a><span class="kw">FROM</span> orders;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><span class="blue"><strong><code>pandas</code> way:</strong></span> Similar to <code>np.select()</code> or custom lambda functions applied with <code>.apply()</code>.</li>
+<li><span class="blue"><strong>Benefit:</strong></span> Shifts transformation logic to the database layer before transferring data to Python.</li>
+<li>The database engine (<code>PostgreSQL</code> or <code>Snowflake</code>) handles the computation, reducing data transfer and processing time.</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="missing-values-and-null">Missing values and NULL</h3>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><span class="blue"><strong>Checking for NULLs:</strong></span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href=""></a>  <span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb17-2"><a href=""></a>  <span class="kw">FROM</span> customers </span>
+<span id="cb17-3"><a href=""></a>  <span class="kw">WHERE</span> city <span class="kw">IS</span> <span class="kw">NULL</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><span class="light-red"><strong>Counting Rules:</strong></span>
+<ul>
+<li><code>COUNT(*)</code> counts all rows (including NULLs).</li>
+<li><code>COUNT(column)</code> ignores <code>NULL</code> values in that column.</li>
+</ul></li>
+<li><span class="blue"><strong>Imputation / Fallback:</strong></span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb18-1"><a href=""></a>  <span class="kw">SELECT</span> <span class="fu">COALESCE</span>(city, <span class="st">'Unknown'</span>) </span>
+<span id="cb18-2"><a href=""></a>  <span class="kw">FROM</span> customers;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><span class="blue"><strong>pandas Analogies:</strong></span>
+<ul>
+<li><code>df['city'].isna()</code></li>
+<li><code>df['city'].notna()</code></li>
+<li><code>len(df)</code> vs <code>df['city'].count()</code></li>
+<li><code>df['city'].fillna('Unknown')</code></li>
+</ul></li>
+<li><span class="blue"><strong>Important:</strong></span> In SQL, <code>NULL</code> represents an unknown or missing value and is never equal to anything—not even another <code>NULL</code>.</li>
+</ul>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="aggregation-grouping" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="5">
+<h1><span class="header-section-number">5</span> Aggregation &amp; Grouping</h1>
+
+</section>
+<section id="summary-statistics" class="slide level2" data-number="5.1">
+<h2><span class="header-section-number">5.1</span> Summary statistics</h2>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><span class="blue"><strong><code>pandas</code>:</strong></span></li>
+</ul>
+<div style="font-size: 80%">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>  pd.DataFrame({</span>
+<span id="cb19-2"><a href=""></a>      <span class="st">'total_orders'</span>: [<span class="bu">len</span>(orders)],</span>
+<span id="cb19-3"><a href=""></a>      <span class="st">'total_revenue'</span>: [orders[<span class="st">'amount'</span>].<span class="bu">sum</span>()],</span>
+<span id="cb19-4"><a href=""></a>      <span class="st">'avg_order_value'</span>: [orders[<span class="st">'amount'</span>].mean()]</span>
+<span id="cb19-5"><a href=""></a>  })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><span class="blue"><strong>SQL Aggregate Functions:</strong></span>
+<ul>
+<li><code>COUNT()</code>: Count records.</li>
+<li><code>SUM()</code>: Total sum of numeric values.</li>
+<li><code>AVG()</code>: Arithmetic mean.</li>
+<li><code>MIN()</code> / <code>MAX()</code>: Extrema values.</li>
+</ul></li>
+</ul>
+</div><div class="column fragment" style="width:50%;">
+<ul>
+<li><span class="light-red"><strong><code>SQL</code></strong></span></li>
+</ul>
+<div style="font-size: 80%">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href=""></a>  <span class="kw">SELECT</span> </span>
+<span id="cb20-2"><a href=""></a>      <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_orders,</span>
+<span id="cb20-3"><a href=""></a>      <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total_revenue,</span>
+<span id="cb20-4"><a href=""></a>      <span class="fu">AVG</span>(amount) <span class="kw">AS</span> avg_order_value</span>
+<span id="cb20-5"><a href=""></a>  <span class="kw">FROM</span> orders;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><span class="blue"><strong>Key Distinction:</strong></span> SQL aggregate functions automatically collapse the entire table into a single summary row unless paired with a <code>GROUP BY</code> clause.</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="grouping-group-by">Grouping: GROUP BY</h3>
+<div style="font-size: 80%">
+<ul>
+<li>Compute group-level metrics by combining <code>GROUP BY</code> with aggregate functions:</li>
+</ul>
+<div class="vspace" style="--space: -20px">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><span class="blue"><strong>pandas:</strong></span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>  orders.groupby(<span class="st">'customer_id'</span>)<span class="op">\</span></span>
+<span id="cb21-2"><a href=""></a>    .agg(</span>
+<span id="cb21-3"><a href=""></a>      order_count<span class="op">=</span>(<span class="st">'order_id'</span>, <span class="st">'count'</span>),</span>
+<span id="cb21-4"><a href=""></a>      total_spent<span class="op">=</span>(<span class="st">'amount'</span>, <span class="st">'sum'</span>)</span>
+<span id="cb21-5"><a href=""></a>    )<span class="op">\</span></span>
+<span id="cb21-6"><a href=""></a>    .reset_index()<span class="op">\</span></span>
+<span id="cb21-7"><a href=""></a>    .sort_values(<span class="st">'total_spent'</span>, </span>
+<span id="cb21-8"><a href=""></a>                 ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column fragment" style="width:50%;">
+<ul>
+<li><span class="blue"><strong>SQL:</strong></span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href=""></a>  <span class="kw">SELECT</span> customer_id, </span>
+<span id="cb22-2"><a href=""></a>         <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> order_count,</span>
+<span id="cb22-3"><a href=""></a>         <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total_spent</span>
+<span id="cb22-4"><a href=""></a>  <span class="kw">FROM</span> orders</span>
+<span id="cb22-5"><a href=""></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
+<span id="cb22-6"><a href=""></a>  <span class="kw">ORDER</span> <span class="kw">BY</span> total_spent <span class="kw">DESC</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="fragment">
+<ul>
+<li><span class="blue"><strong>Mental Model:</strong></span> Splitting the dataset into partitions, applying calculations independently per partition, and combining results.</li>
+<li><span class="blue"><strong>Order:</strong></span> <code>FROM</code> -&gt; <code>GROUP BY</code> -&gt; <code>Aggregate Func</code> -&gt; <code>SELECT</code> -&gt; <code>ORDER BY</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="filter-groups-having">Filter groups: HAVING</h3>
+<div style="font-size: 80%">
+<ul>
+<li class="fragment"><p><span class="light-red"><strong>The Dilemma:</strong></span> How do we filter based on an <em>aggregated</em> result (like total sales &gt; $500)?</p>
+<ul>
+<li class="fragment"><code>WHERE</code> filters individual <strong>rows</strong> before grouping.</li>
+<li class="fragment"><code>HAVING</code> filters <strong>groups</strong> after aggregation.</li>
+</ul></li>
+<li class="fragment"><p><span class="blue"><strong>SQL Example:</strong></span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href=""></a><span class="kw">SELECT</span> customer_id, <span class="fu">SUM</span>(amount) <span class="kw">AS</span> total_spent</span>
+<span id="cb23-2"><a href=""></a><span class="kw">FROM</span> orders</span>
+<span id="cb23-3"><a href=""></a><span class="kw">GROUP</span> <span class="kw">BY</span> customer_id</span>
+<span id="cb23-4"><a href=""></a><span class="kw">HAVING</span> <span class="fu">SUM</span>(amount) <span class="op">&gt;</span> <span class="dv">500</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li class="fragment"><p><span class="blue"><strong>SQL Clause Execution Order:</strong></span> <span style="font-size: 60%"><span class="math display">\[\text{FROM} \longrightarrow \text{WHERE} \longrightarrow \text{GROUP BY} \longrightarrow \text{HAVING} \longrightarrow \text{SELECT} \longrightarrow \text{ORDER BY} \longrightarrow \text{LIMIT}\]</span></span></p></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="combining-tables-join" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="6">
+<h1><span class="header-section-number">6</span> Combining Tables: JOIN</h1>
+
+</section>
+<section id="why-do-we-need-join" class="slide level2" data-number="6.1">
+<h2><span class="header-section-number">6.1</span> Why do we need JOIN?</h2>
+<div style="font-size: 80%">
+<div class="columns">
+<div class="column" style="width:60%;">
+<pre><code>CUSTOMERS        ORDERS
+┌────┬───────┐   ┌─────┬─────────────┬────────┐
+│ id │ name  │   │ ord │ customer_id │ amount │
+├────┼───────┤   ├─────┼─────────────┼────────┤
+│  1 │ Alice │◄──┤ 101 │           1 │  45.50 │
+│  2 │ Bob   │   │ 102 │           2 │ 120.00 │
+└────┴───────┘   └─────┴─────────────┴────────┘
+     ▲ (matched on customer_id)</code></pre>
+<ul>
+<li class="fragment"><span class="blue"><strong>Normalized Database Design:</strong></span>
+<ul>
+<li class="fragment">Storing customer names and cities repeatedly inside every single order record causes data redundancy.</li>
+<li class="fragment">Instead, we split entities into separate tables: <code>customers</code> and <code>orders</code>.</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<ul>
+<li class="fragment"><span class="blue"><strong>The Challenge:</strong></span> How do we analyze customer purchasing behavior across both tables simultaneously?</li>
+<li class="fragment"><span class="light-red"><strong>The Solution:</strong></span> Relational <code>JOIN</code> operations using matching keys (<code>customer_id</code>).</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="inner-join-and-left-join">INNER JOIN and LEFT JOIN</h3>
+<div style="font-size: 78%">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><span class="blue"><strong>INNER JOIN:</strong></span> Returns only rows with matching keys in <strong>both</strong> tables.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href=""></a><span class="kw">SELECT</span> c.name, o.amount</span>
+<span id="cb25-2"><a href=""></a><span class="kw">FROM</span> customers c</span>
+<span id="cb25-3"><a href=""></a><span class="kw">INNER</span> <span class="kw">JOIN</span> orders o </span>
+<span id="cb25-4"><a href=""></a>  <span class="kw">ON</span> c.customer_id <span class="op">=</span> o.customer_id;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>(Drops customers with zero orders and orders with invalid customer IDs).</em></p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p><span class="blue"><strong>LEFT JOIN:</strong></span> Retains <strong>all</strong> rows from the left table, filling missing matches with <code>NULL</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href=""></a><span class="kw">SELECT</span> c.name, o.amount</span>
+<span id="cb26-2"><a href=""></a><span class="kw">FROM</span> customers c</span>
+<span id="cb26-3"><a href=""></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> orders o </span>
+<span id="cb26-4"><a href=""></a>  <span class="kw">ON</span> c.customer_id <span class="op">=</span> o.customer_id;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><em>(Captures all customers, even those who haven’t placed any orders yet).</em></p></li>
+</ul>
+</div></div>
+<ul>
+<li><code>customers c</code> and <code>orders o</code> assign short aliases to the tables to easily access their columns.</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="join-compared-with-pandas-merge">JOIN compared with pandas merge</h3>
+<div style="font-size: 80%">
+<ul>
+<li><span class="nowrap">Mapping SQL join types directly to pandas syntax:</span></li>
+</ul>
+<div style="font-size: 70%">
+<table class="caption-top">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 45%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Join Type</th>
+<th style="text-align: left;">SQL Syntax</th>
+<th style="text-align: left;">pandas Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Inner Join</strong></td>
+<td style="text-align: left;"><code>FROM t1 JOIN t2 ON ...</code></td>
+<td style="text-align: left;"><code>pd.merge(t1, t2, how='inner', on='id')</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Left Join</strong></td>
+<td style="text-align: left;"><code>FROM t1 LEFT JOIN t2 ON ...</code></td>
+<td style="text-align: left;"><code>pd.merge(t1, t2, how='left', on='id')</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Right Join</strong></td>
+<td style="text-align: left;"><code>FROM t1 RIGHT JOIN t2 ON ...</code></td>
+<td style="text-align: left;"><code>pd.merge(t1, t2, how='right', on='id')</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Outer Join</strong></td>
+<td style="text-align: left;"><code>FROM t1 FULL OUTER JOIN t2 ON ...</code></td>
+<td style="text-align: left;"><code>pd.merge(t1, t2, how='outer', on='id')</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="vspace" style="--space: -10px">
+<ul>
+<li><span class="blue"><strong>Practical Question:</strong></span> Which cust. spent $&gt;1,000 in total revenue?</li>
+</ul>
+<div style="font-size: 90%">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb27-1"><a href=""></a>  <span class="kw">SELECT</span> c.name, <span class="fu">SUM</span>(o.amount) <span class="kw">AS</span> total_rev</span>
+<span id="cb27-2"><a href=""></a>  <span class="kw">FROM</span> customers c</span>
+<span id="cb27-3"><a href=""></a>  <span class="kw">JOIN</span> orders o <span class="kw">ON</span> c.customer_id <span class="op">=</span> o.customer_id</span>
+<span id="cb27-4"><a href=""></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> c.customer_id, c.name</span>
+<span id="cb27-5"><a href=""></a>  <span class="kw">HAVING</span> <span class="fu">SUM</span>(o.amount) <span class="op">&gt;</span> <span class="dv">1000</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="validation-practical-workflow" class="title-slide slide level1 center" data-background-color="#345a8b" data-number="7">
+<h1><span class="header-section-number">7</span> Validation &amp; Practical Workflow</h1>
+
+</section>
+<section id="validate-your-query-results" class="slide level2" data-number="7.1">
+<h2><span class="header-section-number">7.1</span> Validate your query results</h2>
+<div style="font-size: 80%">
+<ul>
+<li><span class="nowrap"><span class="light-red"><strong>Q:</strong></span> How do we verify our SQL queries are correct and bug-free?</span></li>
+<li><span class="blue"><strong>Validation Checklist:</strong></span>
+<ul>
+<li><strong>Row Count Checks:</strong> Did your <code>JOIN</code> unexpectedly multiply rows (cartesian explosion)? Check <code>COUNT(*)</code> before and after joins.</li>
+<li><strong>Key Uniqueness:</strong> Verify primary keys have zero duplicates (<code>SELECT id, COUNT(*) FROM t GROUP BY id HAVING COUNT(*) &gt; 1</code>).</li>
+<li><strong>Missing Values:</strong> Check for unexpected <code>NULL</code> values resulting from unmatched left joins (<code>WHERE col IS NULL</code>).</li>
+<li><strong>Totals &amp; Sanity Checks:</strong> Compare aggregated sum totals against raw table summaries.</li>
+</ul></li>
+<li><span class="nowrap">If results look anomalous, <strong>flag</strong> 🚩 the query and investigate the underlying data grain!</span></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="a-typical-sql-workflow">A typical SQL workflow</h3>
+<div style="font-size: 75%">
+<ol type="1">
+<li class="fragment"><span class="blue"><strong>Clarify Question:</strong></span> Translate business objectives into analytical requirements.</li>
+<li class="fragment"><span class="blue"><strong>Inspect Tables:</strong></span> Identify relevant tables, schemas, and primary/foreign keys.</li>
+<li class="fragment"><span class="blue"><strong>Draft Select &amp; Filter:</strong></span> Write base queries using <code>SELECT</code>, <code>WHERE</code>, and <code>LIMIT</code>.</li>
+<li class="fragment"><span class="blue"><strong>Aggregate &amp; Group:</strong></span> Apply summary metrics using <code>GROUP BY</code> and <code>HAVING</code>.</li>
+<li class="fragment"><span class="blue"><strong>Join Entities:</strong></span> Combine related tables via <code>INNER JOIN</code> or <code>LEFT JOIN</code>.</li>
+<li class="fragment"><span class="blue"><strong>Validate Results:</strong></span> Check row counts, handle nulls, and verify totals.</li>
+<li class="fragment"><span class="blue"><strong>Communicate Insights:</strong></span> Export results or pass dataframes to Python for visualization.</li>
+</ol>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="summary">Summary</h3>
+<div style="font-size: 72%">
+<ul>
+<li class="fragment"><span class="blue"><strong>SQL vs pandas:</strong></span> SQL is declarative and database-native, designed for scalable querying; pandas is imperative and in-memory, ideal for Python modeling.</li>
+<li class="fragment"><span class="blue"><strong>Master the SELECT Pipeline:</strong></span> Combine <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, and <code>LIMIT</code> to filter and sort data efficiently.</li>
+<li class="fragment"><span class="blue"><strong>Aggregation &amp; Grouping:</strong></span> Use <code>GROUP BY</code> for partition summaries and <code>HAVING</code> to filter aggregated groups.</li>
+<li class="fragment"><span class="blue"><strong>Relational Joins:</strong></span> Connect normalized tables using <code>INNER JOIN</code> and <code>LEFT JOIN</code> matching keys.</li>
+<li class="fragment"><span class="blue"><strong>Database Design &amp; DML:</strong></span> Enforce structure with DDL constraints and modify data safely using <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code>.</li>
+<li class="fragment"><span class="blue"><strong>Always Validate:</strong></span> Rigorously check row counts, keys, and totals at every step of your analytical workflow.</li>
+</ul>
+</div>
+</section>
+<section id="section" class="slide level2 unlisted unnumbered no-header" data-background-image="img/bg10.png" data-background-opacity="0.6" data-background-size="35%" data-background-position="center">
+<h2></h2>
+<div class="center">
+<p>🥳 <span class="blue"><strong>Yeahhhh 🥂!!!</strong></span></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<p><span class="blue"><strong>Any question? Else, we take a break!</strong></span></p>
+</div>
+</section>
+<section id="section-1" class="slide level2 unlisted unnumbered no-header" data-background-image="img/bg10.png" data-background-opacity="0.6" data-background-size="35%" data-background-position="center" data-visibility="uncount">
+<h2></h2>
+<div class="center">
+<p>🥳 <span class="blue"><strong>Yeahhhh 🥂!!!</strong></span></p>
+<p><br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+<p><span class="blue"><strong>Let’s take a break!</strong></span></p>
+</div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="img/AUPP_Logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="10-sql_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="10-sql_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="10-sql_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="10-sql_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true,"width":"normal","numbers":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 5.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. Create the persistent header and footer
+        let header = document.createElement('div');
+        header.id = 'quarto-custom-header';
+        header.innerHTML = `
+            <div class="header-section"></div>
+            <div class="header-subsection"></div>
+        `;
+        
+        let footerLine = document.createElement('div');
+        footerLine.id = 'quarto-custom-footer-line';
+        
+        // Append them to the slide canvas
+        let revealContainer = document.querySelector('.reveal .slides');
+        if (revealContainer) {
+            revealContainer.appendChild(header);
+            revealContainer.appendChild(footerLine);
+        }
+
+        // 2. Function to update text
+        function updateHeader() {
+            let slide = Reveal.getCurrentSlide();
+            if (!slide) return;
+
+            // Hide entirely on title slides
+            if (slide.matches('#title-slide') || slide.classList.contains('title-slide')) {
+                header.style.display = 'none';
+                footerLine.style.display = 'none';
+                return;
+            }
+            header.style.display = 'flex';
+            footerLine.style.display = 'block';
+
+            // Hide entirely on title slides OR slides with the .no-header class
+            if (slide.matches('#title-slide') || 
+                slide.classList.contains('title-slide') || 
+                slide.classList.contains('no-header')) {
+                
+                header.style.display = 'none';
+                footerLine.style.display = 'none';
+                return;
+            }
+
+            // Find Section (h1)
+            let parentStack = slide.closest('section.stack');
+            let sectionTitle = "";
+            if (parentStack) {
+                let h1 = parentStack.querySelector('h1');
+                if (h1) sectionTitle = h1.innerText;
+            }
+
+            // Find Subsection (h2) with MEMORY
+            let h2 = slide.querySelector('h2');
+            let subTitle = "";
+
+            if (h2) {
+                // If the current slide has a title, use it
+                subTitle = h2.innerText;
+            } else if (parentStack) {
+                // If it DOESN'T have a title, look backwards to remember the last one
+                let allSlides = Array.from(parentStack.querySelectorAll('section'));
+                let currentIndex = allSlides.indexOf(slide);
+                
+                for (let i = currentIndex - 1; i >= 0; i--) {
+                    let prevH2 = allSlides[i].querySelector('h2');
+                    if (prevH2) {
+                        subTitle = prevH2.innerText;
+                        break;
+                    }
+                }
+            }
+
+            // Keep the subsection blank if we are looking at the main # Section slide
+            if (slide.querySelector('h1')) {
+                subTitle = "";
+            }
+
+            // Inject the text into the header
+            header.querySelector('.header-section').innerText = sectionTitle;
+            header.querySelector('.header-subsection').innerText = subTitle;
+        }
+
+        // 3. Trigger updates safely
+        if (Reveal.isReady()) {
+            updateHeader();
+        } else {
+            Reveal.on('ready', updateHeader);
+        }
+        Reveal.on('slidechanged', updateHeader);
+    });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
